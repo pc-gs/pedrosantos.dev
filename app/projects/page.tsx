@@ -18,8 +18,8 @@ export default function ProjectsPage() {
           Things I&apos;ve built
         </h1>
         <p className="max-w-2xl text-muted-foreground leading-relaxed">
-          Side projects, developer tools, and experiments. Some shipped, some still
-          growing.
+          Case studies and tools. Real problems, deliberate choices, shipped outcomes.
+          Melro.io is the ongoing founder work.
         </p>
       </div>
       <div className="bento-grid">

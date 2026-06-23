@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import { PageContainer } from "@/components/layout/page-container";
 import { SectionLabel } from "@/components/ui/section-label";
+import { MarkdownContent } from "@/components/blog/markdown-content";
 import { getProjectBySlug, projects } from "@/lib/projects";
 
 const statusLabels = {
@@ -67,11 +68,18 @@ export default async function ProjectPage({ params }: Props) {
           {project.description}
         </p>
 
-        {project.longDescription && (
+        {project.longDescription && project.longDescription.includes("## The problem") ? (
+          <div className="mt-2 mb-8 border-t border-border/60 pt-8">
+            <div className="font-mono text-[10px] uppercase tracking-[2px] text-accent mb-4">
+              Case study
+            </div>
+            <MarkdownContent content={project.longDescription} />
+          </div>
+        ) : project.longDescription ? (
           <p className="mb-8 leading-relaxed text-foreground/90">
             {project.longDescription}
           </p>
-        )}
+        ) : null}
 
         {(project.links?.live || project.links?.github) && (
           <div className="flex flex-wrap gap-3">

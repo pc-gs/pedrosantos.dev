@@ -23,14 +23,6 @@ export function generatePersonStructuredData() {
     alumniOf: [
       {
         "@type": "EducationalOrganization",
-        name: "Rocketseat",
-      },
-      {
-        "@type": "EducationalOrganization",
-        name: "Coursera",
-      },
-      {
-        "@type": "EducationalOrganization",
         name: "Unibratec",
       },
     ],
@@ -38,10 +30,9 @@ export function generatePersonStructuredData() {
       "React",
       "Next.js",
       "TypeScript",
-      "JavaScript",
       "Web Development",
-      "Frontend Development",
       "Software Engineering",
+      "Developer Tooling",
     ],
   };
 }

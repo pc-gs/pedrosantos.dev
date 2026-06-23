@@ -5,8 +5,8 @@ export const siteConfig = {
   email: "pedrocarlos.ti@gmail.com",
   location: "Belmonte, Portugal",
   description:
-    "Software engineer building web products with React, Next.js, and modern tooling. Open to new opportunities.",
-  tagline: "Building web products with React, Next.js, and modern tooling.",
+    "Software engineer shipping React/Next.js work and building side projects. Open to full-time roles and contract work.",
+  tagline: "React and Next.js by day, Melro.io on the side.",
   availability: "Open to full-time and contract opportunities.",
 } as const;
 

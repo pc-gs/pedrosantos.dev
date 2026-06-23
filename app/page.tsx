@@ -29,8 +29,9 @@ export default function HomePage() {
               {siteConfig.tagline}
             </p>
             <p className="mb-8 max-w-2xl text-muted-foreground leading-relaxed">
-              I take on engineering work where I can contribute fully, while keeping
-              side projects alive. If something here resonates, let&apos;s talk.
+              Day job is React/Next.js production work for teams. On the side I keep
+              Melro.io — a real founder project — moving. If the way I think about
+              problems and shipping resonates, let&apos;s talk.
             </p>
             <div className="flex flex-wrap gap-3">
               <Button asChild className="rounded-xl bg-accent text-accent-foreground hover:bg-accent/90">
@@ -124,10 +125,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="surface-panel-elevated bg-gradient-to-br from-accent/10 via-transparent to-glow/10 text-center">
-        <h2 className="mb-2 text-xl font-medium">Want to work together?</h2>
+      <section className="surface-panel-elevated text-center">
+        <h2 className="mb-2 text-xl font-medium">Open to work</h2>
         <p className="mb-6 text-sm text-muted-foreground">
-          Open to full-time roles and contract work. Happy to chat about either.
+          Full-time roles and contract work. The day job funds the side project;
+          both stay active.
         </p>
         <Button asChild className="rounded-xl bg-accent text-accent-foreground hover:bg-accent/90">
           <Link href="/contact">Let&apos;s talk →</Link>

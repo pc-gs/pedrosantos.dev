@@ -1,12 +1,7 @@
 export const aboutContent = {
-  intro: `Hey — I'm Pedro. I've spent 8+ years in tech, moving from support into software engineering. I care about building products that are fast, maintainable, and pleasant to use.`,
-  sideProjects: `Outside my main work, I build my own products — including Melro.io, focused on tailored software for businesses. It's early-stage and something I grow in my own time, not a full-time venture (yet).`,
-  focus: [
-    "Frontend architecture with React & Next.js",
-    "TypeScript across the stack",
-    "Developer tooling & desktop apps",
-    "AI-assisted workflows in real projects",
-  ],
+  intro: `Hey — I'm Pedro Santos. I ship production React and Next.js work for teams by day and keep a real side project moving on nights and weekends. I value code that's fast to change, pleasant to use, and easy for the next person to understand.`,
+  sideProjects: `Melro.io is where I practice full ownership — tailored software for small businesses, from landing pages to internal tools. It's an authentic long-term experiment, not the headline.`,
+  focus: `I think in terms of problems first, then the smallest architecture that actually solves them. TypeScript and React/Next.js are my default because they reduce surprise over time. I care about developer experience because good DX compounds into better product decisions. When a tool saves me seconds every day, I often turn it into a small shipped thing.`,
 } as const;
 
 export const experience = [
@@ -15,44 +10,21 @@ export const experience = [
     company: "Aubay Portugal",
     period: "2021 — Present",
     description:
-      "Part of an agile team building features with React, GraphQL, and modern testing practices.",
+      "Part of an agile team shipping features with React and GraphQL. Focus on code that stays maintainable, tests that matter, and delivery without unnecessary ceremony.",
   },
   {
     title: "Software Engineer",
     company: "N3urons",
     period: "2018 — 2021",
     description:
-      "Planned, architected, and shipped scalable solutions with React, React Native, and Node.js.",
+      "Planned and shipped end-to-end solutions across React, React Native, and Node. Learned to own projects from brief to production and to keep scope honest.",
   },
 ] as const;
 
 export const education = [
   {
-    title: "React Native Specialization",
-    institution: "Rocketseat",
-    year: "2025",
-  },
-  {
-    title: "Meta React Native Specialization",
-    institution: "Coursera",
-    year: "2023",
-  },
-  {
-    title: "Software Engineering Specialization",
+    title: "Software Engineering",
     institution: "Unibratec",
     year: "2016 — 2018",
   },
-] as const;
-
-export const skills = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "React Native",
-  "Node.js",
-  "GraphQL",
-  "Tailwind CSS",
-  "Electron",
-  "Testing",
-  "Git",
 ] as const;

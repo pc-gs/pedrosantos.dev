@@ -20,9 +20,13 @@ export function SiteSidebar() {
           </span>
         </Link>
 
-        <span className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-accent">
+        <span
+          className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-accent"
+          title={siteConfig.availability}
+          aria-label={siteConfig.availability}
+        >
           <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-          Available
+          Open
         </span>
 
         <nav className="flex flex-col gap-1">

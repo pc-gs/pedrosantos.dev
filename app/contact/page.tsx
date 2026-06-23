@@ -19,8 +19,8 @@ export default function ContactPage() {
           Let&apos;s talk
         </h1>
         <p className="max-w-2xl text-muted-foreground leading-relaxed">
-          Have a project in mind, a role to discuss, or just want to say hi? Send
-          a message — I usually reply within a day or two.
+          Full-time role or contract project? Tell me what you&apos;re building. I
+          reply within a couple of days.
         </p>
       </div>
 

@@ -8,22 +8,22 @@ export const nowItems: NowItem[] = [
   {
     label: "Day job",
     description:
-      "Software engineer at Aubay Portugal — React, GraphQL, and modern testing in an agile team.",
+      "Shipping features on a React + GraphQL team at Aubay Portugal. Emphasis on clean DX, tests that matter, and reliable iteration.",
   },
   {
     label: "Side project",
     description:
-      "An early-stage product for tailored software solutions — building it in my own time at",
+      "Melro.io — an ongoing experiment in tailored software for small businesses. Landing pages, internal tools, product decisions. All built in my own time.",
     href: "https://melro.io",
   },
   {
-    label: "Learning",
+    label: "Focus",
     description:
-      "React Native specialization and exploring AI-assisted development workflows.",
+      "React/Next.js architecture, TypeScript, and developer tooling. Learning React Native for real mobile needs.",
   },
   {
     label: "Open to",
     description:
-      "Full-time roles and contract work where I can contribute fully and keep shipping on the side.",
+      "Full-time roles and contract work. I deliver production web work and keep the side project alive either way.",
   },
 ];

@@ -15,13 +15,13 @@ export default function BlogPage() {
   return (
     <PageContainer>
       <div className="mb-10 surface-panel-elevated">
-        <SectionLabel>Blog</SectionLabel>
+        <SectionLabel>Writing</SectionLabel>
         <h1 className="mb-3 text-3xl font-semibold tracking-tight md:text-4xl">
           Writing
         </h1>
         <p className="max-w-2xl text-muted-foreground leading-relaxed">
-          Notes on building, learning, and shipping software. Build logs, technical
-          takeaways, and whatever else is worth writing down.
+          Notes on building, shipping, and what actually worked. The rebuild post is
+          the current signal.
         </p>
       </div>
       <div className="surface-panel">

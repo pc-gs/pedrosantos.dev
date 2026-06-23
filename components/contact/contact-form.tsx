@@ -113,7 +113,7 @@ export function ContactForm() {
                   Subject
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder="What's this about?" className="rounded-xl bg-surface" {...field} />
+                  <Input placeholder="Role, project, or quick question" className="rounded-xl bg-surface" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -129,7 +129,7 @@ export function ContactForm() {
                 </FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Tell me about your project or question..."
+                    placeholder="Tell me what you're building or the kind of work you're looking for..."
                     className="min-h-32 resize-none rounded-xl bg-surface"
                     {...field}
                   />
