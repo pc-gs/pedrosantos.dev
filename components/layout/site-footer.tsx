@@ -8,7 +8,7 @@ export function SiteFooter() {
         <p className="font-mono text-xs text-muted-foreground">
           © {new Date().getFullYear()} {siteConfig.name}
         </p>
-        <div className="flex flex-wrap gap-x-4 gap-y-1 md:hidden">
+        <div className="flex flex-wrap gap-x-4 gap-y-1">
           {socialLinks.map((link) => (
             <Link
               key={link.label}

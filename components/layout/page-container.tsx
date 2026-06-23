@@ -12,7 +12,7 @@ export function PageContainer({
   return (
     <div
       className={cn(
-        wide ? "page-content" : "page-content max-w-5xl",
+        wide ? "page-content max-w-4xl" : "page-content",
         className,
       )}
     >
