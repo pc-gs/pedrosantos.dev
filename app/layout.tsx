@@ -21,24 +21,24 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Pedro Santos | Software Engineer & Melro.io Founder",
+    default: "Pedro Santos — Builder @ Melro.io",
     template: "%s | Pedro Santos",
   },
   description:
-    "Software Engineer building AI-powered web experiences with React, Next.js, and modern technologies. Founder of Melro.io, providing AI-powered solutions for businesses. Available for new projects.",
+    "Builder and founder of Melro.io. Shipping production web systems, AI tooling, and experiments. Current workspace and active builds at pedrosantos.dev.",
   keywords: [
     "Pedro Santos",
+    "Melro.io",
+    "Builder",
     "Software Engineer",
-    "Frontend Developer",
-    "React Developer",
-    "Next.js Developer",
+    "Next.js",
+    "TypeScript",
     "AI Integration",
     "Web Development",
     "Portugal",
-    "Melro.io",
-    "Portfolio",
-    "Full Stack Developer",
-    "TypeScript",
+    "Active Builds",
+    "Studio",
+    "Experiments",
   ],
   authors: [{ name: "Pedro Santos" }],
   creator: "Pedro Santos",
@@ -51,26 +51,17 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://pedrosantos.dev",
-    siteName: "Pedro Santos - Portfolio",
-    title: "Pedro Santos | Software Engineer & Melro.io Founder",
+    siteName: "Pedro Santos — Builder",
+    title: "Pedro Santos — Builder @ Melro.io",
     description:
-      "Software Engineer building AI-powered web experiences with React, Next.js, and modern technologies. Founder of Melro.io.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Pedro Santos - Software Engineer Portfolio",
-      },
-    ],
+      "Active builder workspace. Melro.io founder shipping production systems and experiments.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pedro Santos | Software Engineer & Melro.io Founder",
+    title: "Pedro Santos — Builder @ Melro.io",
     description:
-      "Software Engineer building AI-powered web experiences with React, Next.js, and modern technologies.",
+      "Builder and founder. Current activity, lab experiments, and production builds.",
     creator: "@pcgs_tsx",
-    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -85,12 +76,6 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
-  },
-  verification: {
-    // Add Google Search Console verification when available
-    // google: "your-google-verification-code",
   },
 };
 

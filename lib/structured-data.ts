@@ -3,7 +3,7 @@ export function generatePersonStructuredData() {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Pedro Santos",
-    jobTitle: "Software Engineer",
+    jobTitle: "Builder & Software Engineer",
     url: "https://pedrosantos.dev",
     sameAs: [
       "https://github.com/pedrocarlos-ti",
@@ -39,10 +39,10 @@ export function generatePersonStructuredData() {
       "React",
       "Next.js",
       "TypeScript",
-      "JavaScript",
-      "Web Development",
       "AI Integration",
-      "Frontend Development",
+      "Production Systems",
+      "Builder Tooling",
+      "Web Development",
       "Software Engineering",
     ],
   };
@@ -52,10 +52,10 @@ export function generateWebSiteStructuredData() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Pedro Santos - Portfolio",
+    name: "Pedro Santos — Builder",
     url: "https://pedrosantos.dev",
     description:
-      "Software Engineer building AI-powered web experiences with React, Next.js, and modern technologies.",
+      "Builder workspace and active builds. Melro.io founder shipping production systems and experiments.",
     author: {
       "@type": "Person",
       name: "Pedro Santos",

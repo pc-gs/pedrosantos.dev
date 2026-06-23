@@ -9,31 +9,28 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const navItems = [
-  { name: "Home", href: "#hero" },
-  { name: "Skills", href: "#tech" },
-  { name: "Projects", href: "#projects" },
-  { name: "About", href: "#about" },
+  { name: "Now", href: "#now" },
+  { name: "Lab", href: "#lab" },
+  { name: "Stack", href: "#stack" },
+  { name: "Log", href: "#log" },
   { name: "Contact", href: "#contact" },
 ];
 
 export function HeaderV2() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isHidden, setIsHidden] = useState(true);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    // Show header after scrolling past hero (100vh)
-    const heroHeight = window.innerHeight * 0.8;
-    setIsHidden(latest < 100);
-    setIsScrolled(latest > heroHeight);
+    // Only track scrolled state for backdrop style; header is always visible (no hide)
+    setIsScrolled(latest > 120);
   });
 
   const scrollToSection = (e: React.MouseEvent, href: string) => {
     e.preventDefault();
     const targetId = href.replace("#", "");
     
-    if (targetId === "hero") {
+    if (targetId === "now" || targetId === "hero") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       const element = document.getElementById(targetId);
@@ -49,12 +46,7 @@ export function HeaderV2() {
   return (
     <>
       <motion.header
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ 
-          y: isHidden ? -100 : 0, 
-          opacity: isHidden ? 0 : 1 
-        }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+        initial={{ y: 0, opacity: 1 }}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           isScrolled 
@@ -65,11 +57,11 @@ export function HeaderV2() {
         <div className="container flex h-16 md:h-20 items-center justify-between px-4 md:px-6 max-w-6xl mx-auto">
           {/* Logo */}
           <Link
-            href="#hero"
-            onClick={(e) => scrollToSection(e, "#hero")}
-            className="text-lg md:text-xl font-bold text-foreground hover:text-primary transition-colors"
+            href="#now"
+            onClick={(e) => scrollToSection(e, "#now")}
+            className="text-lg md:text-xl font-bold text-foreground hover:text-primary transition-colors tracking-tight"
           >
-            pedrosantos.dev
+            pedro<span className="text-primary/70">.studio</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -89,14 +81,14 @@ export function HeaderV2() {
             ))}
           </nav>
 
-          {/* CTA Button */}
+          {/* CTA Button - builder action */}
           <div className="hidden md:block">
             <Button
               size="sm"
               className="rounded-full px-6"
-              onClick={(e) => scrollToSection(e as React.MouseEvent, "#contact")}
+              onClick={(e) => scrollToSection(e as React.MouseEvent, "#lab")}
             >
-              Get in Touch
+              Open Lab
             </Button>
           </div>
 
@@ -165,9 +157,9 @@ export function HeaderV2() {
             <Button
               size="lg"
               className="rounded-full px-8 mt-4"
-              onClick={(e) => scrollToSection(e as React.MouseEvent, "#contact")}
+              onClick={(e) => scrollToSection(e as React.MouseEvent, "#lab")}
             >
-              Get in Touch
+              Open Lab
             </Button>
           </motion.div>
         </div>

@@ -103,4 +103,15 @@
   body {
     @apply bg-background text-foreground;
   }
+  kbd {
+    font-family: var(--font-geist-mono);
+  }
+}
+
+/* Builder workspace accents: subtle mono + live indicators */
+@layer components {
+  .studio-mono {
+    font-family: var(--font-geist-mono);
+    font-feature-settings: "tnum";
+  }
 }
