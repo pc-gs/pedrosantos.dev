@@ -12,7 +12,7 @@ export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group block rounded-2xl border border-border/60 p-5 transition-colors hover:border-accent/40"
+      className="group block rounded-2xl border border-border/60 p-5 transition-all hover:border-accent/50 hover:-translate-y-px"
     >
       <div className="mb-3 flex items-start justify-between gap-4">
         <h3 className="font-medium text-foreground transition-colors group-hover:text-accent">

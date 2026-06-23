@@ -25,9 +25,9 @@ export default function HomePage() {
           {siteConfig.tagline}
         </p>
         <p className="mb-8 max-w-xl text-muted-foreground leading-relaxed">
-          Day job is React/Next.js production work for teams. On the side I keep
-          Melro.io — a real founder project — moving. If the way I think about
-          problems and shipping resonates, let&apos;s talk.
+          I ship production React/Next.js work for teams by day and keep a real
+          founder project (Melro.io) moving on the side. If the way I think
+          about problems and shipping resonates, let&apos;s talk.
         </p>
         <div className="flex flex-wrap gap-3">
           <Button asChild className="rounded-xl bg-accent text-accent-foreground hover:bg-accent/90">
@@ -36,19 +36,19 @@ export default function HomePage() {
               <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
-          <Button asChild variant="outline" className="rounded-xl">
+          <Button asChild variant="outline" className="rounded-xl border-border/70 hover:bg-surface">
             <Link href="/contact">Get in touch</Link>
           </Button>
         </div>
       </section>
 
-      <section className="mb-12 md:mb-16">
+      <section className="mb-16 md:mb-20">
         <SectionLabel>Now</SectionLabel>
         <div className="bento-grid">
           {nowItems.map((item) => (
             <div
               key={item.label}
-              className="rounded-2xl border border-border/60 p-5"
+              className="rounded-2xl border border-border/50 bg-[hsl(var(--surface))]/30 p-5 transition-colors hover:border-accent/40"
             >
               <p className="mb-2 font-mono text-[11px] uppercase tracking-wider text-accent">
                 {item.label}
@@ -74,7 +74,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mb-10 md:mb-14">
+      <section className="mb-16 md:mb-20">
         <div className="mb-6 flex items-center justify-between">
           <SectionLabel className="mb-0">Selected work</SectionLabel>
           <Link
@@ -91,7 +91,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mb-12 md:mb-16">
+      <section className="mb-16 md:mb-20">
         <div className="mb-6 flex items-center justify-between">
           <SectionLabel className="mb-0">Writing</SectionLabel>
           <Link
@@ -104,11 +104,9 @@ export default function HomePage() {
         <PostList posts={latestPosts} />
       </section>
 
-      <section className="border-t border-border/60 pt-10 text-center">
-        <h2 className="mb-2 text-xl font-medium">Open to work</h2>
-        <p className="mb-6 text-sm text-muted-foreground">
-          Full-time roles and contract work. The day job funds the side project;
-          both stay active.
+      <section className="border-t border-border/60 pt-8 pb-12 text-center">
+        <p className="mb-4 text-sm text-muted-foreground">
+          Open to full-time roles and contract work.
         </p>
         <Button asChild className="rounded-xl bg-accent text-accent-foreground hover:bg-accent/90">
           <Link href="/contact">Let&apos;s talk →</Link>
