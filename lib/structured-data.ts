@@ -18,8 +18,7 @@ export function generatePersonStructuredData() {
     },
     worksFor: {
       "@type": "Organization",
-      name: "Melro.io",
-      url: "https://melro.io",
+      name: "Aubay Portugal",
     },
     alumniOf: [
       {
@@ -41,7 +40,6 @@ export function generatePersonStructuredData() {
       "TypeScript",
       "JavaScript",
       "Web Development",
-      "AI Integration",
       "Frontend Development",
       "Software Engineering",
     ],
@@ -52,10 +50,10 @@ export function generateWebSiteStructuredData() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Pedro Santos - Portfolio",
+    name: "Pedro Santos",
     url: "https://pedrosantos.dev",
     description:
-      "Software Engineer building AI-powered web experiences with React, Next.js, and modern technologies.",
+      "Software engineer building web products with React, Next.js, and modern tooling.",
     author: {
       "@type": "Person",
       name: "Pedro Santos",

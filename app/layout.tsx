@@ -2,8 +2,12 @@ import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { SiteHeader } from "@/components/layout/site-header";
+import { SiteSidebar } from "@/components/layout/site-sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { siteConfig } from "@/lib/site";
 import {
   generatePersonStructuredData,
   generateWebSiteStructuredData,
@@ -21,24 +25,19 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Pedro Santos | Software Engineer & Melro.io Founder",
+    default: "Pedro Santos | Software Engineer",
     template: "%s | Pedro Santos",
   },
-  description:
-    "Software Engineer building AI-powered web experiences with React, Next.js, and modern technologies. Founder of Melro.io, providing AI-powered solutions for businesses. Available for new projects.",
+  description: siteConfig.description,
   keywords: [
     "Pedro Santos",
     "Software Engineer",
-    "Frontend Developer",
     "React Developer",
     "Next.js Developer",
-    "AI Integration",
+    "TypeScript",
     "Web Development",
     "Portugal",
-    "Melro.io",
     "Portfolio",
-    "Full Stack Developer",
-    "TypeScript",
   ],
   authors: [{ name: "Pedro Santos" }],
   creator: "Pedro Santos",
@@ -51,10 +50,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://pedrosantos.dev",
-    siteName: "Pedro Santos - Portfolio",
-    title: "Pedro Santos | Software Engineer & Melro.io Founder",
-    description:
-      "Software Engineer building AI-powered web experiences with React, Next.js, and modern technologies. Founder of Melro.io.",
+    siteName: "Pedro Santos",
+    title: "Pedro Santos | Software Engineer",
+    description: siteConfig.description,
     images: [
       {
         url: "/og-image.png",
@@ -66,9 +64,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pedro Santos | Software Engineer & Melro.io Founder",
-    description:
-      "Software Engineer building AI-powered web experiences with React, Next.js, and modern technologies.",
+    title: "Pedro Santos | Software Engineer",
+    description: siteConfig.description,
     creator: "@pcgs_tsx",
     images: ["/og-image.png"],
   },
@@ -122,8 +119,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background font-sans antialiased`}
       >
         <ThemeProvider>
-          <div className="flex min-h-screen flex-col">
-            {children}
+          <div className="flex min-h-screen">
+            <SiteSidebar />
+            <div className="flex min-h-screen flex-1 flex-col md:ml-64">
+              <SiteHeader />
+              <main className="flex-1">{children}</main>
+              <SiteFooter />
+            </div>
           </div>
           <Toaster />
           <Analytics />
