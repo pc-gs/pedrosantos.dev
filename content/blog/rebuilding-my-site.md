@@ -1,7 +1,7 @@
 ---
 title: "Rebuilding my site as a builder's home base"
 description: "Why I moved away from the classic portfolio template toward something that answers 'what does it feel like to work with this engineer' in ten seconds."
-date: "2026-06-23"
+date: "2025-02-10"
 tags: ["meta", "design", "portfolio"]
 draft: false
 ---

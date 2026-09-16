@@ -4,7 +4,7 @@ export const education: EducationItem[] = [
   {
     title: "React Native Specialization",
     org: "Rocketseat",
-    period: "2025",
+    period: "2024",
     note: "Deep dive into mobile — gestures, animations, and shipping to both platforms.",
   },
   {

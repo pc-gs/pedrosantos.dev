@@ -16,7 +16,6 @@ export const projects: Project[] = [
     tags: ["Developer Tools", "VS Code", "DX"],
     stack: ["TypeScript", "VS Code Extension API"],
     links: [
-      { label: "Marketplace", href: "https://marketplace.visualstudio.com/", kind: "live" },
       { label: "Source", href: "https://github.com/pedrocarlos-ti", kind: "source" },
     ],
     caseStudy: {
