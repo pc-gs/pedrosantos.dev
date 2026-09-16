@@ -1,207 +1,223 @@
-# Pedro Santos - Portfolio Website
+# pedrosantos.dev
 
-A modern, responsive portfolio website built with Next.js 15, TailwindCSS, and ShadCN UI.
+Personal site of **Pedro Santos** — software engineer (React / Next.js) and founder of
+[Melro.io](https://melro.io). Version **2027.2 — “Tinta & papel”**.
 
-## Features
+An editorial, light-first site: warm paper, ink text, a fountain-pen-blue accent.
+Two things carry it:
 
-- Dark/Light mode toggle
-- Modern, minimalist design with smooth animations
-- Fully responsive for all device sizes
-- Fast performance with Next.js App Router
-- Modular component architecture
-- SEO optimized
+1. **The log** — a public learning log co-written with AI, where marked entries (✦)
+   disclose the actual prompt that started them.
+2. **“Ask my site”** — a streaming chat over the site's own content, with a
+   scripted offline fallback so the site never breaks.
 
-## Pages
+The contrast with previous iterations is deliberate: not dark-minimal (v1), not
+flashy (v3), not sidebar/coral (redesign), not pure editorial (v2).
 
-- **Home** (`/`) — Tight builder hero, a living "Now" section, selected work that links out to case studies, latest writing, and a contact teaser.
-- **Work** (`/projects`) — All projects as a scannable list, each linking to a case study.
-- **Project case study** (`/projects/[slug]`) — Problem → approach → outcome → learnings, with metadata, links, and prev/next.
-- **About** (`/about`) — Narrative-driven: how I think, experience as stories, education kept minimal at the bottom.
-- **Writing** (`/blog`) — Post listing. **Post** (`/blog/[slug]`) — Markdown rendered from `content/blog/`.
-- **Contact** (`/contact`) — Simple working form (Resend) with clear full-time + contract availability.
+## The idea
 
-## Tech Stack
+Most portfolio sites only show finished work. Finished work hides the interesting
+part — the confusion, the dead ends, the thing you learned on a Tuesday. So this
+site keeps a **log** instead: short entries about what I just learned, marked ✦ when
+an AI model helped draft them, prompt included. Longer thinking lives in **Writing**,
+where each essay carries a “how this post was made” box: my notes → the prompt(s) →
+the AI draft → my edit.
 
-- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
-- **Styling**: [TailwindCSS](https://tailwindcss.com/)
-- **UI Components**: [ShadCN UI](https://ui.shadcn.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Forms**: [React Hook Form](https://react-hook-form.com/) with [Zod](https://zod.dev/) validation
-- **Email**: [Resend](https://resend.com/) for contact form submissions
-- **Package Manager**: [Bun](https://bun.sh/)
-- **Deployment**: [Vercel](https://vercel.com/)
+## Routes
 
-## Getting Started
+| Route | What it is |
+| --- | --- |
+| `/` | Hero, “ask my site” panel, Now strip, the log (signature section), featured work, latest writing, CTA |
+| `/log`, `/log/[slug]` | Learning log — filter by tag or by co-authorship; per-entry prompt disclosure |
+| `/blog`, `/blog/[slug]` | Essays, each with the co-authorship process box |
+| `/projects`, `/projects/[slug]` | Case studies — problem → approach → outcome → learnings |
+| `/about` | Narrative background, working principles, experience as stories |
+| `/now` | nownownow-style snapshot of current focus |
+| `/uses` | Tools, stack and typefaces |
+| `/contact` | Contact form (Resend) + channels |
+| `/rss.xml`, `/log/feed.xml` | Two feeds, because two collections |
+| `/llms.txt` | Plain-text digest for LLMs and agents |
+| `/sitemap.xml`, `/robots.txt` | SEO plumbing |
+| `/opengraph-image` (+ per-entry) | Dynamic OG cards, prerendered for every post, log entry and project |
 
-### Prerequisites
+## Design system
 
-- [Node.js](https://nodejs.org/) (v18 or higher)
-- [Bun](https://bun.sh/) (recommended)
+- **Type** — `Instrument Serif` (display headlines), `Newsreader` (long-form reading),
+  `JetBrains Mono` (labels, metadata, log entries, code); Geist Sans remains for UI
+  chrome (form controls, toasts). All loaded with `next/font` — self-hosted, no CLS.
+- **Tokens** — CSS variables in `app/globals.css` (`:root` = paper, `.dark` = night),
+  wired into Tailwind v4 through `@theme inline`. Paper `#faf6f0`, ink `#171412`,
+  accent “ink blue” `#284e95`, and violet `--ai` reserved **exclusively** for AI
+  co-authorship marks (the ✦ chip).
+- **Layout** — 1px hairlines, small radii, generous whitespace, `clamp()` display
+  sizes, `.measure` / `.measure-narrow` reading widths, `.label` / `.label-brand`
+  for mono metadata.
+- **Motion** — cross-page view transitions, a single `.fade-up` entrance, hover colour
+  transitions. `prefers-reduced-motion` disables Lenis smooth scroll, ping/pulse,
+  the typewriter reveal and the palette animation.
+- **Theme** — real light/dark via `next-themes`: system preference first, manual
+  toggle in the header. No forced-dark class.
 
-### Installation
+## The AI chat (`POST /api/ask`)
 
-1. Clone the repository:
+Provider-agnostic: any OpenAI-compatible endpoint works (Groq by default).
 
-   ```bash
-   git clone https://github.com/yourusername/portfolio-website.git
-   cd portfolio-website
-   ```
+- The system prompt is assembled **server-side** from `content/profile.ts`,
+  `content/now.ts`, `content/projects.ts` and the latest log entries — so the model
+  can only talk about content that is actually on the site.
+- The response is streamed back as a plain text stream and typed into the panel.
+- Guards: 10 requests/minute per IP, 500-character input cap, 400 max output tokens,
+  6 kB of context.
+- **Fallback:** with no `AI_API_KEY`, the route answers `{ "mode": "offline" }` and the
+  client switches to a scripted Q&A generator built from the same content. The site
+  never breaks — it just stops being a live model.
+- The panel labels which mode is active (`ai · live` / `scripted · offline`) and always
+  shows the disclosure: answers come from Pedro's own content, and AI can be wrong.
 
-2. Install dependencies:
+### Environment
 
-   ```bash
-   bun install
-   ```
-
-3. Create a `.env.local` file in the root directory with your Resend configuration:
-
-   ```
-   RESEND_API_KEY=your_resend_api_key
-   RESEND_FROM_EMAIL=Contact Form <contact@mail.pedrosantos.dev>
-   RESEND_TO_EMAIL=your-email@gmail.com
-   ```
-
-   - `RESEND_API_KEY`: Your Resend API key (get one at [Resend.com](https://resend.com))
-   - `RESEND_FROM_EMAIL`: The email address to send from (must use your verified domain in Resend)
-   - `RESEND_TO_EMAIL`: Your email address where contact form submissions will be sent (optional, defaults to pedrocarlos.ti@gmail.com)
-
-4. Start the development server:
-
-   ```bash
-   bun dev
-   ```
-
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## Project Structure
+Copy `.env.example` to `.env.local` and fill in what you need:
 
 ```
-pedrosantos.dev/
-├── app/                  # Next.js App Router pages
-│   ├── about/            # /about
-│   ├── blog/             # /blog + /blog/[slug]
-│   ├── contact/          # /contact
-│   ├── projects/         # /projects + /projects/[slug]
-│   ├── api/send-email/   # Contact form API route (Resend)
-│   ├── globals.css       # Theme tokens + prose styles
-│   ├── layout.tsx        # Root layout (header + footer shell, fonts, SEO)
-│   └── page.tsx          # Home
-├── content/              # ← EDIT HERE to update the site
-│   ├── blog/             # Blog posts as *.md (frontmatter + markdown)
-│   ├── profile.ts        # Name, role, tagline, socials, availability
-│   ├── projects.ts       # Projects + case studies (problem/approach/outcome)
-│   ├── now.ts            # "Now" section items + last-updated date
-│   ├── experience.ts     # Work history as narrative stories
-│   └── education.ts      # Minimal education/study list
-├── components/
-│   ├── layout/           # Header, footer, section heading, socials, status
-│   ├── sections/         # Page-specific sections (contact form, project status)
-│   └── ui/               # shadcn/ui primitives
-├── lib/
-│   ├── types.ts          # TypeScript types for all content
-│   ├── blog.ts           # Markdown loader (gray-matter + marked)
-│   ├── markdown.ts       # renderMarkdown helper
-│   └── structured-data.ts
-└── ...                   # Config files
+RESEND_API_KEY=...            # contact form
+RESEND_FROM_EMAIL=...         # verified Resend domain
+RESEND_TO_EMAIL=...           # where submissions land
+
+AI_API_KEY=                   # optional — omit for offline/scripted mode
+AI_BASE_URL=https://api.groq.com/openai/v1
+AI_MODEL=llama-3.3-70b-versatile
+
+NEXT_PUBLIC_SITE_URL=https://pedrosantos.dev
 ```
 
-## Component Organization
+Nothing here is required to build: without any of it the site prerenders fully and the
+chat runs in scripted mode.
 
-The project follows a modular component architecture:
+## Getting started
 
-- **Layout Components**: Header, footer, and other layout elements
-- **Section Components**: Reusable page sections like TechStack, BlogPreview
-- **UI Components**: Shadcn UI components with custom styling
-- **Page Components**: Main page components in the app directory
+```bash
+git clone git@github.com:pedrocarlos-ti/pedrosantos.dev.git
+cd pedrosantos.dev
+bun install          # bun is the package manager (see packageManager in package.json)
+cp .env.example .env.local
+bun dev              # http://localhost:3000
+```
 
-## Scripts
+### Scripts
 
-- `bun dev` - Start the development server
-- `bun build` - Build the production application
-- `bun start` - Start the production server
-- `bun lint` - Run ESLint
-- `bun format` - Format code with Prettier
-- `bun typecheck` - Run TypeScript type checking
-- `bun analyze` - Analyze bundle size
-- `bun clean` - Clean build cache
+| Command | What it does |
+| --- | --- |
+| `bun dev` | Dev server (Turbopack) |
+| `bun run build` | Production build — everything prerendered |
+| `bun start` | Serve the production build |
+| `bun run typecheck` | `tsc --noEmit` |
+| `bun run lint` | ESLint (`next/core-web-vitals` + `next/typescript`) |
+| `bun format` | Prettier |
+| `bun clean` | Drop `.next` and the node cache |
 
-## Styling Conventions
+## Project structure
 
-- Dark mode first, high-contrast, tool-like (think Linear / Vercel dashboard, not a 2018 portfolio).
-- One accent color (`brand`, crisp steel blue) for links, status, and key CTAs only — otherwise contrast does the work.
-- Monospace (`--font-geist-mono`) for all metadata: dates, tags, status, labels, keyboard hints. Use the `.label` / `.label-brand` utilities.
-- Information-dense but scannable. Prefer content over decoration. Borders + whitespace over shadows and gradients.
-- Motion is subtle and purposeful only (gentle `.fade-up` on the hero, hover color transitions). No scroll-triggered everything, no floating orbs, no parallax.
-- Long-form text uses the `.prose` classes (blog posts + case-study sections). Case studies are structured (Problem / Approach / Outcome / Learnings), not image-heavy.
-- No generic stat walls ("8+ years", "50+ projects") or tech-logo walls. Real work with real depth only.
+```
+app/                      routes (App Router)
+├── api/ask/              streaming chat endpoint
+├── api/send-email/       contact form (Resend)
+├── blog/, log/, projects/, about/, now/, uses/, contact/
+├── opengraph-image.tsx   root OG card (+ per-content cards next to each route)
+├── llms.txt/, rss.xml/, sitemap.ts, robots.ts
+└── globals.css           tokens, utilities, prose, motion
+components/
+├── layout/               site header (theme + ⌘K), footer, ask panel,
+│                         command palette, section headings, JsonLd
+├── log/                  entry rows, filterable feed, ✦ AI badge
+├── blog/                 ProcessBox — “how this post was made”
+├── now/                  NowList (shared by home + /now)
+├── sections/             contact form, project status meta
+└── ui/                   sonner toaster, X icon
+content/                  ← edit here for routine updates
+lib/                      content loaders (blog, log), feed builder, palette,
+                          structured data, OG card, date + classname helpers
+```
 
-## Customization
-
-### Themes
-
-The site uses next-themes for theme management. You can customize the theme colors in `tailwind.config.ts`.
-
-### Content — what to edit monthly
-
-All content lives in `content/` and `lib/types.ts`. No page code needs touching for routine updates.
+## Content — what to edit
 
 | To change… | Edit this |
 | --- | --- |
-| Your bio, tagline, socials, availability | `content/profile.ts` |
-| The "Now" section + its "updated" date | `content/now.ts` |
-| Projects & case studies (problem/approach/outcome) | `content/projects.ts` |
-| Work history (narrative stories) | `content/experience.ts` |
-| Education / study list | `content/education.ts` |
-| Blog posts | Add a new `*.md` file in `content/blog/` |
-| Content shapes / new fields | `lib/types.ts` |
+| Bio, tagline, socials, availability | `content/profile.ts` |
+| The Now snapshot + its updated date | `content/now.ts` |
+| Projects & case studies | `content/projects.ts` |
+| Work history / education | `content/experience.ts`, `content/education.ts` |
+| `/uses` groups | `content/uses.ts` |
+| Log entries | add a `*.md` in `content/log/` |
+| Essays | add a `*.md` in `content/blog/` |
+| Shapes of any of the above | `lib/types.ts` |
 
-### Adding a blog post
-
-Create `content/blog/my-post.md` with frontmatter:
+### Adding a log entry
 
 ```md
 ---
-title: "My post title"
-description: "One-line summary for listings and SEO."
-date: "2026-07-01"
-tags: ["meta", "design"]
-draft: false
+title: "TIL: something I just learned"
+description: "One line for the feed, the RSS item and the OG card."
+date: "2026-09-16"
+tags: ["typescript", "til"]
+aiAssisted: true          # shows the violet ✦ badge
+model: "GLM"              # optional, shown in the disclosure
+prompt: "The actual prompt that started this entry."
 ---
 
-Body in standard markdown — headings, lists, code blocks, links.
+Two or three paragraphs. Unfinished is fine — that is the format.
 ```
 
-The loader (`lib/blog.ts`) picks it up automatically. `draft: true` hides a post in production but shows it in dev. Reading time is auto-calculated.
+`draft: true` shows an entry in dev and hides it in production. Reading time is computed.
 
-### Theme
+### Adding a co-written essay
 
-Dark mode is default. The one intentional accent color is **crisp steel blue** — more blue than cyan and with grounded saturation so it reads as steel rather than neon, harmonizing with the cool near-black body of the dark UI. All tokens live as HSL CSS variables in `app/globals.css` (`:root` for light, `.dark` for dark); the accent is deepened on light backgrounds for legibility. Monospace metadata uses the `.label` / `.label-brand` utility classes.
+```md
+---
+title: "Post title"
+description: "One-line summary."
+date: "2026-09-14"
+tags: ["meta", "ai"]
+coWritten: true            # shows the ✦ badge and the process box
+process:
+  notes: >-
+    What I actually knew/believed before drafting.
+  prompts:
+    - The first prompt.
+    - The follow-up that fixed the draft.
+  humanEdit: >-
+    What I changed by hand: cut, rewrote, fact-checked, reordered.
+---
+```
+
+The process box renders in `components/blog/process-box.tsx` (notes → prompt → first
+draft → edit). Never set `coWritten` on a piece a model didn't help draft — the whole
+point of the disclosure is that it means something.
+
+## Conventions
+
+- **Marking AI, always.** Violet `--ai` + ✦ mean one thing only: a model helped draft
+  this and a person edited it. Never use it as decoration.
+- **Type has jobs.** Display serif for headlines, `Newsreader` for reading, mono for
+  metadata (dates, tags, status, prompts, code), sans for UI chrome.
+- **Metadata is mono, prose is serif.** Use `.label` / `.label-brand` rather than
+  re-styling mono by hand.
+- **No decoration pretending to be design** — no gradients-for-gradients, orbs,
+  parallax, stat walls or tech-logo walls. Hairlines and whitespace do the work.
+- **Motion explains, never decorates.** Anything animated must be disabled under
+  `prefers-reduced-motion`.
+- **Static by default.** Content is prerendered; only `/api/*` is dynamic.
 
 ## Deployment
 
-The site is configured for deployment on Vercel:
+Vercel, `main` branch. Build is `bun run build`; set the env vars from
+`.env.example` in the project settings (all optional except the Resend ones if you want
+the contact form to deliver).
 
-```bash
-vercel
-```
+## Credits
 
-## Contributing
+Next.js 15 · React 19 · Tailwind CSS v4 · bun · next-themes · next-view-transitions ·
+cmdk · Lenis · marked + gray-matter · Resend · Vercel Analytics · Groq (optional chat).
+Typefaces: Instrument Serif, Newsreader, JetBrains Mono (Google Fonts, self-hosted via
+`next/font`).
 
-1. Fork the repository
-2. Create your feature branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'Add some amazing feature'`
-4. Push to the branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- [Next.js](https://nextjs.org/)
-- [TailwindCSS](https://tailwindcss.com/)
-- [Shadcn UI](https://ui.shadcn.com/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [Bun](https://bun.sh/)
-- [Resend](https://resend.com/)
+MIT licensed.
