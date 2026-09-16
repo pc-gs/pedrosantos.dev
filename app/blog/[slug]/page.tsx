@@ -5,6 +5,15 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getAllPosts, getPostBySlug, getAllPostSlugs } from "@/lib/blog";
 import { formatDate } from "@/lib/date";
 import { profile } from "@/content/profile";
+import { AiBadge } from "@/components/log/ai-badge";
+import { ProcessBox } from "@/components/blog/process-box";
+import { JsonLd } from "@/components/layout/json-ld";
+import {
+  generateArticleStructuredData,
+  generateBreadcrumbStructuredData,
+} from "@/lib/structured-data";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pedrosantos.dev";
 
 export const dynamicParams = false;
 
@@ -51,7 +60,25 @@ export default async function BlogPostPage({
   const next = index < all.length - 1 ? all[index + 1] : null;
 
   return (
-    <main className="container py-16 md:py-24">
+    <main className="container py-14 md:py-20">
+      <JsonLd
+        data={generateArticleStructuredData({
+          title: post.title,
+          description: post.description,
+          url: `${SITE_URL}/blog/${post.slug}`,
+          datePublished: post.date,
+          tags: post.tags,
+          section: "Writing",
+        })}
+      />
+      <JsonLd
+        data={generateBreadcrumbStructuredData([
+          { name: "Home", url: SITE_URL },
+          { name: "Writing", url: `${SITE_URL}/blog` },
+          { name: post.title, url: `${SITE_URL}/blog/${post.slug}` },
+        ])}
+      />
+
       <article className="mx-auto max-w-2xl">
         <Link
           href="/blog"
@@ -61,35 +88,31 @@ export default async function BlogPostPage({
           all writing
         </Link>
 
-        <header className="mt-8 border-b border-border pb-8">
+        <header className="fade-up mt-8 border-b border-border pb-8">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="label">
-                {formatDate(post.date, {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </span>
-            <span className="label text-muted-foreground/60">·</span>
+            <time className="label" dateTime={post.date}>
+              {formatDate(post.date, {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </time>
+            <span aria-hidden className="label text-muted-foreground/50">
+              ·
+            </span>
             <span className="label">{post.readingTime}</span>
+            {post.coWritten && <AiBadge className="ml-1" />}
           </div>
-          <h1 className="mt-4 text-3xl font-semibold leading-tight tracking-tight text-foreground md:text-4xl">
+          <h1 className="mt-5 font-display text-[clamp(2.25rem,5.5vw,3.5rem)] leading-[1.06] tracking-tight text-foreground">
             {post.title}
           </h1>
-          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+          <p className="mt-5 font-serif text-xl leading-relaxed text-muted-foreground">
             {post.description}
           </p>
           {post.tags.length > 0 && (
-            <div className="mt-5 flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded border border-border px-2.5 py-1 font-mono text-[12px] text-muted-foreground"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+            <p className="mt-5 font-mono text-[12px] text-muted-foreground/80">
+              {post.tags.map((tag) => `#${tag}`).join(" ")}
+            </p>
           )}
         </header>
 
@@ -98,20 +121,25 @@ export default async function BlogPostPage({
           dangerouslySetInnerHTML={{ __html: post.body }}
         />
 
+        {post.coWritten && post.process && (
+          <ProcessBox process={post.process} className="mt-14" />
+        )}
+
         {/* Author note */}
         <div className="mt-12 border-t border-border pt-8">
-          <p className="text-sm text-muted-foreground">
+          <p className="font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
             Written by{" "}
             <Link
               href="/about"
-              className="text-foreground underline underline-offset-4 decoration-border hover:text-brand hover:decoration-brand"
+              className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:text-brand hover:decoration-brand"
             >
               {profile.name}
-            </Link>{" "}
-            — {profile.role}, {profile.location}.{" "}
+            </Link>
+            {post.coWritten ? " with an AI model as drafting partner" : ""} —{" "}
+            {profile.role}, {profile.location}.{" "}
             <Link
               href="/contact"
-              className="text-brand underline underline-offset-4 decoration-brand/40 hover:decoration-brand"
+              className="text-brand underline decoration-brand/40 underline-offset-4 hover:decoration-brand"
             >
               Get in touch
             </Link>
@@ -130,7 +158,7 @@ export default async function BlogPostPage({
                 <ArrowLeft className="h-3.5 w-3.5" />
                 previous
               </span>
-              <span className="mt-2 block font-medium text-foreground transition-colors group-hover:text-brand">
+              <span className="mt-2 block font-display text-lg leading-snug text-foreground transition-colors group-hover:text-brand">
                 {prev.title}
               </span>
             </Link>
@@ -146,7 +174,7 @@ export default async function BlogPostPage({
                 next
                 <ArrowRight className="h-3.5 w-3.5" />
               </span>
-              <span className="mt-2 block font-medium text-foreground transition-colors group-hover:text-brand">
+              <span className="mt-2 block font-display text-lg leading-snug text-foreground transition-colors group-hover:text-brand">
                 {next.title}
               </span>
             </Link>

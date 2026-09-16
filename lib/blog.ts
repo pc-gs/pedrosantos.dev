@@ -18,6 +18,13 @@ type Frontmatter = {
   tags?: string[];
   draft?: boolean;
   readingTime?: string;
+  /** Marks a post drafted with AI from the author's notes, then human-edited. */
+  coWritten?: boolean;
+  process?: {
+    notes?: string;
+    prompts?: string[];
+    humanEdit?: string;
+  };
 };
 
 function readingTimeFor(text: string): string {
@@ -37,6 +44,15 @@ function loadPostFile(fileName: string): BlogPost | null {
   const slug = fileName.replace(/\.md$/, "");
   const date = fm.date ?? "";
 
+  const process =
+    fm.process && (fm.process.notes || fm.process.prompts?.length || fm.process.humanEdit)
+      ? {
+          notes: fm.process.notes ?? "",
+          prompts: Array.isArray(fm.process.prompts) ? fm.process.prompts : [],
+          humanEdit: fm.process.humanEdit ?? "",
+        }
+      : undefined;
+
   return {
     slug,
     title: fm.title ?? slug,
@@ -47,6 +63,8 @@ function loadPostFile(fileName: string): BlogPost | null {
     readingTime: fm.readingTime ?? readingTimeFor(content),
     body: marked.parse(content) as string,
     content,
+    coWritten: Boolean(fm.coWritten),
+    process,
   };
 }
 
