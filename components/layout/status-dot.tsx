@@ -1,13 +1,14 @@
 import { cn } from "@/lib/utils";
 
+/** Pulsing availability dot with a mono label. */
 export function StatusDot({
-  className,
   label,
   pulse = true,
+  className,
 }: {
-  className?: string;
-  label?: string;
+  label: string;
   pulse?: boolean;
+  className?: string;
 }) {
   return (
     <span
@@ -18,7 +19,7 @@ export function StatusDot({
     >
       <span className="relative flex h-1.5 w-1.5">
         {pulse && (
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-60" />
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-60 motion-reduce:animate-none" />
         )}
         <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand" />
       </span>

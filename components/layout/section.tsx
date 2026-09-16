@@ -24,11 +24,11 @@ export function SectionHeading({
         </div>
         {action && <div className="shrink-0">{action}</div>}
       </div>
-      <h2 className="mt-6 max-w-2xl text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+      <h2 className="mt-7 max-w-2xl font-display text-4xl leading-[1.08] tracking-tight text-foreground md:text-5xl">
         {title}
       </h2>
       {description && (
-        <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+        <p className="mt-4 max-w-2xl font-serif text-lg leading-relaxed text-muted-foreground">
           {description}
         </p>
       )}

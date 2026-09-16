@@ -11,8 +11,10 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import { Toaster } from "@/components/ui/sonner";
-import { SiteHeader } from "@/components/layout/header-v2";
+import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { getPaletteItems } from "@/lib/palette";
+import { JsonLd } from "@/components/layout/json-ld";
 import {
   generatePersonStructuredData,
   generateWebSiteStructuredData,
@@ -71,6 +73,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://pedrosantos.dev"),
   alternates: {
     canonical: "/",
+    types: {
+      "application/rss+xml": [
+        { url: "/rss.xml", title: "Pedro Santos — Writing" },
+        { url: "/log/feed.xml", title: "Pedro Santos — The log" },
+      ],
+    },
   },
   openGraph: {
     type: "website",
@@ -80,14 +88,6 @@ export const metadata: Metadata = {
     title: "Pedro Santos — Software Engineer & founder of Melro.io",
     description:
       "Software engineer shipping production React and Next.js by day, building Melro.io on the side. Open to full-time and contract work.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "pedrosantos.dev — Software Engineer & founder of Melro.io",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -95,7 +95,6 @@ export const metadata: Metadata = {
     description:
       "Shipping production React/Next.js by day, building Melro.io on the side. Open to full-time and contract work.",
     creator: "@pcgs_tsx",
-    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -127,35 +126,25 @@ export default function RootLayout({
     <ViewTransitions>
       <html lang="en" suppressHydrationWarning>
         <head>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(personStructuredData),
-            }}
-          />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(websiteStructuredData),
-            }}
-          />
+          <JsonLd data={personStructuredData} />
+          <JsonLd data={websiteStructuredData} />
         </head>
         <body
           className={`${geistSans.variable} ${newsreader.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} min-h-screen bg-background font-sans antialiased`}
         >
           <ThemeProvider>
-<SmoothScroll>
-            <div className="flex min-h-screen flex-col">
-              <a href="#main" className="skip-link">
-                Skip to content
-              </a>
-              <SiteHeader />
-              <div className="flex-1">
-                <div id="main">{children}</div>
+            <SmoothScroll>
+              <div className="flex min-h-screen flex-col">
+                <a href="#main" className="skip-link">
+                  Skip to content
+                </a>
+                <SiteHeader paletteItems={getPaletteItems()} />
+                <div className="flex-1">
+                  <div id="main">{children}</div>
+                </div>
+                <SiteFooter />
               </div>
-              <SiteFooter />
-            </div>
-          </SmoothScroll>
+            </SmoothScroll>
             <Toaster />
             <Analytics />
           </ThemeProvider>
