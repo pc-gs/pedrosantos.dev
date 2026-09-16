@@ -1,67 +1,78 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  :root {
-    /* Light mode (secondary) — clean, high-contrast, neutral cool */
-    --background: 0 0% 100%;
-    --foreground: 220 13% 8%;
-    --card: 0 0% 100%;
-    --card-foreground: 220 13% 8%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 13% 8%;
-    --primary: 220 13% 8%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 220 13% 96%;
-    --secondary-foreground: 220 13% 8%;
-    --muted: 220 13% 96%;
-    --muted-foreground: 220 10% 40%;
-    --accent: 220 13% 96%;
-    --accent-foreground: 220 13% 8%;
-    --destructive: 0 70% 45%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 220 13% 90%;
-    --input: 220 13% 90%;
-    --ring: 215 60% 48%;
+@custom-variant dark (&:where(.dark, .dark *));
 
-    /* The one intentional accent — crisp steel blue.
-       More blue than cyan, grounded saturation so it reads as steel
-       rather than neon. Deepened on light backgrounds for legibility. */
-    --brand: 215 60% 46%;
-    --brand-foreground: 0 0% 100%;
-    --brand-muted: 215 50% 40%;
+/* ── Tinta & papel — 2027 design tokens ─────────────────────────────────
+   Light: warm paper, ink text, fountain-pen blue.
+   Dark: "modo noturno" — warm near-black, chalk text, lit-up blue.
+   The violet --ai is reserved for AI co-authorship marks. */
+:root {
+  --background: hsl(39 47% 96%);
+  --foreground: hsl(30 22% 10%);
+  --card: hsl(45 60% 99%);
+  --card-foreground: hsl(30 22% 10%);
+  --muted: hsl(40 30% 92%);
+  --muted-foreground: hsl(32 12% 40%);
+  --border: hsl(39 26% 86%);
+  --input: hsl(39 26% 84%);
+  --ring: hsl(219 58% 37%);
 
-    --radius: 0.5rem;
-  }
+  --brand: hsl(219 58% 37%);
+  --brand-foreground: hsl(0 0% 100%);
+  --brand-muted: hsl(219 40% 42%);
 
-  .dark {
-    /* Dark mode first — near-black, neutral-cool, tool-like */
-    --background: 220 13% 4.5%;
-    --foreground: 210 20% 96%;
-    --card: 220 13% 6.5%;
-    --card-foreground: 210 20% 96%;
-    --popover: 220 13% 6%;
-    --popover-foreground: 210 20% 96%;
-    --primary: 210 20% 98%;
-    --primary-foreground: 220 13% 5%;
-    --secondary: 220 13% 11%;
-    --secondary-foreground: 210 20% 96%;
-    --muted: 220 13% 10%;
-    --muted-foreground: 220 10% 62%;
-    --accent: 220 13% 12%;
-    --accent-foreground: 210 20% 96%;
-    --destructive: 0 62% 42%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 220 13% 14%;
-    --input: 220 13% 16%;
-    --ring: 210 80% 66%;
+  --ai: hsl(262 60% 52%);
+  --ai-foreground: hsl(0 0% 100%);
 
-    /* Crisp steel blue — vivid enough on near-black, grounded not neon. */
-    --brand: 210 80% 66%;
-    --brand-foreground: 215 50% 10%;
-    --brand-muted: 215 60% 56%;
-  }
+  --radius: 0.375rem;
+}
+
+.dark {
+  --background: hsl(26 14% 8%);
+  --foreground: hsl(38 30% 90%);
+  --card: hsl(26 12% 11%);
+  --card-foreground: hsl(38 30% 90%);
+  --muted: hsl(26 11% 15%);
+  --muted-foreground: hsl(34 14% 64%);
+  --border: hsl(28 12% 20%);
+  --input: hsl(28 12% 24%);
+  --ring: hsl(213 78% 68%);
+
+  --brand: hsl(213 78% 68%);
+  --brand-foreground: hsl(219 50% 10%);
+  --brand-muted: hsl(214 55% 60%);
+
+  --ai: hsl(260 80% 74%);
+  --ai-foreground: hsl(260 60% 12%);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-muted: var(--brand-muted);
+  --color-ai: var(--ai);
+  --color-ai-foreground: var(--ai-foreground);
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: calc(var(--radius) - 1px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --font-display: var(--font-instrument), var(--font-newsreader), Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
 }
 
 @layer base {
@@ -73,11 +84,27 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "cv11", "ss01";
     text-rendering: optimizeLegibility;
   }
   ::selection {
-    background: hsl(var(--brand) / 0.25);
+    background: hsl(219 58% 37% / 0.22);
+  }
+  .dark ::selection {
+    background: hsl(213 78% 68% / 0.3);
+  }
+}
+
+/* Custom container — replaced Tailwind v3's container config */
+@utility container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 66rem;
+  padding-inline: 1rem;
+  @media (min-width: 640px) {
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 1024px) {
+    padding-inline: 1.5rem;
   }
 }
 
@@ -88,10 +115,6 @@
   }
   .label-brand {
     @apply font-mono text-xs uppercase tracking-wider text-brand;
-  }
-  /* Inline code */
-  .prose code {
-    @apply font-mono text-[0.85em] rounded bg-muted px-1.5 py-0.5 text-foreground;
   }
 }
 
@@ -136,6 +159,7 @@
       animation: none;
     }
     .animate-pulse,
+    .animate-ping,
     .cursor-blink {
       animation: none;
     }
@@ -145,9 +169,9 @@
   }
 }
 
-/* Long-form prose for blog + case-study bodies */
+/* Long-form prose for blog + case-study bodies — serif, editorial */
 .prose {
-  @apply text-[1.0625rem] leading-relaxed text-muted-foreground;
+  @apply font-serif text-[1.075rem] leading-[1.75] text-foreground/85;
 }
 .prose p {
   @apply mb-5;
@@ -155,14 +179,17 @@
 .prose strong {
   @apply font-semibold text-foreground;
 }
+.prose em {
+  @apply italic;
+}
 .prose a {
-  @apply text-brand underline underline-offset-4 decoration-brand/40 hover:decoration-brand;
+  @apply text-brand underline decoration-brand/40 underline-offset-4 transition-colors hover:decoration-brand;
 }
 .prose h2 {
-  @apply mt-12 mb-4 text-2xl font-semibold tracking-tight text-foreground;
+  @apply mt-12 mb-4 font-display text-[1.75rem] leading-snug text-foreground;
 }
 .prose h3 {
-  @apply mt-8 mb-3 text-xl font-semibold tracking-tight text-foreground;
+  @apply mt-8 mb-3 font-display text-[1.375rem] leading-snug text-foreground;
 }
 .prose ul {
   @apply mb-5 list-disc space-y-2 pl-5;
@@ -171,10 +198,13 @@
   @apply mb-5 list-decimal space-y-2 pl-5;
 }
 .prose blockquote {
-  @apply mb-5 border-l-2 border-brand/50 pl-5 text-foreground/90;
+  @apply mb-5 border-l-2 border-brand/50 pl-5 font-display text-xl leading-snug text-foreground/90 italic;
 }
 .prose pre {
-  @apply mb-5 overflow-x-auto rounded-lg border border-border bg-muted p-4 font-mono text-sm leading-relaxed text-foreground;
+  @apply mb-5 overflow-x-auto rounded-lg border border-border bg-muted p-4 font-mono text-[0.8125rem] leading-relaxed text-foreground;
+}
+.prose code {
+  @apply rounded bg-muted px-1.5 py-0.5 font-mono text-[0.85em] text-foreground;
 }
 .prose pre code {
   @apply bg-transparent p-0;
@@ -188,16 +218,12 @@
   @apply sr-only;
 }
 .skip-link:focus {
-  @apply not-sr-only fixed left-4 top-4 z-[100] rounded-md border border-border bg-background px-3 py-2 font-mono text-sm text-foreground shadow-lg;
-  outline: 2px solid hsl(var(--brand));
+  @apply not-sr-only fixed top-4 left-4 z-[100] rounded-md border border-border bg-background px-3 py-2 font-mono text-sm text-foreground shadow-lg;
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
 }
 
 /* ── View Transitions (page-to-page fades) ─────────────────────────────── */
-/* Uses the native View Transitions API via next-view-transitions. The lib's
-   <Link> wraps navigation in document.startViewTransition(). We tune the
-   default cross-fade to a slightly longer ease and disable it entirely under
-   reduced motion (browsers still snapshot but animation is instant). */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 220ms;

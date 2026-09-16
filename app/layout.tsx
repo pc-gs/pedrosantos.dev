@@ -1,6 +1,11 @@
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  Geist,
+  Instrument_Serif,
+  JetBrains_Mono,
+  Newsreader,
+} from "next/font/google";
 import { ViewTransitions } from "next-view-transitions";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -18,8 +23,21 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin"],
 });
 
@@ -107,7 +125,7 @@ export default function RootLayout({
 
   return (
     <ViewTransitions>
-      <html lang="en" className="dark">
+      <html lang="en" suppressHydrationWarning>
         <head>
           <script
             type="application/ld+json"
@@ -123,7 +141,7 @@ export default function RootLayout({
           />
         </head>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background font-sans antialiased`}
+          className={`${geistSans.variable} ${newsreader.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} min-h-screen bg-background font-sans antialiased`}
         >
           <ThemeProvider>
 <SmoothScroll>

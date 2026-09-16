@@ -1,17 +1,24 @@
 "use client";
 
-import { useEffect } from "react";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 
-type ThemeProviderProps = {
-  children: React.ReactNode;
-};
-
-export function ThemeProvider({ children }: ThemeProviderProps) {
-  useEffect(() => {
-    const root = window.document.documentElement;
-    root.classList.remove("light");
-    root.classList.add("dark");
-  }, []);
-
-  return <>{children}</>;
+/**
+ * Real light/dark theming via next-themes.
+ * Class strategy on <html>; the toggle lives in the site header.
+ */
+export function ThemeProvider({
+  children,
+  ...props
+}: React.ComponentProps<typeof NextThemesProvider>) {
+  return (
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+      {...props}
+    >
+      {children}
+    </NextThemesProvider>
+  );
 }
