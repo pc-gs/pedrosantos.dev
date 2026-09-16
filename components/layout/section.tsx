@@ -7,6 +7,7 @@ export function SectionHeading({
   description,
   action,
   className,
+  as: Heading = "h2",
 }: {
   index?: string;
   eyebrow: string;
@@ -14,6 +15,8 @@ export function SectionHeading({
   description?: string;
   action?: React.ReactNode;
   className?: string;
+  /** Use `h1` when this heading is the page's top-level title. */
+  as?: "h1" | "h2";
 }) {
   return (
     <div className={cn("mb-10 md:mb-12", className)}>
@@ -24,9 +27,9 @@ export function SectionHeading({
         </div>
         {action && <div className="shrink-0">{action}</div>}
       </div>
-      <h2 className="mt-7 max-w-2xl font-display text-4xl leading-[1.08] tracking-tight text-foreground md:text-5xl">
+      <Heading className="mt-7 max-w-2xl font-display text-4xl leading-[1.08] tracking-tight text-foreground md:text-5xl">
         {title}
-      </h2>
+      </Heading>
       {description && (
         <p className="mt-4 max-w-2xl font-serif text-lg leading-relaxed text-muted-foreground">
           {description}

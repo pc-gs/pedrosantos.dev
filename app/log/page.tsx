@@ -35,6 +35,7 @@ export default function LogPage() {
         })}
       />
       <SectionHeading
+        as="h1"
         index="✦"
         eyebrow="The log"
         title="Learning in public, one entry at a time"
