@@ -50,10 +50,10 @@ export default function AboutPage() {
           <p className="label mb-3">
             {profile.role} · {profile.location}
           </p>
-          <h1 className="text-4xl font-semibold tracking-tight text-foreground md:text-5xl">
+          <h1 className="font-display text-[clamp(2.5rem,6vw,3.75rem)] leading-[1.05] tracking-tight text-foreground">
             {profile.name}
           </h1>
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+          <p className="mt-4 max-w-2xl font-serif text-xl leading-relaxed text-muted-foreground">
             {profile.tagline} I&apos;m open to full-time roles and contract
             work — and I keep a meaningful side project alive on purpose.
           </p>
@@ -67,7 +67,7 @@ export default function AboutPage() {
       {/* Narrative */}
       <section className="mt-16 max-w-2xl">
         <p className="label-brand mb-4">How I got here</p>
-        <div className="space-y-5 text-[1.0625rem] leading-relaxed text-muted-foreground">
+        <div className="space-y-5 font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
           <p>
             I started in support and moved into software because I wanted to fix
             the things people were complaining about, not just file tickets
@@ -136,18 +136,18 @@ export default function AboutPage() {
                 {job.current && <StatusDot label="current" pulse={false} />}
               </div>
               <div className="min-w-0">
-                <h3 className="text-lg font-semibold text-foreground">
+                <h3 className="font-display text-xl leading-snug text-foreground">
                   {job.role}
                   <span className="text-muted-foreground"> · {job.company}</span>
                 </h3>
                 {job.location && (
                   <p className="mt-0.5 label">{job.location}</p>
                 )}
-                <p className="mt-3 max-w-2xl text-[0.95rem] leading-relaxed text-muted-foreground">
+                <p className="mt-3 max-w-2xl font-serif text-[0.975rem] leading-relaxed text-muted-foreground">
                   {job.summary}
                 </p>
                 {job.story && (
-                  <p className="mt-3 max-w-2xl text-[0.95rem] leading-relaxed text-muted-foreground/80">
+                  <p className="mt-3 max-w-2xl font-serif text-[0.975rem] leading-relaxed text-muted-foreground/80">
                     {job.story}
                   </p>
                 )}
@@ -190,13 +190,15 @@ export default function AboutPage() {
             >
               <span className="label">{edu.period}</span>
               <div>
-                <p className="text-sm font-medium text-foreground">
+                <p className="font-display text-base leading-snug text-foreground">
                   {edu.title}{" "}
-                  <span className="font-normal text-muted-foreground">
+                  <span className="font-serif text-muted-foreground">
                     · {edu.org}
                   </span>
                 </p>
-                <p className="mt-0.5 text-sm text-muted-foreground">{edu.note}</p>
+                <p className="mt-0.5 font-serif text-[0.95rem] text-muted-foreground">
+                  {edu.note}
+                </p>
               </div>
             </li>
           ))}

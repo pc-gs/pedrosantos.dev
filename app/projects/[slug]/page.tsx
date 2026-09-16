@@ -51,7 +51,7 @@ function CaseStudySection({
         <span className="label-brand">{index}</span>
         <span className="label">{label}</span>
       </div>
-      <p className="measure-narrow text-lg font-semibold leading-snug tracking-tight text-foreground">
+      <p className="measure-narrow font-display text-[1.625rem] leading-snug tracking-tight text-foreground">
         {thesis}
       </p>
       <div
@@ -94,13 +94,13 @@ export default async function ProjectDetailPage({
           <span className="label-brand">{meta.label}</span>
           <span className="label">{project.period}</span>
         </div>
-        <h1 className="mt-4 text-4xl font-semibold tracking-tight text-foreground md:text-5xl">
+        <h1 className="mt-4 font-display text-[clamp(2.25rem,5.5vw,3.5rem)] leading-[1.06] tracking-tight text-foreground">
           {project.title}
         </h1>
-        <p className="mt-3 text-lg leading-snug text-muted-foreground">
+        <p className="mt-3 font-serif text-xl leading-snug text-muted-foreground">
           {project.tagline}
         </p>
-        <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
+        <p className="mt-5 max-w-xl font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
           {project.summary}
         </p>
       </header>
@@ -141,7 +141,7 @@ export default async function ProjectDetailPage({
             {project.highlights.map((h) => (
               <li
                 key={h}
-                className="flex items-start gap-2.5 text-sm leading-relaxed text-foreground"
+                className="flex items-start gap-2.5 font-serif text-[0.975rem] leading-relaxed text-foreground"
               >
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
                 {h}
@@ -156,7 +156,7 @@ export default async function ProjectDetailPage({
         <div className="flex items-center gap-2 border-b border-border px-5 py-2.5">
           <span className="label-brand">tl;dr</span>
         </div>
-        <p className="px-5 py-4 text-base leading-relaxed text-foreground md:text-[1.0625rem]">
+        <p className="px-5 py-4 font-serif text-[1.0625rem] leading-relaxed text-foreground">
           {project.caseStudy.tldr}
         </p>
       </section>
@@ -192,7 +192,7 @@ export default async function ProjectDetailPage({
               {project.caseStudy.learnings.map((l) => (
                 <li
                   key={l}
-                  className="flex items-start gap-3 text-[1.0625rem] leading-relaxed text-muted-foreground"
+                  className="flex items-start gap-3 font-serif text-[1.0625rem] leading-relaxed text-muted-foreground"
                 >
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
                   <span>{l}</span>
@@ -226,7 +226,7 @@ export default async function ProjectDetailPage({
               <ArrowLeft className="h-3.5 w-3.5" />
               previous
             </span>
-            <span className="mt-2 block font-medium text-foreground transition-colors group-hover:text-brand">
+            <span className="mt-2 block font-display text-lg leading-snug text-foreground transition-colors group-hover:text-brand">
               {prev.title}
             </span>
           </Link>
@@ -242,7 +242,7 @@ export default async function ProjectDetailPage({
               next
               <ArrowRight className="h-3.5 w-3.5" />
             </span>
-            <span className="mt-2 block font-medium text-foreground transition-colors group-hover:text-brand">
+            <span className="mt-2 block font-display text-lg leading-snug text-foreground transition-colors group-hover:text-brand">
               {next.title}
             </span>
           </Link>
@@ -253,7 +253,7 @@ export default async function ProjectDetailPage({
 
       {/* Contact nudge */}
       <div className="mt-16 rounded-lg border border-border bg-card p-6 md:p-8">
-        <p className="text-base text-foreground">
+        <p className="font-serif text-[1.0625rem] leading-relaxed text-foreground">
           Want to talk about building something like this?{" "}
           <Link
             href="/contact"

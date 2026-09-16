@@ -17,29 +17,37 @@ export const nowItems: NowItem[] = [
   {
     id: "day-job",
     kind: "working",
-    text: "Shipping features on a React + GraphQL codebase at Aubay Portugal — focused on frontend DX and component architecture.",
-    date: "2025-02",
+    text: "Shipping features on a React + GraphQL codebase at Aubay Portugal — focused on frontend architecture, DX and testing practices.",
+    date: "2026-09",
   },
   {
     id: "melro",
     kind: "building",
-    text: "Iterating on Melro.io — a side experiment building software for local businesses. Slow, deliberate, founder-mode.",
+    text: "Iterating on Melro.io — a side company building customized software for local businesses. Slow, deliberate, founder-mode.",
     href: "https://melro.io",
-    date: "2025-02",
+    date: "2026-09",
   },
   {
-    id: "react-native",
+    id: "ai-workflow",
+    kind: "exploring",
+    text: "Reworking my daily workflow around AI drafting and human judgement — this site's log is the lab notebook for it.",
+    href: "/log",
+    date: "2026-09",
+  },
+  {
+    id: "cross-platform",
     kind: "learning",
-    text: "Exploring Tauri for desktop and going deeper on React Native — web skills translating to every surface.",
-    date: "2025-01",
+    text: "Going deeper on Tauri for desktop and React Native for mobile. The web skills transfer; the platform edges are still the tax.",
+    href: "/log/tauri-webview-not-browser",
+    date: "2026-08",
   },
   {
     id: "writing",
     kind: "writing",
-    text: "Writing about rebuilding this site and the trade-offs of a builder's home base over a classic portfolio.",
-    href: "/blog",
-    date: "2025-02",
+    text: "Writing short log entries instead of waiting for the perfect essay — learning in public, faster and more honestly.",
+    href: "/log",
+    date: "2026-09",
   },
 ];
 
-export const nowUpdated = "2025-02-10";
+export const nowUpdated = "2026-09-16";

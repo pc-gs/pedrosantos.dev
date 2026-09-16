@@ -49,7 +49,7 @@ export default function ContactPage() {
               {profile.availability.types.map((type) => (
                 <li
                   key={type}
-                  className="flex items-center gap-2.5 text-sm text-foreground"
+                  className="flex items-center gap-2.5 font-serif text-[1.0625rem] text-foreground"
                 >
                   <span className="h-1.5 w-1.5 rounded-full bg-brand" />
                   {type === "full-time"
@@ -58,7 +58,7 @@ export default function ContactPage() {
                 </li>
               ))}
             </ul>
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-4 font-serif text-[0.975rem] leading-relaxed text-muted-foreground">
               {profile.availability.note}
             </p>
           </section>
@@ -90,7 +90,7 @@ export default function ContactPage() {
 
           <section className="mt-6 rounded-lg border border-border bg-card p-6 md:p-7">
             <p className="label mb-2">Melro.io</p>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="font-serif text-[0.975rem] leading-relaxed text-muted-foreground">
               For business inquiries about the side company:
             </p>
             <a

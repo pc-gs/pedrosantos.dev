@@ -16,26 +16,26 @@ export default function ProjectsPage() {
 
   return (
     <main className="container py-16 md:py-24">
-      <header className="mb-12 border-b border-border pb-6">
-        <p className="label mb-3">Work</p>
-        <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-foreground md:text-5xl">
+      <header className="fade-up border-b border-border pb-8">
+        <p className="label mb-4">Work</p>
+        <h1 className="max-w-3xl font-display text-[clamp(2.5rem,6vw,4rem)] leading-[1.05] tracking-tight text-foreground">
           Things I&apos;ve built, with the story attached.
         </h1>
-        <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
+        <p className="mt-5 max-w-xl font-serif text-lg leading-relaxed text-muted-foreground">
           Not a grid of gradient cards. Each project below has a case study —
           what problem existed, what I actually built, and what I took away from
           it.
         </p>
       </header>
 
-      <ul className="border-y border-border divide-y divide-border">
+      <ul className="divide-y divide-border border-b border-border">
         {projects.map((project) => {
           const meta = projectStatusMeta(project.status);
           return (
             <li key={project.slug}>
               <Link
                 href={`/projects/${project.slug}`}
-                className="group grid grid-cols-1 gap-4 py-8 md:grid-cols-[220px_1fr_auto] md:items-start md:gap-10"
+                className="group grid grid-cols-1 gap-4 py-8 md:grid-cols-[200px_1fr_auto] md:items-start md:gap-10"
               >
                 <div className="flex flex-col gap-1.5">
                   <span className="label">{project.period}</span>
@@ -44,13 +44,13 @@ export default function ProjectsPage() {
                 </div>
 
                 <div className="min-w-0">
-                  <h2 className="text-xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-brand">
+                  <h2 className="font-display text-2xl leading-snug tracking-tight text-foreground transition-colors group-hover:text-brand">
                     {project.title}
                   </h2>
-                  <p className="mt-1 text-sm text-muted-foreground">
+                  <p className="mt-1 font-serif text-[1.0625rem] text-muted-foreground">
                     {project.tagline}
                   </p>
-                  <p className="mt-3 max-w-2xl text-[0.95rem] leading-relaxed text-muted-foreground">
+                  <p className="mt-3 max-w-2xl font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
                     {project.summary}
                   </p>
                   <p className="mt-3 font-mono text-[12px] text-muted-foreground/80">
