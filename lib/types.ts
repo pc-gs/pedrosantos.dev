@@ -48,7 +48,42 @@ export type BlogPost = {
   draft?: boolean;
   body: string;
   content: string;
+  /** Co-authorship disclosure — the "made with AI" process box */
+  coWritten?: boolean;
+  process?: {
+    notes: string;
+    prompts: string[];
+    humanEdit: string;
+  };
 };
+
+export type LogEntry = {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  tags: string[];
+  /** True when the entry was drafted with AI help and human-edited */
+  aiAssisted: boolean;
+  /** Model that assisted, when aiAssisted (e.g. "GLM", "Claude") */
+  model?: string;
+  /** The actual prompt that seeded the insight — shown in a disclosure */
+  prompt?: string;
+  draft?: boolean;
+  readingTime: string;
+  body: string;
+  content: string;
+};
+
+/**
+ * The subset of a log entry needed to render it in a feed or list
+ * (no markdown body / reading time). Lets client components accept
+ * plain projections of `LogEntry` without faking the full shape.
+ */
+export type LogEntryPreview = Pick<
+  LogEntry,
+  "slug" | "title" | "description" | "date" | "tags" | "aiAssisted" | "model" | "prompt"
+>;
 
 export type NowKind =
   | "building"
@@ -64,6 +99,20 @@ export type NowItem = {
   text: string;
   href?: string;
   date: string;
+};
+
+export type UseItem = {
+  name: string;
+  /** One-line note on what it's for — keep it specific. */
+  detail?: string;
+  href?: string;
+};
+
+export type UsesGroup = {
+  id: string;
+  title: string;
+  note?: string;
+  items: UseItem[];
 };
 
 export type ExperienceItem = {
