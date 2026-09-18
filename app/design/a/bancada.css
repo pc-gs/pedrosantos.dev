@@ -1,0 +1,66 @@
+/* ── Variant A · "Bancada" ────────────────────────────────────────────────
+   Bone canvas, ink, electric orange. Graphic and work-first: visible rules,
+   hard shadows, oversized type. Exploration code — scoped on purpose. */
+
+.bancada {
+  --bk-bg: #f4f1e9;
+  --bk-panel: #fbf9f3;
+  --bk-ink: #14161a;
+  --bk-muted: #625c50;
+  --bk-line: #d8d2c2;
+  --bk-accent: #ff4d00;
+  --bk-blue: #2547ff;
+  background-color: var(--bk-bg);
+  color: var(--bk-ink);
+}
+
+.bancada-display {
+  font-family: var(--font-bricolage), var(--font-geist-sans), sans-serif;
+  font-weight: 700;
+}
+
+.bancada-rule {
+  border-color: var(--bk-line);
+}
+
+.bancada-bg-ink {
+  background-color: var(--bk-ink);
+  color: var(--bk-bg);
+}
+
+.bk-rule-invert {
+  border-color: color-mix(in srgb, var(--bk-bg) 25%, transparent);
+}
+
+.bk-shadow {
+  box-shadow: 4px 4px 0 0 var(--bk-ink);
+}
+
+.bk-shadow-accent {
+  box-shadow: 4px 4px 0 0 var(--bk-accent);
+}
+
+.bk-ticker {
+  display: flex;
+  width: max-content;
+  animation: bk-marquee 46s linear infinite;
+}
+
+@keyframes bk-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.bk-ticker:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bk-ticker {
+    animation: none;
+  }
+}
