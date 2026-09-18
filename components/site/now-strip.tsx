@@ -7,7 +7,7 @@ const MONTH: Intl.DateTimeFormatOptions = { month: "short", year: "numeric" };
 
 function NowLink({ href }: { href: string }) {
   const className =
-    "mt-1.5 inline-flex items-center gap-1 font-mono text-[9.5px] uppercase tracking-[0.16em] text-brand";
+    "mt-1.5 inline-flex items-center gap-1 font-mono text-[9.5px] uppercase tracking-[0.16em] text-brand-text";
   if (href.startsWith("/")) {
     return (
       <Link href={href} className={className}>
@@ -40,7 +40,7 @@ export function NowStrip() {
         <div className="mt-6 grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
           {nowItems.slice(0, 4).map((item) => (
             <div key={item.id} className="border-t border-border pt-4">
-              <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-brand">
+              <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-brand-text">
                 {nowKindLabel[item.kind]}
               </p>
               <p className="mt-1.5 text-[0.875rem] leading-snug">

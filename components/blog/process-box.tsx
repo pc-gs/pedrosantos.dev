@@ -76,7 +76,7 @@ function Step({
   return (
     <li className="grid grid-cols-1 gap-y-2 border-b border-border py-5 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-x-6">
       <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-        <span className="text-brand tabnum">{index}</span>{" "}
+        <span className="text-brand-text tabnum">{index}</span>{" "}
         <span className="mt-0.5 block">{label}</span>
       </p>
       <div className="min-w-0">{children}</div>

@@ -18,7 +18,7 @@ export function LogRow({ entry }: { entry: LogEntry }) {
         >
           {formatDate(entry.date, DATE)}
         </time>
-        <h3 className="font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand">
+        <h3 className="font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand-text">
           {entry.title}
         </h3>
         <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">

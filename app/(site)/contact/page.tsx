@@ -32,7 +32,7 @@ export default function ContactPage() {
       <Wrap className="pb-10 pt-14 md:pt-20">
         <Eyebrow>Contact</Eyebrow>
         <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.5rem,6.5vw,4.5rem)] leading-[0.95] tracking-[-0.025em]">
-          Let&apos;s talk<span className="text-brand">.</span>
+          Let&apos;s talk<span className="text-brand-text">.</span>
         </h1>
         <p className="mt-6 max-w-[58ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
           I read everything myself. Tell me about the role, the project, or the
@@ -58,7 +58,7 @@ export default function ContactPage() {
           <aside>
             {profile.availability.open && (
               <div className="border border-border bg-card p-5">
-                <p className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-brand">
+                <p className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-brand-text">
                   Open to work
                 </p>
                 <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted-foreground">

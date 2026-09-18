@@ -8,7 +8,7 @@ const DATE: Intl.DateTimeFormatOptions = { month: "short", day: "numeric" };
 const STATE_CLASS: Record<Study["state"], string> = {
   applying: "bg-brand text-brand-foreground border-brand",
   learning: "bg-foreground text-background border-foreground",
-  exploring: "bg-transparent text-brand border-brand",
+  exploring: "bg-transparent text-brand-text border-brand",
 };
 
 /** Study track: state, title, why, and the notes where the work happened. */
@@ -52,7 +52,7 @@ export function StudyCard({
               href={`/log/${entry.slug}`}
               className="group flex items-baseline justify-between gap-4"
             >
-              <span className="text-[0.875rem] leading-snug transition-colors group-hover:text-brand">
+              <span className="text-[0.875rem] leading-snug transition-colors group-hover:text-brand-text">
                 {entry.title}
               </span>
               <span className="shrink-0 font-mono text-[9.5px] uppercase tracking-[0.14em] text-muted-foreground">

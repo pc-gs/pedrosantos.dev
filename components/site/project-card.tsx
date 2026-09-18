@@ -21,11 +21,11 @@ export function ProjectCard({ project }: { project: Project }) {
       <div className="flex flex-1 flex-col p-4">
         <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[9.5px] uppercase tracking-[0.18em] text-muted-foreground">
           <span>{project.period}</span>
-          <span className="text-brand">
+          <span className="text-brand-text">
             {projectStatusMeta(project.status).label}
           </span>
         </p>
-        <h3 className="mt-2 font-display text-[1.25rem] leading-tight tracking-[-0.01em] transition-colors group-hover:text-brand">
+        <h3 className="mt-2 font-display text-[1.25rem] leading-tight tracking-[-0.01em] transition-colors group-hover:text-brand-text">
           {project.title}
         </h3>
         <p className="mt-1.5 text-[0.875rem] leading-relaxed text-muted-foreground">

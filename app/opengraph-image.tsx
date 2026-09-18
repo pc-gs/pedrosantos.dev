@@ -10,8 +10,8 @@ export default function OpengraphImage() {
     (
       <OgCard
         eyebrow="pedrosantos.dev"
-        title="Building for the web. Logging what I learn."
-        subtitle="Software engineer — React, Next.js, Tauri. Co-written with AI where marked ✦"
+        title="I build software for the web"
+        subtitle="Software engineer, Belmonte, Portugal. React and Next.js by day, Melro.io on the side."
       />
     ),
     OG_SIZE,

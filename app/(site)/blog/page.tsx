@@ -86,7 +86,7 @@ export default function BlogPage() {
             <p className="mt-3">
               <a
                 href="/rss.xml"
-                className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-brand transition-colors hover:text-foreground"
+                className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-brand-text transition-colors hover:text-foreground"
               >
                 writing RSS ↗
               </a>
@@ -115,7 +115,7 @@ export default function BlogPage() {
                     <h2 className="font-display text-[1.5rem] leading-snug tracking-[-0.01em]">
                       <Link
                         href={`/blog/${post.slug}`}
-                        className="transition-colors hover:text-brand"
+                        className="transition-colors hover:text-brand-text"
                       >
                         {post.title}
                       </Link>

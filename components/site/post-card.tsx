@@ -11,10 +11,10 @@ export function PostCard({ post, index }: { post: BlogPost; index: number }) {
       href={`/blog/${post.slug}`}
       className="group border border-border bg-card p-6 transition-colors hover:border-foreground"
     >
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand">
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-text">
         Essay {String(index + 1).padStart(2, "0")}
       </p>
-      <h3 className="mt-3 font-display text-[1.5rem] leading-tight tracking-[-0.01em] transition-colors group-hover:text-brand">
+      <h3 className="mt-3 font-display text-[1.5rem] leading-tight tracking-[-0.01em] transition-colors group-hover:text-brand-text">
         {post.title}
       </h3>
       <p className="mt-2 text-[0.925rem] leading-relaxed text-muted-foreground">

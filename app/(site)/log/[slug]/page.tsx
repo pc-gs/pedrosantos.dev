@@ -161,7 +161,7 @@ export default async function LogEntryPage({
               <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
                 ← older
               </span>
-              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand">
+              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand-text">
                 {older.title}
               </span>
             </Link>
@@ -176,7 +176,7 @@ export default async function LogEntryPage({
               <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
                 newer →
               </span>
-              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand">
+              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand-text">
                 {newer.title}
               </span>
             </Link>
@@ -188,7 +188,7 @@ export default async function LogEntryPage({
         <p className="mb-4">
           <Link
             href="/log"
-            className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-brand transition-colors hover:text-foreground"
+            className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-brand-text transition-colors hover:text-foreground"
           >
             ← the whole log
           </Link>

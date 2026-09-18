@@ -88,7 +88,7 @@ export function SiteHeader({ paletteItems }: { paletteItems: PaletteItem[] }) {
             <ThemeToggle />
             <Link
               href="/contact"
-              className="border-b border-border pb-[3px] font-mono text-[10.5px] uppercase tracking-[0.18em] text-foreground transition-colors hover:border-brand hover:text-brand"
+              className="border-b border-border pb-[3px] font-mono text-[10.5px] uppercase tracking-[0.18em] text-foreground transition-colors hover:border-brand hover:text-brand-text"
             >
               say hi
             </Link>

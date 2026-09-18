@@ -35,7 +35,7 @@ export function NowList({ items }: { items: NowItem[] }) {
                 </span>
                 {!item.href.startsWith("/") && (
                   <ArrowUpRight
-                    className="ml-1 inline h-3.5 w-3.5 text-muted-foreground transition-colors group-hover:text-brand"
+                    className="ml-1 inline h-3.5 w-3.5 text-muted-foreground transition-colors group-hover:text-brand-text"
                     aria-hidden
                   />
                 )}

@@ -15,18 +15,18 @@ export default function NotFound() {
           grows as I learn.
         </p>
         <div className="mt-10 flex flex-wrap items-baseline gap-x-8 gap-y-3 font-mono text-[10.5px] uppercase tracking-[0.16em]">
-          <Link href="/" className="text-brand transition-colors hover:text-foreground">
+          <Link href="/" className="text-brand-text transition-colors hover:text-foreground">
             ← home
           </Link>
           <Link
             href="/work"
-            className="text-muted-foreground transition-colors hover:text-brand"
+            className="text-muted-foreground transition-colors hover:text-brand-text"
           >
             see the work
           </Link>
           <Link
             href="/log"
-            className="text-muted-foreground transition-colors hover:text-brand"
+            className="text-muted-foreground transition-colors hover:text-brand-text"
           >
             read the log
           </Link>

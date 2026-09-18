@@ -21,6 +21,8 @@
   --brand: #ff4d00;
   --brand-foreground: #14161a;
   --brand-muted: #b83a05;
+  /* Orange for small text: brand itself fails AA on bone at small sizes */
+  --brand-text: #b83a05;
 
   --ai: hsl(262 60% 52%);
   --ai-foreground: #ffffff;
@@ -42,6 +44,7 @@
   --brand: #ff6a2b;
   --brand-foreground: #1a1208;
   --brand-muted: #ff8f5c;
+  --brand-text: #ff8f5c;
 
   --ai: hsl(260 80% 74%);
   --ai-foreground: hsl(260 60% 12%);
@@ -60,6 +63,7 @@
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
   --color-brand-muted: var(--brand-muted);
+  --color-brand-text: var(--brand-text);
   --color-ai: var(--ai);
   --color-ai-foreground: var(--ai-foreground);
 

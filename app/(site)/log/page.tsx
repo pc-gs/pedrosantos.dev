@@ -77,7 +77,7 @@ export default function LogPage() {
             <p className="mt-3">
               <a
                 href="/log/feed.xml"
-                className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-brand transition-colors hover:text-foreground"
+                className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-brand-text transition-colors hover:text-foreground"
               >
                 log RSS ↗
               </a>

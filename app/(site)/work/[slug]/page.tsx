@@ -54,7 +54,7 @@ function Movement({
   return (
     <section className="border-t border-border py-10 md:py-12">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-[4rem_minmax(0,1fr)] md:gap-6">
-        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand">
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand-text">
           {index}
         </p>
         <div className="min-w-0">
@@ -117,7 +117,7 @@ export default async function ProjectDetailPage({
       <Wrap className="mt-12">
         <div className="grid grid-cols-1 gap-8 border-y border-border py-8 md:grid-cols-3 md:gap-10">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-brand">
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-brand-text">
               TL;DR
             </p>
             <p className="mt-3 text-[1rem] leading-relaxed">
@@ -174,7 +174,7 @@ export default async function ProjectDetailPage({
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-[10px] uppercase tracking-[0.18em] text-brand transition-colors hover:text-foreground"
+                    className="font-mono text-[10px] uppercase tracking-[0.18em] text-brand-text transition-colors hover:text-foreground"
                   >
                     {link.label} ↗
                   </a>
@@ -207,7 +207,7 @@ export default async function ProjectDetailPage({
           project.caseStudy.learnings.length > 0 && (
             <section className="border-t border-border py-10 md:py-12">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-[4rem_minmax(0,1fr)] md:gap-6">
-                <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand">
+                <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand-text">
                   04
                 </p>
                 <div className="min-w-0">
@@ -242,7 +242,7 @@ export default async function ProjectDetailPage({
               <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
                 ← previous
               </span>
-              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand">
+              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand-text">
                 {prev.title}
               </span>
             </Link>
@@ -257,7 +257,7 @@ export default async function ProjectDetailPage({
               <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
                 next →
               </span>
-              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand">
+              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand-text">
                 {next.title}
               </span>
             </Link>

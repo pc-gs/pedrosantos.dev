@@ -24,7 +24,7 @@ export default async function Image({
         eyebrow="Writing"
         title={post?.title ?? "Writing — Pedro Santos"}
         subtitle={post?.description}
-        mark={post?.coWritten ? "✦ co-written with AI · human-edited" : undefined}
+        mark={post?.coWritten ? "co-written · human-edited" : undefined}
       />
     ),
     OG_SIZE,

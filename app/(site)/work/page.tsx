@@ -57,13 +57,13 @@ export default function WorkPage() {
               <div className="min-w-0">
                 <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                   <span>{project.period}</span>
-                  <span className="text-brand">{meta.label}</span>
+                  <span className="text-brand-text">{meta.label}</span>
                   <span>· {project.role}</span>
                 </p>
                 <h2 className="mt-2 font-display text-[1.75rem] leading-tight tracking-[-0.015em]">
                   <Link
                     href={`/work/${project.slug}`}
-                    className="transition-colors hover:text-brand"
+                    className="transition-colors hover:text-brand-text"
                   >
                     {project.title}
                   </Link>
@@ -76,7 +76,7 @@ export default function WorkPage() {
                 </p>
                 <Link
                   href={`/work/${project.slug}`}
-                  className="group mt-4 inline-flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:text-brand"
+                  className="group mt-4 inline-flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:text-brand-text"
                 >
                   Read the case study
                   <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -91,7 +91,7 @@ export default function WorkPage() {
             href="https://github.com/pc-gs"
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors hover:text-brand"
+            className="transition-colors hover:text-brand-text"
           >
             GitHub ↗
           </a>

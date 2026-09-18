@@ -26,7 +26,7 @@ export default async function Image({
         subtitle={entry?.description}
         mark={
           entry?.aiAssisted
-            ? `✦ drafted with ${entry.model ?? "AI"} · edited by Pedro`
+            ? `drafted with ${entry.model ?? "AI"} · edited by Pedro`
             : undefined
         }
       />

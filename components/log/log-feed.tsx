@@ -93,7 +93,7 @@ function FilterMark({
         active
           ? tone === "ai"
             ? "border-ai text-ai"
-            : "border-brand text-brand"
+            : "border-brand text-brand-text"
           : "border-border text-muted-foreground hover:border-foreground hover:text-foreground",
       )}
     >

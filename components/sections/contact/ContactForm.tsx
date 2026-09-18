@@ -50,7 +50,7 @@ export function ContactForm() {
   if (done) {
     return (
       <div className="border-t border-border pt-8">
-        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand">
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand-text">
           sent
         </p>
         <p className="mt-4 max-w-[52ch] text-[1.0625rem] leading-[1.72] text-muted-foreground">
@@ -60,7 +60,7 @@ export function ContactForm() {
         <button
           type="button"
           onClick={() => setDone(false)}
-          className="mt-5 border-b border-brand/30 pb-[3px] font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand transition-colors hover:border-brand"
+          className="mt-5 border-b border-brand/30 pb-[3px] font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand-text transition-colors hover:border-brand"
         >
           write another →
         </button>
@@ -104,11 +104,19 @@ export function ContactForm() {
           id="message"
           rows={6}
           placeholder="Tell me about the role, the project, or what you are building…"
+          aria-invalid={form.formState.errors.message ? true : undefined}
+          aria-describedby={
+            form.formState.errors.message ? "message-error" : undefined
+          }
           {...form.register("message")}
-          className=" mt-2 w-full resize-none border-b border-input bg-transparent py-2 text-[1.0625rem] text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-brand"
+          className="mt-2 w-full resize-none border-b border-input bg-transparent py-2 text-[1.0625rem] text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-brand"
         />
         {form.formState.errors.message && (
-          <p className="mt-2 font-mono text-[11px] text-destructive">
+          <p
+            id="message-error"
+            role="alert"
+            className="mt-2 font-mono text-[11px] text-destructive"
+          >
             {form.formState.errors.message.message}
           </p>
         )}
@@ -136,28 +144,42 @@ function Field({
   label,
   error,
   type = "text",
+  name,
   ...props
 }: {
   label: string;
   error?: string;
   type?: string;
+  name?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>) {
+  const id = `contact-${name ?? label.toLowerCase()}`;
+  const errorId = `${id}-error`;
+
   return (
     <div>
       <label
-        htmlFor={label}
+        htmlFor={id}
         className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground"
       >
         {label}
       </label>
       <input
-        id={label}
+        id={id}
+        name={name}
         type={type}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? errorId : undefined}
         className="mt-2 w-full border-b border-input bg-transparent py-2 text-[1.125rem] text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-brand"
         {...props}
       />
       {error && (
-        <p className="mt-2 font-mono text-[11px] text-destructive">{error}</p>
+        <p
+          id={errorId}
+          role="alert"
+          className="mt-2 font-mono text-[11px] text-destructive"
+        >
+          {error}
+        </p>
       )}
     </div>
   );

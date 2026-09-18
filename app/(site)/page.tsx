@@ -100,7 +100,7 @@ export default function HomePage() {
             action={
               <Link
                 href="/log"
-                className="inline-flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:text-brand"
+                className="inline-flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:text-brand-text"
               >
                 all {allLog.length} entries
                 <ArrowUpRight className="h-3.5 w-3.5" />
@@ -141,7 +141,7 @@ export default function HomePage() {
             action={
               <Link
                 href="/work"
-                className="inline-flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:text-brand"
+                className="inline-flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:text-brand-text"
               >
                 all work
                 <ArrowUpRight className="h-3.5 w-3.5" />

@@ -46,7 +46,7 @@ function Numbered({
   return (
     <section className="border-t border-border py-10 md:py-12">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-[4rem_minmax(0,1fr)] md:gap-6">
-        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand">
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand-text">
           {index}
         </p>
         <div className="min-w-0">
@@ -164,7 +164,7 @@ export default function AboutPage() {
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                   {job.period}
                   {job.current && (
-                    <span className="ml-2 text-brand">current</span>
+                    <span className="ml-2 text-brand-text">current</span>
                   )}
                 </p>
                 <p className="mt-2 font-display text-[1.3rem] leading-snug tracking-[-0.01em]">
@@ -195,7 +195,7 @@ export default function AboutPage() {
                           ? "noopener noreferrer"
                           : undefined
                       }
-                      className="text-brand transition-colors hover:text-foreground"
+                      className="text-brand-text transition-colors hover:text-foreground"
                     >
                       {job.link.label} ↗
                     </a>
@@ -236,7 +236,7 @@ export default function AboutPage() {
           </LinkButton>
           <Link
             href="/work"
-            className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-brand"
+            className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-brand-text"
           >
             see what I&apos;ve built →
           </Link>

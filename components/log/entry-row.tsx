@@ -23,7 +23,7 @@ export function EntryRow({ entry }: { entry: LogEntryPreview }) {
           <h2 className="font-display text-[1.5rem] leading-snug tracking-[-0.01em]">
             <Link
               href={`/log/${entry.slug}`}
-              className="transition-colors hover:text-brand"
+              className="transition-colors hover:text-brand-text"
             >
               {entry.title}
             </Link>

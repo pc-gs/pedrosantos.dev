@@ -36,7 +36,7 @@ export function SiteFooter() {
       <Wrap className="py-16 md:py-20">
         <Eyebrow>Contact</Eyebrow>
         <h2 className="mt-3 font-display text-[clamp(2.25rem,6vw,4rem)] leading-[0.95] tracking-[-0.02em]">
-          Let&apos;s talk<span className="text-brand">.</span>
+          Let&apos;s talk<span className="text-brand-text">.</span>
         </h2>
         <p className="mt-4 max-w-[52ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
           {profile.availability.note}
@@ -62,7 +62,7 @@ export function SiteFooter() {
             <Link
               key={item.href}
               href={item.href}
-              className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-brand"
+              className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-brand-text"
             >
               {item.name}
             </Link>
@@ -79,7 +79,7 @@ export function SiteFooter() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="hover:text-brand"
+                  className="hover:text-brand-text"
                 >
                   {item.name}
                 </Link>
@@ -89,7 +89,7 @@ export function SiteFooter() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-brand"
+                  className="hover:text-brand-text"
                 >
                   {item.name}
                 </a>

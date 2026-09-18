@@ -172,7 +172,7 @@ export default async function BlogPostPage({
               <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
                 ← previous
               </span>
-              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand">
+              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand-text">
                 {prev.title}
               </span>
             </Link>
@@ -187,7 +187,7 @@ export default async function BlogPostPage({
               <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
                 next →
               </span>
-              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand">
+              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand-text">
                 {next.title}
               </span>
             </Link>
@@ -199,7 +199,7 @@ export default async function BlogPostPage({
         <p className="mb-4">
           <Link
             href="/blog"
-            className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-brand transition-colors hover:text-foreground"
+            className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-brand-text transition-colors hover:text-foreground"
           >
             ← all essays
           </Link>
