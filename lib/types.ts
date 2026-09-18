@@ -159,3 +159,30 @@ export type Profile = {
   availability: Availability;
   founded: { name: string; url: string; role: string; blurb: string };
 };
+
+/** Where a study track is at — no fake progress bars, just the stage. */
+export type StudyState = "exploring" | "learning" | "applying";
+
+export type StudyResource = {
+  label: string;
+  href?: string;
+};
+
+/**
+ * A study track: something I'm actively learning, with the log entries
+ * that show the work. Shown on the home page and on /studies.
+ */
+export type Study = {
+  id: string;
+  title: string;
+  /** Why this matters to me — first person, specific. */
+  why: string;
+  state: StudyState;
+  /** When the track entered the bench, "YYYY-MM". */
+  since: string;
+  /** Last time the track moved, ISO date. */
+  updatedAt: string;
+  /** Log entry slugs (content/log) that belong to this track. */
+  logSlugs: string[];
+  resources?: StudyResource[];
+};
