@@ -5,7 +5,6 @@ import { nowItems, nowUpdated } from "@/content/now";
 import { getAllLogEntries } from "@/lib/log";
 import { getAllPosts } from "@/lib/blog";
 import { formatDate } from "@/lib/date";
-import { AskPanel } from "@/components/layout/ask-panel";
 import { AiBadge } from "@/components/log/ai-badge";
 import { NowList } from "@/components/now/now-list";
 import {
@@ -33,20 +32,14 @@ export default function HomePage() {
         marginWidth="wide"
         folio={<Folio>00</Folio>}
         margin={
-          <>
-            <div>
-              {profile.availability.open && (
-                <Stamp tone="brand">open to work</Stamp>
-              )}
-              <p className="mt-3 font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
-                {profile.availability.note}
-              </p>
-            </div>
-
-            <div className="lg:sticky lg:top-20">
-              <AskPanel />
-            </div>
-          </>
+          <div>
+            {profile.availability.open && (
+              <Stamp tone="brand">open to work</Stamp>
+            )}
+            <p className="mt-3 font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
+              {profile.availability.note}
+            </p>
+          </div>
         }
       >
         <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">

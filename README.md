@@ -4,12 +4,10 @@ Personal site of **Pedro Santos** — software engineer (React / Next.js) and fo
 [Melro.io](https://melro.io). Version **2027.2 — “Tinta & papel”**.
 
 An editorial, light-first site: warm paper, ink text, a fountain-pen-blue accent.
-Two things carry it:
+One thing carries it:
 
 1. **The log** — a public learning log co-written with AI, where marked entries (✦)
    disclose the actual prompt that started them.
-2. **“Ask my site”** — a streaming chat over the site's own content, with a
-   scripted offline fallback so the site never breaks.
 
 The contrast with previous iterations is deliberate: not dark-minimal (v1), not
 flashy (v3), not sidebar/coral (redesign), not pure editorial (v2).
@@ -27,7 +25,7 @@ the AI draft → my edit.
 
 | Route | What it is |
 | --- | --- |
-| `/` | Hero, “ask my site” panel, Now strip, the log (signature section), featured work, latest writing, CTA |
+| `/` | Hero, Now strip, the log (signature section), featured work, latest writing, CTA |
 | `/log`, `/log/[slug]` | Learning log — filter by tag or by co-authorship; per-entry prompt disclosure |
 | `/blog`, `/blog/[slug]` | Essays, each with the co-authorship process box |
 | `/projects`, `/projects/[slug]` | Case studies — problem → approach → outcome → learnings |
@@ -53,28 +51,12 @@ the AI draft → my edit.
   sizes, `.measure` / `.measure-narrow` reading widths, `.label` / `.label-brand`
   for mono metadata.
 - **Motion** — cross-page view transitions, a single `.fade-up` entrance, hover colour
-  transitions. `prefers-reduced-motion` disables Lenis smooth scroll, ping/pulse,
-  the typewriter reveal and the palette animation.
+  transitions. `prefers-reduced-motion` disables Lenis smooth scroll, ping/pulse
+  and the palette animation.
 - **Theme** — real light/dark via `next-themes`: system preference first, manual
   toggle in the header. No forced-dark class.
 
-## The AI chat (`POST /api/ask`)
-
-Provider-agnostic: any OpenAI-compatible endpoint works (Groq by default).
-
-- The system prompt is assembled **server-side** from `content/profile.ts`,
-  `content/now.ts`, `content/projects.ts` and the latest log entries — so the model
-  can only talk about content that is actually on the site.
-- The response is streamed back as a plain text stream and typed into the panel.
-- Guards: 10 requests/minute per IP, 500-character input cap, 400 max output tokens,
-  6 kB of context.
-- **Fallback:** with no `AI_API_KEY`, the route answers `{ "mode": "offline" }` and the
-  client switches to a scripted Q&A generator built from the same content. The site
-  never breaks — it just stops being a live model.
-- The panel labels which mode is active (`ai · live` / `scripted · offline`) and always
-  shows the disclosure: answers come from Pedro's own content, and AI can be wrong.
-
-### Environment
+## Environment
 
 Copy `.env.example` to `.env.local` and fill in what you need:
 
@@ -83,15 +65,11 @@ RESEND_API_KEY=...            # contact form
 RESEND_FROM_EMAIL=...         # verified Resend domain
 RESEND_TO_EMAIL=...           # where submissions land
 
-AI_API_KEY=                   # optional — omit for offline/scripted mode
-AI_BASE_URL=https://api.groq.com/openai/v1
-AI_MODEL=llama-3.3-70b-versatile
-
 NEXT_PUBLIC_SITE_URL=https://pedrosantos.dev
 ```
 
-Nothing here is required to build: without any of it the site prerenders fully and the
-chat runs in scripted mode.
+Nothing here is required to build: without any of it the site prerenders fully; only
+the contact form needs Resend to deliver.
 
 ## Getting started
 
@@ -119,7 +97,6 @@ bun dev              # http://localhost:3000
 
 ```
 app/                      routes (App Router)
-├── api/ask/              streaming chat endpoint
 ├── api/send-email/       contact form (Resend)
 ├── blog/, log/, projects/, about/, now/, uses/, contact/
 ├── opengraph-image.tsx   root OG card (+ per-content cards next to each route)
@@ -216,7 +193,7 @@ the contact form to deliver).
 ## Credits
 
 Next.js 15 · React 19 · Tailwind CSS v4 · bun · next-themes · next-view-transitions ·
-cmdk · Lenis · marked + gray-matter · Resend · Vercel Analytics · Groq (optional chat).
+cmdk · Lenis · marked + gray-matter · Resend · Vercel Analytics.
 Typefaces: Instrument Serif, Newsreader, JetBrains Mono (Google Fonts, self-hosted via
 `next/font`).
 

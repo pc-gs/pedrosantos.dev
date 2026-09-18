@@ -31,10 +31,6 @@ export const uses: UsesGroup[] = [
       { name: "marked + gray-matter", detail: "Markdown in content/, frontmatter for metadata. No CMS." },
       { name: "next-themes", detail: "Real light/dark: system preference first, manual override second." },
       { name: "cmdk", detail: "The ⌘K palette — navigation and client-side search over every page." },
-      {
-        name: "Groq + llama-3.3-70b",
-        detail: "Powers the “ask my site” panel, grounded in the site's own content. Falls back to a scripted mode with no key.",
-      },
       { name: "Vercel", detail: "Deploys and analytics. Analytics is the only third-party script." },
       { name: "Resend", detail: "Contact form delivery." },
     ],
