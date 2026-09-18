@@ -1,4 +1,3 @@
-import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import {
   Bricolage_Grotesque,
@@ -121,7 +120,6 @@ export default function RootLayout({
               {children}
             </SmoothScroll>
             <Toaster />
-            <Analytics />
           </ThemeProvider>
         </body>
       </html>

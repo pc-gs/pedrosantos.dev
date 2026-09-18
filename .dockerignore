@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.env*.local
+review
+.playwright-mcp
+.claude
+.cursorrules
+.zcode
+Dockerfile*
+cloudbuild*.yaml
+README.md

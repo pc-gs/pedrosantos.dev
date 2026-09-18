@@ -1,19 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-// Validate environment variables
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Contact Form <contact@mail.pedrosantos.dev>";
-const RESEND_TO_EMAIL = process.env.RESEND_TO_EMAIL || "pedrocarlos.ti@gmail.com";
+export const dynamic = "force-dynamic";
 
-if (!RESEND_API_KEY) {
-  console.warn(
-    "⚠️  RESEND_API_KEY is not set. Email functionality will not work."
-  );
-}
-
-// Initialize Resend with your API key
-const resend = new Resend(RESEND_API_KEY);
 
 // Email validation regex
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -162,14 +151,20 @@ function generateEmailTemplate(
 
 export async function POST(request: NextRequest) {
   try {
+    const resendApiKey = process.env.RESEND_API_KEY;
+    const resendFromEmail = process.env.RESEND_FROM_EMAIL || "Contact Form <contact@mail.pedrosantos.dev>";
+    const resendToEmail = process.env.RESEND_TO_EMAIL || "pedrocarlos.ti@gmail.com";
+
     // Check if API key is configured
-    if (!RESEND_API_KEY) {
+    if (!resendApiKey) {
       console.error("RESEND_API_KEY is not configured");
       return NextResponse.json(
         { error: "Email service is not configured. Please contact the administrator." },
         { status: 500 }
       );
     }
+
+    const resend = new Resend(resendApiKey);
 
     const { name, email, subject, message } = await request.json();
 
@@ -238,8 +233,8 @@ You can reply directly to this email to respond to ${trimmedName}.
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: RESEND_FROM_EMAIL,
-      to: [RESEND_TO_EMAIL],
+      from: resendFromEmail,
+      to: [resendToEmail],
       subject: `New Contact Form Message: ${trimmedSubject}`,
       replyTo: trimmedEmail,
       text: emailText,
