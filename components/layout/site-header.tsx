@@ -63,13 +63,18 @@ export function SiteHeader({ paletteItems }: { paletteItems: PaletteItem[] }) {
           <div className="flex min-w-0 items-baseline gap-3">
             <Link
               href="/"
-              className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-foreground transition-colors hover:text-brand"
+              className="group inline-flex items-center gap-2.5"
+              aria-label="Pedro Santos — home"
             >
-              Pedro Santos
-              <span className="text-brand" aria-hidden>
-                .
+              <span className="grid h-6 w-6 place-items-center border border-foreground bg-brand font-display text-[11px] font-bold leading-none text-brand-foreground shadow-[2px_2px_0_0_var(--foreground)] transition-colors group-hover:bg-foreground group-hover:text-background">
+                PS
               </span>
-              dev
+              <span className="font-display text-[16px] font-bold leading-none tracking-[-0.02em] text-foreground">
+                pedro santos
+                <span className="font-mono text-[10px] font-normal tracking-[0.06em] text-muted-foreground">
+                  .dev
+                </span>
+              </span>
             </Link>
             {section && (
               <span

@@ -82,6 +82,8 @@
   }
   html {
     scroll-behavior: auto;
+    /* Reserve the scrollbar track so centred content never shifts between pages */
+    scrollbar-gutter: stable;
   }
   body {
     @apply bg-background text-foreground;
