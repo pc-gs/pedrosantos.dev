@@ -17,18 +17,6 @@ const navItems = [
 ];
 
 /** Running head: which part of the site you are in. */
-function sectionFor(pathname: string): string | null {
-  if (pathname === "/") return null;
-  if (pathname.startsWith("/log")) return "the log";
-  if (pathname.startsWith("/blog")) return "essays";
-  if (pathname.startsWith("/work")) return "work";
-  if (pathname.startsWith("/now")) return "now";
-  if (pathname.startsWith("/uses")) return "uses";
-  if (pathname.startsWith("/about")) return "about";
-  if (pathname.startsWith("/contact")) return "contact";
-  return null;
-}
-
 function isActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -36,58 +24,36 @@ function isActive(pathname: string, href: string) {
 
 /**
  * Sticky header: wordmark, section nav, command palette hint and the theme
- * toggle. Hairlines only, one orange accent.
+ * toggle. Hairlines only, one orange accent. Nothing in here may change width
+ * between routes: the nav has to sit still while you move around.
  */
 export function SiteHeader({ paletteItems }: { paletteItems: PaletteItem[] }) {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  const section = sectionFor(pathname);
-
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="mx-auto flex h-14 w-full max-w-[1180px] items-center justify-between gap-5 px-5 sm:px-6 lg:px-8">
-          <div className="flex min-w-0 items-baseline gap-3">
-            <Link
-              href="/"
-              className="group inline-flex items-center gap-2.5"
-              aria-label="Pedro Santos — home"
-            >
-              <span className="grid h-6 w-6 place-items-center border border-foreground bg-brand font-display text-[11px] font-bold leading-none text-brand-foreground shadow-[2px_2px_0_0_var(--foreground)] transition-colors group-hover:bg-foreground group-hover:text-background">
-                PS
+          <Link
+            href="/"
+            className="group inline-flex items-center gap-2.5"
+            aria-label="Pedro Santos — home"
+          >
+            <span className="grid h-6 w-6 place-items-center border border-foreground bg-brand font-display text-[11px] font-bold leading-none text-brand-foreground shadow-[2px_2px_0_0_var(--foreground)] transition-colors group-hover:bg-foreground group-hover:text-background">
+              PS
+            </span>
+            <span className="font-display text-[16px] font-bold leading-none tracking-[-0.02em] text-foreground">
+              pedro santos
+              <span className="font-mono text-[10px] font-normal tracking-[0.06em] text-muted-foreground">
+                .dev
               </span>
-              <span className="font-display text-[16px] font-bold leading-none tracking-[-0.02em] text-foreground">
-                pedro santos
-                <span className="font-mono text-[10px] font-normal tracking-[0.06em] text-muted-foreground">
-                  .dev
-                </span>
-              </span>
-            </Link>
-            {section && (
-              <span
-                className={cn(
-                  "hidden truncate font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-opacity duration-300 sm:inline",
-                  scrolled ? "opacity-100" : "opacity-0",
-                )}
-                aria-hidden={!scrolled}
-              >
-                {section}
-              </span>
-            )}
-          </div>
+            </span>
+          </Link>
 
           <nav className="hidden items-baseline gap-6 md:flex">
             {navItems.map((item) => {
