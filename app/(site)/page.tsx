@@ -27,106 +27,45 @@ export default function HomePage() {
     <main>
       {/* ── hero ────────────────────────────────────────────────────── */}
       <Wrap className="pb-16 pt-14 md:pb-20 md:pt-20">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
-          <div>
-            <Eyebrow>
-              {profile.role} · {profile.location}
-            </Eyebrow>
-            <h1 className="mt-6 max-w-[16ch] font-display text-[clamp(2.75rem,7.5vw,5.5rem)] leading-[0.93] tracking-[-0.025em]">
-              Hi, I&apos;m Pedro.
-              <br />
-              <span className="text-brand">I build software for the web.</span>
-            </h1>
-            <p className="mt-8 max-w-[54ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
-              Software engineer from Belmonte, Portugal, with more than a
-              decade in tech. By day I ship production React and GraphQL at
-              Aubay. On the side I&apos;m building{" "}
-              <a
-                href={profile.founded.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link-inline"
-              >
-                Melro.io
-              </a>
-              , a small company that writes software for local businesses.
-            </p>
-            <p className="mt-4 max-w-[54ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
-              This site is where I write down what I&apos;m working on and what
-              I learn while doing it.
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <LinkButton href="#studies" variant="solid">
-                What I&apos;m studying
-                <ArrowDownRight className="h-4 w-4" />
-              </LinkButton>
-              <LinkButton href="#notes" variant="quiet">
-                Read the log
-                <ArrowUpRight className="h-3.5 w-3.5" />
-              </LinkButton>
-            </div>
-            <p className="mt-10 font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-              {profile.stack.join("  ·  ")}
-            </p>
-          </div>
-
-          {/* portrait and facts */}
-          <aside className="lg:pt-2">
-            <figure className="border border-border bg-card p-3">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={profile.avatarUrl}
-                alt={profile.name}
-                width={480}
-                height={480}
-                className="aspect-square w-full object-cover"
-              />
-              <figcaption className="mt-3 flex items-baseline justify-between font-mono text-[9.5px] uppercase tracking-[0.18em] text-muted-foreground">
-                <span>{profile.name}</span>
-                <span>Belmonte, PT</span>
-              </figcaption>
-            </figure>
-
-            <dl className="mt-5 divide-y divide-border border-y border-border">
-              {[
-                { label: "In tech", value: "more than a decade" },
-                { label: "Now", value: "React + GraphQL at Aubay" },
-                { label: "Side", value: "Melro.io, founder" },
-                { label: "Availability", value: "full-time & contract" },
-              ].map((row) => (
-                <div
-                  key={row.label}
-                  className="flex items-baseline justify-between gap-4 py-2.5"
-                >
-                  <dt className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-muted-foreground">
-                    {row.label}
-                  </dt>
-                  <dd className="text-right text-[0.9rem] leading-snug">
-                    {row.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-
-            <div className="mt-5 flex flex-wrap items-baseline gap-x-5 gap-y-2">
-              {profile.socials.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  target={social.href.startsWith("http") ? "_blank" : undefined}
-                  rel={
-                    social.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
-                  className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-brand"
-                >
-                  {social.name}
-                </a>
-              ))}
-            </div>
-          </aside>
+        <Eyebrow>
+          {profile.role} · {profile.location}
+        </Eyebrow>
+        <h1 className="mt-6 max-w-[16ch] font-display text-[clamp(2.75rem,8vw,6rem)] leading-[0.93] tracking-[-0.025em]">
+          Hi, I&apos;m Pedro.
+          <br />
+          <span className="text-brand">I build software for the web.</span>
+        </h1>
+        <p className="mt-8 max-w-[58ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
+          Software engineer from Belmonte, Portugal, with more than a decade in
+          tech. By day I ship production React and GraphQL at Aubay. On the
+          side I&apos;m building{" "}
+          <a
+            href={profile.founded.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-inline"
+          >
+            Melro.io
+          </a>
+          , a small company that writes software for local businesses.
+        </p>
+        <p className="mt-4 max-w-[58ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
+          This site is where I write down what I&apos;m working on and what I
+          learn while doing it.
+        </p>
+        <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <LinkButton href="#studies" variant="solid">
+            What I&apos;m studying
+            <ArrowDownRight className="h-4 w-4" />
+          </LinkButton>
+          <LinkButton href="#notes" variant="quiet">
+            Read the log
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </LinkButton>
         </div>
+        <p className="mt-10 font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+          {profile.stack.join("  ·  ")}
+        </p>
       </Wrap>
 
       {/* ── working on now ──────────────────────────────────────────── */}
