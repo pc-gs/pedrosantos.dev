@@ -21,8 +21,8 @@ const channels = [
   { label: "X", value: "@pcgs_tsx", href: "https://x.com/pcgs_tsx" },
   {
     label: "GitHub",
-    value: "pedrocarlos-ti",
-    href: "https://github.com/pedrocarlos-ti",
+    value: "pc-gs",
+    href: "https://github.com/pc-gs",
   },
 ];
 

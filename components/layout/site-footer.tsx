@@ -17,7 +17,7 @@ const contents = [
 ];
 
 const elsewhere = [
-  { name: "GitHub", href: "https://github.com/pedrocarlos-ti" },
+  { name: "GitHub", href: "https://github.com/pc-gs" },
   { name: "LinkedIn", href: "https://linkedin.com/in/pedro-santos" },
   { name: "X", href: "https://x.com/pcgs_tsx" },
   { name: "Writing RSS", href: "/rss.xml" },

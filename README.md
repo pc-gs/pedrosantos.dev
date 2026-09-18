@@ -74,7 +74,7 @@ the contact form needs Resend to deliver.
 ## Getting started
 
 ```bash
-git clone git@github.com:pedrocarlos-ti/pedrosantos.dev.git
+git clone git@github.com:pc-gs/pedrosantos.dev.git
 cd pedrosantos.dev
 bun install          # bun is the package manager (see packageManager in package.json)
 cp .env.example .env.local

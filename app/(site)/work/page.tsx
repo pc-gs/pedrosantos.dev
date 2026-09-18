@@ -88,7 +88,7 @@ export default function WorkPage() {
         <p className="border-t border-border pt-6 font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
           More on{" "}
           <a
-            href="https://github.com/pedrocarlos-ti"
+            href="https://github.com/pc-gs"
             target="_blank"
             rel="noopener noreferrer"
             className="transition-colors hover:text-brand"

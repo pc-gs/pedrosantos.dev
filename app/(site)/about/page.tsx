@@ -68,9 +68,13 @@ export default function AboutPage() {
         <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.5rem,6.5vw,4.5rem)] leading-[0.95] tracking-[-0.025em]">
           {profile.name}
         </h1>
+        <p className="mt-6 max-w-[24ch] font-display text-[clamp(1.5rem,3.2vw,2.25rem)] leading-snug tracking-[-0.015em]">
+          I make software, break it, fix it, and learn something along the way.
+        </p>
         <p className="mt-6 max-w-[58ch] text-[1.125rem] leading-relaxed text-muted-foreground">
-          {profile.tagline} I&apos;m open to full-time roles and contract work,
-          and I keep a meaningful side project alive on purpose.
+          Software engineer from Belmonte, Portugal. I&apos;m open to full-time
+          roles and contract work, and I keep a meaningful side project alive on
+          purpose.
         </p>
       </Wrap>
 
@@ -122,6 +126,13 @@ export default function AboutPage() {
             , the engineer&apos;s version of founding: owning the whole loop,
             not just the implementation. And this site, which is where I write
             down what I&apos;m learning and the work behind it.
+          </p>
+          <p>
+            I love the web. With AI as a drafting partner, I&apos;m learning
+            what it takes to build professionally and securely for any
+            environment, from a browser tab to a phone to a desktop app. The
+            goal isn&apos;t speed for its own sake: it&apos;s shipping things
+            that are safe to put in front of real users.
           </p>
         </div>
 

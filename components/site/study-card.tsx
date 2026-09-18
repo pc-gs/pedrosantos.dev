@@ -41,6 +41,11 @@ export function StudyCard({
         {study.why}
       </p>
       <ul className="mt-5 space-y-2 border-t border-border pt-4">
+        {notes.length === 0 && (
+          <li className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-muted-foreground">
+            Just started. No notes yet.
+          </li>
+        )}
         {notes.map((entry) => (
           <li key={entry.slug}>
             <Link

@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     template: "%s — Pedro Santos",
   },
   description:
-    "Software engineer shipping production React and Next.js by day, building Melro.io on the side. Open to full-time and contract work. Here's what I'm working on right now.",
+    "Software engineer from Belmonte, Portugal. I make software, break it, fix it, and learn something along the way: production React and Next.js by day, Melro.io on the side. Open to full-time and contract work.",
   keywords: [
     "Pedro Santos",
     "Software Engineer",
@@ -83,13 +83,13 @@ export const metadata: Metadata = {
     siteName: "pedrosantos.dev",
     title: "Pedro Santos — Software Engineer & founder of Melro.io",
     description:
-      "Software engineer shipping production React and Next.js by day, building Melro.io on the side. Open to full-time and contract work.",
+      "Software engineer from Belmonte, Portugal: production React and Next.js by day, Melro.io on the side. I make software, break it, fix it, and learn something along the way.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Pedro Santos — Software Engineer & founder of Melro.io",
     description:
-      "Shipping production React/Next.js by day, building Melro.io on the side. Open to full-time and contract work.",
+      "I make software, break it, fix it, and learn something along the way: production React and Next.js by day, Melro.io on the side.",
     creator: "@pcgs_tsx",
   },
   robots: {

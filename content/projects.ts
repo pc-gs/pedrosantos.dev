@@ -16,7 +16,7 @@ export const projects: Project[] = [
     tags: ["Developer Tools", "VS Code", "DX"],
     stack: ["TypeScript", "VS Code Extension API"],
     links: [
-      { label: "Source", href: "https://github.com/pedrocarlos-ti", kind: "source" },
+      { label: "Source", href: "https://github.com/pc-gs", kind: "source" },
     ],
     caseStudy: {
       tldr:
@@ -65,7 +65,7 @@ export const projects: Project[] = [
     order: 2,
     tags: ["Learning", "Visualization", "Web App"],
     stack: ["Next.js", "React", "TypeScript", "Supabase"],
-    links: [{ label: "Source", href: "https://github.com/pedrocarlos-ti", kind: "source" }],
+    links: [{ label: "Source", href: "https://github.com/pc-gs", kind: "source" }],
     caseStudy: {
       tldr:
         "A learning platform where AI concepts live on an expandable tree — the structure of the knowledge becomes the interface, not a flat article.",
@@ -113,7 +113,7 @@ export const projects: Project[] = [
     order: 3,
     tags: ["Desktop", "Electron", "Utility"],
     stack: ["Electron", "TypeScript", "Canvas"],
-    links: [{ label: "Source", href: "https://github.com/pedrocarlos-ti", kind: "source" }],
+    links: [{ label: "Source", href: "https://github.com/pc-gs", kind: "source" }],
     caseStudy: {
       tldr:
         "A transparent, always-on-top Electron overlay you can draw on top of any app — a lightweight pen for demos, recordings, and pair work.",

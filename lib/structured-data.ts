@@ -8,7 +8,7 @@ export function generatePersonStructuredData() {
       "Software engineer shipping production React and Next.js by day, building Melro.io on the side. Open to full-time and contract work.",
     url: "https://pedrosantos.dev",
     sameAs: [
-      "https://github.com/pedrocarlos-ti",
+      "https://github.com/pc-gs",
       "https://linkedin.com/in/pedro-santos",
       "https://x.com/pcgs_tsx",
     ],

@@ -9,6 +9,15 @@ import type { Study } from "@/lib/types";
  */
 export const studies: Study[] = [
   {
+    id: "production-grade",
+    title: "Production-grade, everywhere",
+    why: "I love the web. With AI as a drafting partner I'm learning what it takes to build professionally and securely for any environment: browser, phone, desktop. Not just fast, but safe to put in front of real users.",
+    state: "exploring",
+    since: "2026-09",
+    updatedAt: "2026-09-18",
+    logSlugs: [],
+  },
+  {
     id: "ai-workflow",
     title: "AI-assisted engineering",
     why: "The way I write software is changing faster than any framework cycle I've lived through. The log is my lab notebook: what works, what doesn't, and what stays human.",

@@ -50,8 +50,8 @@ export default function HomePage() {
           , a small company that writes software for local businesses.
         </p>
         <p className="mt-4 max-w-[58ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
-          This site is where I write down what I&apos;m working on and what I
-          learn while doing it.
+          I make software, break it, fix it, and learn something along the way.
+          This site is where I write that down.
         </p>
         <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
           <LinkButton href="#studies" variant="solid">
