@@ -7,12 +7,19 @@ export default function DesignIndexPage() {
       label: "A · Bancada",
       note: "Bone canvas, ink, electric orange. Graphic, work-first, hard shadows.",
     },
+    {
+      href: "/design/b",
+      label: "B · Estúdio à noite",
+      note: "Warm near-black, chalk, amber. Cinematic, exhibit-style, quiet.",
+    },
+    {
+      href: "/design/c",
+      label: "C · Planta",
+      note: "Technical paper, ink lines, signal green. Drawing set, node map.",
+    },
   ];
 
-  const upcoming = [
-    { label: "B · Estúdio à noite", note: "Dark, warm, cinematic. Next up." },
-    { label: "C · Planta", note: "Technical paper, node map. After B." },
-  ];
+  const upcoming: { label: string; note: string }[] = [];
 
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-24">

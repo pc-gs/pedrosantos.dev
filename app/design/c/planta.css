@@ -1,0 +1,89 @@
+/* ── Variant C · "Planta" ─────────────────────────────────────────────────
+   Technical paper, ink lines, one signal green. The site as a drawing set:
+   sheets, references, a node map. Exploration code — scoped. */
+
+.planta {
+  --pl-bg: #edf1f4;
+  --pl-panel: #f7f9fb;
+  --pl-ink: #16283b;
+  --pl-muted: #5a6b7b;
+  --pl-line: #c3ceda;
+  --pl-grid: rgba(22, 40, 59, 0.055);
+  --pl-grid-major: rgba(22, 40, 59, 0.1);
+  --pl-signal: #00a676;
+  --pl-blue: #1f6feb;
+
+  /* Swap the type system inside this variant only */
+  --font-sans: var(--font-plex), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, monospace;
+
+  background-color: var(--pl-bg);
+  color: var(--pl-ink);
+  font-family: var(--font-plex), system-ui, sans-serif;
+}
+
+.planta-display {
+  font-family: var(--font-plex), system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.pl-rule {
+  border-color: var(--pl-line);
+}
+
+.pl-row {
+  transition: background-color 150ms ease;
+}
+
+.pl-row:hover {
+  background-color: color-mix(in srgb, var(--pl-signal) 7%, transparent);
+}
+
+.pl-grid {
+  background-image:
+    linear-gradient(var(--pl-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pl-grid) 1px, transparent 1px),
+    linear-gradient(var(--pl-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pl-grid-major) 1px, transparent 1px);
+  background-size:
+    24px 24px,
+    24px 24px,
+    120px 120px,
+    120px 120px;
+}
+
+.pl-draw {
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+  animation: pl-draw 1.4s ease forwards;
+}
+
+@keyframes pl-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.pl-node {
+  cursor: pointer;
+}
+
+.pl-node circle {
+  transition: fill 150ms ease;
+}
+
+.pl-node:hover circle {
+  fill: var(--pl-signal);
+}
+
+.pl-node:hover text {
+  fill: var(--pl-signal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
