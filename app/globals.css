@@ -225,6 +225,13 @@
   outline-offset: 2px;
 }
 
+/* ── Design explorations ──────────────────────────────────────────────────
+   Variants under /design render standalone: no manuscript grain behind them,
+   so each visual direction is judged on its own canvas. */
+body.design-mode::before {
+  display: none;
+}
+
 /* ── View Transitions (page-to-page fades) ─────────────────────────────── */
 ::view-transition-old(root),
 ::view-transition-new(root) {

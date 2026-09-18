@@ -11,9 +11,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import { Toaster } from "@/components/ui/sonner";
-import { SiteHeader } from "@/components/layout/site-header";
-import { SiteFooter } from "@/components/layout/site-footer";
-import { getPaletteItems } from "@/lib/palette";
 import { JsonLd } from "@/components/layout/json-ld";
 import {
   generatePersonStructuredData,
@@ -134,17 +131,7 @@ export default function RootLayout({
         >
           <ThemeProvider>
             <SmoothScroll>
-              {/* Above the paper grain so ink is never tinted by the sheet */}
-              <div className="relative z-10 flex min-h-screen flex-col">
-                <a href="#main" className="skip-link">
-                  Skip to content
-                </a>
-                <SiteHeader paletteItems={getPaletteItems()} />
-                <div className="flex-1">
-                  <div id="main">{children}</div>
-                </div>
-                <SiteFooter />
-              </div>
+              {children}
             </SmoothScroll>
             <Toaster />
             <Analytics />
