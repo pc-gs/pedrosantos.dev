@@ -1,10 +1,10 @@
 import { Link } from "next-view-transitions";
 import type { Project } from "@/lib/types";
 import { projectStatusMeta } from "@/components/sections/projects/project-status";
-import { ProjectCover } from "@/components/covers/project-cover";
+import { ProjectArt } from "@/components/site/project-art";
 import { Screen } from "@/components/site/screen";
 
-/** Compact project card: cover, meta, title, one line. */
+/** Compact project card: illustrated cover, meta, title, one line. */
 export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
@@ -12,11 +12,10 @@ export function ProjectCard({ project }: { project: Project }) {
       className="group flex flex-col border border-border bg-card transition-colors hover:border-foreground"
     >
       <Screen label={project.slug} className="border-b">
-        <ProjectCover
+        <ProjectArt
           slug={project.slug}
           title={project.title}
           corner={String(project.year)}
-          className="[--cover-bg:var(--card)] [--cover-fg:var(--foreground)]"
         />
       </Screen>
       <div className="flex flex-1 flex-col p-4">
