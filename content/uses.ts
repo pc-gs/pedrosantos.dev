@@ -38,12 +38,12 @@ export const uses: UsesGroup[] = [
   {
     id: "design",
     title: "Design & type",
-    note: "Tinta & papel — warm paper, ink, one accent.",
+    note: "Bancada: warm bone paper, ink, one orange accent.",
     items: [
-      { name: "Instrument Serif", detail: "Display headlines. Big, editorial, unapologetic." },
-      { name: "Newsreader", detail: "Long-form reading. Serif because reading is the point." },
-      { name: "JetBrains Mono", detail: "Labels, metadata, log entries and code — where precision matters." },
-      { name: "Ink blue accent", detail: "One accent (derived from a fountain-pen blue) for links, status and CTAs." },
+      { name: "Bricolage Grotesque", detail: "Display headlines. Variable, a bit opinionated, never corporate." },
+      { name: "Geist", detail: "Body text and UI chrome. Quiet and legible at small sizes." },
+      { name: "JetBrains Mono", detail: "Labels, metadata, log entries and code, where precision matters." },
+      { name: "Melro orange", detail: "One accent for links, status and CTAs. The same orange as Melro.io." },
       { name: "Violet ✦", detail: "Reserved exclusively for marking AI co-authorship. It never means anything else." },
     ],
   },

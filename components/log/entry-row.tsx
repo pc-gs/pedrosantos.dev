@@ -20,14 +20,14 @@ export function EntryRow({ entry }: { entry: LogEntryPreview }) {
           {formatDate(entry.date, DATE)}
         </time>
         <div className="min-w-0">
-          <h3 className="font-display text-[1.5rem] leading-snug tracking-[-0.01em]">
+          <h2 className="font-display text-[1.5rem] leading-snug tracking-[-0.01em]">
             <Link
               href={`/log/${entry.slug}`}
               className="transition-colors hover:text-brand"
             >
               {entry.title}
             </Link>
-          </h3>
+          </h2>
 
           {entry.description && (
             <p className="mt-2 max-w-[62ch] text-[1rem] leading-relaxed text-muted-foreground">

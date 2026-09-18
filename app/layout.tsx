@@ -4,7 +4,6 @@ import {
   Bricolage_Grotesque,
   Geist,
   JetBrains_Mono,
-  Newsreader,
 } from "next/font/google";
 import { ViewTransitions } from "next-view-transitions";
 import "./globals.css";
@@ -20,12 +19,6 @@ import {
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-});
-
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
 });
 
 const bricolage = Bricolage_Grotesque({
@@ -103,11 +96,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
-  },
 };
 
 export default function RootLayout({
@@ -126,7 +114,7 @@ export default function RootLayout({
           <JsonLd data={websiteStructuredData} />
         </head>
         <body
-          className={`${geistSans.variable} ${newsreader.variable} ${bricolage.variable} ${jetbrainsMono.variable} min-h-screen bg-background font-sans antialiased`}
+          className={`${geistSans.variable} ${bricolage.variable} ${jetbrainsMono.variable} min-h-screen bg-background font-sans antialiased`}
         >
           <ThemeProvider>
             <SmoothScroll>

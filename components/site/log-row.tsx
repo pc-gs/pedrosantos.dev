@@ -18,9 +18,9 @@ export function LogRow({ entry }: { entry: LogEntry }) {
         >
           {formatDate(entry.date, DATE)}
         </time>
-        <span className="font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand">
+        <h3 className="font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand">
           {entry.title}
-        </span>
+        </h3>
         <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
           {entry.aiAssisted ? "✦ co-written" : "✎ by hand"}
         </span>
