@@ -28,7 +28,7 @@ export function NowList({ items }: { items: NowItem[] }) {
             {item.href ? (
               <Link
                 href={item.href}
-                className="group font-serif text-[1.0625rem] leading-relaxed text-foreground"
+                className="group text-[1.0625rem] leading-relaxed text-foreground"
               >
                 <span className="border-b border-transparent transition-colors group-hover:border-brand">
                   {item.text}
@@ -41,7 +41,7 @@ export function NowList({ items }: { items: NowItem[] }) {
                 )}
               </Link>
             ) : (
-              <p className="font-serif text-[1.0625rem] leading-relaxed text-foreground">
+              <p className="text-[1.0625rem] leading-relaxed text-foreground">
                 {item.text}
               </p>
             )}

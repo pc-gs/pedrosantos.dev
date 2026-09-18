@@ -9,8 +9,8 @@ import type { PaletteItem } from "@/lib/palette";
 const KIND_LABEL: Record<PaletteItem["kind"], string> = {
   page: "Pages",
   log: "Log",
-  post: "Writing",
-  project: "Projects",
+  post: "Essays",
+  project: "Work",
 };
 
 export function CommandPalette({ items }: { items: PaletteItem[] }) {
@@ -51,12 +51,12 @@ export function CommandPalette({ items }: { items: PaletteItem[] }) {
       label="Site navigation"
       shouldFilter
       overlayClassName="fixed inset-0 z-[90] bg-foreground/20 backdrop-blur-sm animate-in fade-in-0 duration-150"
-      contentClassName="fixed left-1/2 top-[18vh] z-[91] w-[min(92vw,34rem)] -translate-x-1/2 overflow-hidden rounded-xl border border-border bg-card shadow-2xl animate-in fade-in-0 zoom-in-95 duration-150 motion-reduce:animate-none"
+      contentClassName="fixed left-1/2 top-[18vh] z-[91] w-[min(92vw,34rem)] -translate-x-1/2 overflow-hidden rounded-md border border-border bg-card shadow-xl animate-in fade-in-0 zoom-in-95 duration-150 motion-reduce:animate-none"
     >
       <div className="flex items-center gap-2.5 border-b border-border px-4">
         <Search className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
         <Command.Input
-          placeholder="Search pages, log, writing, projects…"
+          placeholder="Search pages, log, studies, essays, work…"
           className="h-12 w-full bg-transparent font-mono text-sm text-foreground outline-none placeholder:text-muted-foreground/60"
         />
         <kbd className="shrink-0 rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
@@ -64,7 +64,7 @@ export function CommandPalette({ items }: { items: PaletteItem[] }) {
         </kbd>
       </div>
       <Command.List className="max-h-[52vh] overflow-y-auto p-2">
-        <Command.Empty className="px-3 py-8 text-center font-serif text-muted-foreground">
+        <Command.Empty className="px-3 py-8 text-center text-muted-foreground">
           Nothing found — try &ldquo;log&rdquo; or &ldquo;tauri&rdquo;.
         </Command.Empty>
         {grouped.map(([kind, list]) => (

@@ -140,7 +140,7 @@ export default function HomePage() {
             description="Tools I built for myself and for other people. Each one has a case study: the problem, the approach, and what I took away."
             action={
               <Link
-                href="/projects"
+                href="/work"
                 className="inline-flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:text-brand"
               >
                 all work

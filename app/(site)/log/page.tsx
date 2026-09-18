@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { getAllLogEntries } from "@/lib/log";
 import { LogFeed } from "@/components/log/log-feed";
-import { Folio, Manuscript, Sidenote } from "@/components/manuscript/manuscript";
-import { MarginLink, Stamp } from "@/components/manuscript/marks";
 import { JsonLd } from "@/components/layout/json-ld";
 import { generateCollectionStructuredData } from "@/lib/structured-data";
+import { Wrap } from "@/components/site/wrap";
+import { Eyebrow } from "@/components/site/eyebrow";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pedrosantos.dev";
 
@@ -20,7 +20,7 @@ export default function LogPage() {
   const aiCount = entries.filter((e) => e.aiAssisted).length;
 
   return (
-    <main className="container py-12 md:py-16">
+    <main>
       <JsonLd
         data={generateCollectionStructuredData({
           name: "The log — Pedro Santos",
@@ -34,58 +34,61 @@ export default function LogPage() {
         })}
       />
 
-      <Manuscript
-        marginWidth="wide"
-        folio={<Folio>✦</Folio>}
-        margin={
-          <>
-            <div>
-              <Stamp tone="ai">co-written where marked</Stamp>
-            </div>
-
-            <Sidenote label="how to read this" leader tone="ai">
-              <p className="font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
-                Entries drafted with a model are marked ✦ and print the prompt
-                that started them in this margin. Entries that used no model say
-                so as well — the marking only means something because both
-                halves exist.
-              </p>
-            </Sidenote>
-
-            <Sidenote label="by the numbers">
-              <p className="font-mono text-[11.5px] leading-[1.9] text-muted-foreground tabnum">
-                {entries.length} entries
-                <br />
-                {aiCount} co-written
-                <br />
-                {entries.length - aiCount} by hand
-              </p>
-            </Sidenote>
-
-            <Sidenote label="feed">
-              <p>
-                <MarginLink href="/log/feed.xml">log rss →</MarginLink>
-              </p>
-            </Sidenote>
-          </>
-        }
-      >
-        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-          the log
-        </p>
-        <h1 className="mt-5 font-display display-page text-foreground">
+      <Wrap className="pb-10 pt-14 md:pt-20">
+        <Eyebrow>The log</Eyebrow>
+        <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.5rem,6.5vw,4.5rem)] leading-[0.95] tracking-[-0.025em]">
           Learning in public, one entry at a time
         </h1>
-        <p className="mt-6 max-w-[56ch] font-serif text-[1.125rem] leading-[1.72] text-foreground/85">
+        <p className="mt-6 max-w-[58ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
           A builder&apos;s lab notebook: short, frequent, unfinished on purpose.
           Most of what I actually learn is too small to survive being called a
-          post — which is exactly why it belongs here.
+          post, which is exactly why it belongs here.
         </p>
-      </Manuscript>
+      </Wrap>
 
-      <div className="mt-16">
+      <Wrap className="pb-10">
+        <div className="grid grid-cols-1 gap-6 border-y border-border py-6 md:grid-cols-3 md:gap-10">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-ai">
+              ✦ how to read this
+            </p>
+            <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted-foreground">
+              Entries drafted with a model are marked ✦ and show the prompt that
+              started them. Entries that used no model say so as well. The
+              marking only means something because both halves exist.
+            </p>
+          </div>
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              By the numbers
+            </p>
+            <p className="mt-3 font-mono text-[11.5px] leading-[1.9] text-muted-foreground">
+              {entries.length} entries
+              <br />
+              {aiCount} co-written
+              <br />
+              {entries.length - aiCount} by hand
+            </p>
+          </div>
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              Feed
+            </p>
+            <p className="mt-3">
+              <a
+                href="/log/feed.xml"
+                className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-brand transition-colors hover:text-foreground"
+              >
+                log RSS ↗
+              </a>
+            </p>
+          </div>
+        </div>
+      </Wrap>
+
+      <Wrap className="pb-20 md:pb-24">
         <LogFeed entries={entries} />
-      </div>
+      </Wrap>
     </main>
   );
 }

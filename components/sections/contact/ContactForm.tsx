@@ -53,7 +53,7 @@ export function ContactForm() {
         <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand">
           sent
         </p>
-        <p className="mt-4 max-w-[52ch] font-serif text-[1.0625rem] leading-[1.72] text-muted-foreground">
+        <p className="mt-4 max-w-[52ch] text-[1.0625rem] leading-[1.72] text-muted-foreground">
           Thanks for reaching out. I&apos;ll reply to your email shortly —
           usually within a day or two, and always by hand.
         </p>
@@ -105,7 +105,7 @@ export function ContactForm() {
           rows={6}
           placeholder="Tell me about the role, the project, or what you are building…"
           {...form.register("message")}
-          className="ruled mt-2 w-full resize-none border-b border-input bg-transparent py-0 font-serif text-[1.0625rem] text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-brand"
+          className=" mt-2 w-full resize-none border-b border-input bg-transparent py-2 text-[1.0625rem] text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-brand"
         />
         {form.formState.errors.message && (
           <p className="mt-2 font-mono text-[11px] text-destructive">
@@ -153,7 +153,7 @@ function Field({
       <input
         id={label}
         type={type}
-        className="mt-2 w-full border-b border-input bg-transparent py-2 font-serif text-[1.125rem] text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-brand"
+        className="mt-2 w-full border-b border-input bg-transparent py-2 text-[1.125rem] text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-brand"
         {...props}
       />
       {error && (

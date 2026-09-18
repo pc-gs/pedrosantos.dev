@@ -13,8 +13,9 @@ export type PaletteItem = {
 const PAGES: PaletteItem[] = [
   { id: "page-home", label: "Home", href: "/", kind: "page" },
   { id: "page-log", label: "The log", hint: "learning in public", href: "/log", kind: "page" },
-  { id: "page-writing", label: "Writing", hint: "essays", href: "/blog", kind: "page" },
-  { id: "page-projects", label: "Projects", href: "/projects", kind: "page" },
+  { id: "page-writing", label: "Essays", hint: "longer reads", href: "/blog", kind: "page" },
+  { id: "page-studies", label: "Studies", hint: "on the bench", href: "/studies", kind: "page" },
+  { id: "page-projects", label: "Work", hint: "case studies", href: "/work", kind: "page" },
   { id: "page-about", label: "About", href: "/about", kind: "page" },
   { id: "page-now", label: "Now", hint: "what I'm doing", href: "/now", kind: "page" },
   { id: "page-uses", label: "Uses", hint: "tools & gear", href: "/uses", kind: "page" },
@@ -27,14 +28,14 @@ export function getPaletteItems(): PaletteItem[] {
     id: `project-${p.slug}`,
     label: p.title,
     hint: p.tagline,
-    href: `/projects/${p.slug}`,
+    href: `/work/${p.slug}`,
     kind: "project",
   }));
 
   const posts: PaletteItem[] = getAllPosts().map((p) => ({
     id: `post-${p.slug}`,
     label: p.title,
-    hint: "writing",
+    hint: "essay",
     href: `/blog/${p.slug}`,
     kind: "post",
   }));

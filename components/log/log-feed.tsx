@@ -51,17 +51,17 @@ export function LogFeed({ entries }: { entries: LogEntryPreview[] }) {
         </FilterMark>
       </div>
 
-      <div>
+      <ol>
         {filtered.map((entry) => (
           <EntryRow key={entry.slug} entry={entry} />
         ))}
-        {filtered.length === 0 && (
-          <p className="py-16 max-w-[46ch] font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
-            Nothing under that filter yet — new entries land as they are
-            learned, not on a schedule.
-          </p>
-        )}
-      </div>
+      </ol>
+      {filtered.length === 0 && (
+        <p className="max-w-[46ch] py-16 text-[1.0625rem] leading-relaxed text-muted-foreground">
+          Nothing under that filter yet. New entries land as they are learned,
+          not on a schedule.
+        </p>
+      )}
 
       <p className="mt-6 font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground tabnum">
         showing {filtered.length} of {entries.length}

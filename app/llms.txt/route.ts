@@ -34,10 +34,11 @@ export function GET() {
     ``,
     `## Pages`,
     ``,
-    `- [Home](${SITE_URL}/): current focus, the log, selected work and writing.`,
+    `- [Home](${SITE_URL}/): current focus, what I'm studying, the log, selected work and writing.`,
     `- [The log](${SITE_URL}/log): short entries on what ${profile.name} is learning. Most recent first.`,
-    `- [Writing](${SITE_URL}/blog): longer essays, each with a "how this post was made" box.`,
-    `- [Projects](${SITE_URL}/projects): case studies — problem, approach, outcome, learnings.`,
+    `- [Studies](${SITE_URL}/studies): active learning tracks with the notes where the work happened.`,
+    `- [Essays](${SITE_URL}/blog): longer pieces, each with a "how this post was made" box.`,
+    `- [Work](${SITE_URL}/work): case studies — problem, approach, outcome, learnings.`,
     `- [About](${SITE_URL}/about): narrative background and how he works.`,
     `- [Now](${SITE_URL}/now): snapshot of current work and focus.`,
     `- [Uses](${SITE_URL}/uses): tools, stack and the typefaces behind this site.`,
@@ -66,7 +67,7 @@ export function GET() {
     ``,
     ...projects.map(
       (p) =>
-        `- [${p.title}](${SITE_URL}/projects/${p.slug}) (${p.period}, ${p.status}): ${p.summary}`,
+        `- [${p.title}](${SITE_URL}/work/${p.slug}) (${p.period}, ${p.status}): ${p.summary}`,
     ),
     ``,
   ];

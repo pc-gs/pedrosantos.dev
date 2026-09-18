@@ -10,9 +10,9 @@ import type { PaletteItem } from "@/lib/palette";
 
 const navItems = [
   { name: "Log", href: "/log", folio: "01" },
-  { name: "Essays", href: "/blog", folio: "02" },
-  { name: "Work", href: "/projects", folio: "03" },
-  { name: "Now", href: "/now", folio: "04" },
+  { name: "Studies", href: "/studies", folio: "02" },
+  { name: "Essays", href: "/blog", folio: "03" },
+  { name: "Work", href: "/work", folio: "04" },
   { name: "About", href: "/about", folio: "05" },
 ];
 
@@ -21,7 +21,7 @@ function sectionFor(pathname: string): string | null {
   if (pathname === "/") return null;
   if (pathname.startsWith("/log")) return "the log";
   if (pathname.startsWith("/blog")) return "essays";
-  if (pathname.startsWith("/projects")) return "work";
+  if (pathname.startsWith("/work")) return "work";
   if (pathname.startsWith("/now")) return "now";
   if (pathname.startsWith("/uses")) return "uses";
   if (pathname.startsWith("/about")) return "about";
@@ -144,8 +144,9 @@ export function SiteHeader({ paletteItems }: { paletteItems: PaletteItem[] }) {
             >
               {[
                 ...navItems,
-                { name: "Uses", href: "/uses", folio: "06" },
-                { name: "Contact", href: "/contact", folio: "07" },
+                { name: "Now", href: "/now", folio: "06" },
+                { name: "Uses", href: "/uses", folio: "07" },
+                { name: "Contact", href: "/contact", folio: "08" },
               ].map((item) => {
                 const active = isActive(pathname, item.href);
                 return (

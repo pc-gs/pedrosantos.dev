@@ -7,8 +7,9 @@ import { LinkButton } from "@/components/site/link-button";
 
 const contents = [
   { name: "Log", href: "/log" },
+  { name: "Studies", href: "/studies" },
   { name: "Essays", href: "/blog" },
-  { name: "Work", href: "/projects" },
+  { name: "Work", href: "/work" },
   { name: "Now", href: "/now" },
   { name: "Uses", href: "/uses" },
   { name: "About", href: "/about" },

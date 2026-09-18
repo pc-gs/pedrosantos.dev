@@ -7,18 +7,13 @@ import {
   getLogEntryBySlug,
 } from "@/lib/log";
 import { formatDate } from "@/lib/date";
-import { dateParts } from "@/components/log/entry-row";
-import {
-  DateFolio,
-  Manuscript,
-  Sidenote,
-} from "@/components/manuscript/manuscript";
-import { HandWrittenMark, TagRun } from "@/components/manuscript/marks";
 import { JsonLd } from "@/components/layout/json-ld";
 import {
   generateArticleStructuredData,
   generateBreadcrumbStructuredData,
 } from "@/lib/structured-data";
+import { Wrap } from "@/components/site/wrap";
+import { Eyebrow } from "@/components/site/eyebrow";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pedrosantos.dev";
 
@@ -63,10 +58,9 @@ export default async function LogEntryPage({
   const index = all.findIndex((e) => e.slug === entry.slug);
   const newer = all[index - 1];
   const older = all[index + 1];
-  const { day, month } = dateParts(entry.date);
 
   return (
-    <main className="container py-12 md:py-16">
+    <main>
       <JsonLd
         data={generateArticleStructuredData({
           type: "TechArticle",
@@ -86,115 +80,120 @@ export default async function LogEntryPage({
         ])}
       />
 
-      <Manuscript
-        marginWidth="wide"
-        folio={<DateFolio day={day} month={month} />}
-        margin={
-          <>
-            {entry.aiAssisted ? (
-              <Sidenote label="✦ the prompt that started this" tone="ai" leader>
-                {entry.prompt ? (
-                  <p className="font-mono text-[11.5px] leading-[1.75] text-foreground/80">
-                    &ldquo;{entry.prompt}&rdquo;
-                  </p>
-                ) : (
-                  <p className="font-mono text-[11.5px] text-muted-foreground">
-                    Prompt not recorded.
-                  </p>
-                )}
-                <p className="mt-3.5 font-serif text-[0.9rem] leading-relaxed text-muted-foreground">
-                  Drafted from that prompt
-                  {entry.model ? ` with ${entry.model}` : ""}, then rewritten,
-                  cut and checked by hand.
-                </p>
-              </Sidenote>
-            ) : (
-              <Sidenote label="no model involved" leader>
-                <HandWrittenMark />
-                <p className="mt-3 font-serif text-[0.9rem] leading-relaxed text-muted-foreground">
-                  No model was involved in drafting this entry.
-                </p>
-              </Sidenote>
-            )}
-
-            <Sidenote label="entry">
-              <p className="font-mono text-[11.5px] leading-[1.9] text-muted-foreground tabnum">
-                {formatDate(entry.date, {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-                <br />
-                {entry.readingTime}
-              </p>
-              <div className="mt-3">
-                <TagRun tags={entry.tags} />
-              </div>
-            </Sidenote>
-
-            <Sidenote label="">
-              <p>
-                <Link
-                  href="/log"
-                  className="inline-block border-b border-brand/30 pb-[3px] font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand transition-colors hover:border-brand"
-                >
-                  ← the whole log
-                </Link>
-              </p>
-            </Sidenote>
-          </>
-        }
-      >
-        <header className="border-b border-border pb-8">
-          <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-            the log ·{" "}
-            <time dateTime={entry.date}>{formatDate(entry.date)}</time>
+      <Wrap className="pt-14 md:pt-20">
+        <Eyebrow>
+          The log ·{" "}
+          <time dateTime={entry.date}>
+            {formatDate(entry.date, {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </time>
+        </Eyebrow>
+        <h1 className="mt-5 max-w-[22ch] font-display text-[clamp(2.25rem,6vw,4rem)] leading-[0.98] tracking-[-0.02em]">
+          {entry.title}
+        </h1>
+        {entry.description && (
+          <p className="mt-5 max-w-[56ch] text-[1.125rem] leading-relaxed text-muted-foreground">
+            {entry.description}
           </p>
-          <h1 className="mt-5 font-display display-page text-foreground">
-            {entry.title}
-          </h1>
-          {entry.description && (
-            <p className="mt-6 max-w-[56ch] font-serif text-[1.125rem] leading-[1.72] text-foreground/85">
-              {entry.description}
-            </p>
-          )}
-        </header>
+        )}
 
+        <div className="mt-6 flex flex-wrap items-baseline gap-x-4 gap-y-2">
+          <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
+            {entry.readingTime}
+          </span>
+          {entry.tags.map((tag) => (
+            <span
+              key={tag}
+              className="font-mono text-[10px] tracking-[0.08em] text-muted-foreground"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+
+        {entry.aiAssisted ? (
+          <section className="mt-8 max-w-[62ch] border border-ai/30 bg-ai/5 p-4">
+            <p className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-ai">
+              ✦ co-written{entry.model ? ` with ${entry.model}` : ""}
+            </p>
+            {entry.prompt ? (
+              <p className="mt-2 font-mono text-[11.5px] leading-relaxed text-foreground/80">
+                &ldquo;{entry.prompt}&rdquo;
+              </p>
+            ) : (
+              <p className="mt-2 font-mono text-[11.5px] text-muted-foreground">
+                Prompt not recorded.
+              </p>
+            )}
+            <p className="mt-2 text-[0.9rem] leading-relaxed text-muted-foreground">
+              Drafted from that prompt, then rewritten, cut and checked by hand.
+            </p>
+          </section>
+        ) : (
+          <section className="mt-8 max-w-[62ch] border border-border p-4">
+            <p className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-muted-foreground">
+              ✎ by hand
+            </p>
+            <p className="mt-2 text-[0.9rem] leading-relaxed text-muted-foreground">
+              No model was involved in drafting this entry.
+            </p>
+          </section>
+        )}
+      </Wrap>
+
+      <Wrap className="mt-10">
         <div
-          className="prose mt-10 max-w-[62ch]"
+          className="prose max-w-[62ch]"
           dangerouslySetInnerHTML={{ __html: entry.body }}
         />
-      </Manuscript>
+      </Wrap>
 
-      <nav
-        aria-label="Older and newer entries"
-        className="mt-20 grid grid-cols-1 gap-8 border-t border-border pt-6 sm:grid-cols-2"
-      >
-        {older ? (
-          <Link href={`/log/${older.slug}`} className="group min-w-0">
-            <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-              ← older
-            </span>
-            <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-tight text-foreground transition-colors group-hover:text-brand">
-              {older.title}
-            </span>
+      <Wrap className="mt-12">
+        <nav
+          aria-label="Older and newer entries"
+          className="grid grid-cols-1 gap-8 border-t border-border py-8 sm:grid-cols-2"
+        >
+          {older ? (
+            <Link href={`/log/${older.slug}`} className="group min-w-0">
+              <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+                ← older
+              </span>
+              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand">
+                {older.title}
+              </span>
+            </Link>
+          ) : (
+            <span />
+          )}
+          {newer ? (
+            <Link
+              href={`/log/${newer.slug}`}
+              className="group min-w-0 sm:text-right"
+            >
+              <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+                newer →
+              </span>
+              <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand">
+                {newer.title}
+              </span>
+            </Link>
+          ) : (
+            <span className="hidden sm:block" />
+          )}
+        </nav>
+
+        <p className="mb-4">
+          <Link
+            href="/log"
+            className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-brand transition-colors hover:text-foreground"
+          >
+            ← the whole log
           </Link>
-        ) : (
-          <span />
-        )}
-        {newer ? (
-          <Link href={`/log/${newer.slug}`} className="group min-w-0 sm:text-right">
-            <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-              newer →
-            </span>
-            <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-tight text-foreground transition-colors group-hover:text-brand">
-              {newer.title}
-            </span>
-          </Link>
-        ) : (
-          <span className="hidden sm:block" />
-        )}
-      </nav>
+        </p>
+      </Wrap>
     </main>
   );
 }

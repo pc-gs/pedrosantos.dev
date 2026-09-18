@@ -27,7 +27,7 @@ export function ProcessBox({
 
       <ol className="mt-6 border-t border-border">
         <Step index="01" label="My notes">
-          <p className="max-w-[62ch] font-serif text-[1.0625rem] leading-[1.72] text-muted-foreground">
+          <p className="max-w-[62ch] text-[1.0625rem] leading-[1.75] text-muted-foreground">
             {process.notes}
           </p>
         </Step>
@@ -48,14 +48,14 @@ export function ProcessBox({
         )}
 
         <Step index="03" label="First draft">
-          <p className="max-w-[62ch] font-serif text-[1.0625rem] leading-[1.72] text-muted-foreground">
+          <p className="max-w-[62ch] text-[1.0625rem] leading-[1.75] text-muted-foreground">
             A model turned those notes into a first draft — structure and prose,
             never facts. Every claim in it came from step 01.
           </p>
         </Step>
 
         <Step index="04" label="My edit">
-          <p className="max-w-[62ch] font-serif text-[1.0625rem] leading-[1.72] text-muted-foreground">
+          <p className="max-w-[62ch] text-[1.0625rem] leading-[1.75] text-muted-foreground">
             {process.humanEdit}
           </p>
         </Step>

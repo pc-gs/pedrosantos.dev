@@ -8,7 +8,7 @@ import { Screen } from "@/components/site/screen";
 export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
-      href={`/projects/${project.slug}`}
+      href={`/work/${project.slug}`}
       className="group flex flex-col border border-border bg-card transition-colors hover:border-foreground"
     >
       <Screen label={project.slug} className="border-b">

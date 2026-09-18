@@ -3,122 +3,58 @@ import { Link } from "next-view-transitions";
 import { nowItems, nowUpdated } from "@/content/now";
 import { formatDate } from "@/lib/date";
 import { NowList } from "@/components/now/now-list";
-import { Folio, Manuscript, Sidenote } from "@/components/manuscript/manuscript";
-import { MarginLink } from "@/components/manuscript/marks";
+import { Wrap } from "@/components/site/wrap";
+import { Eyebrow } from "@/components/site/eyebrow";
 
 export const metadata: Metadata = {
   title: "Now",
   description:
-    "What Pedro Santos is working on right now — day job, Melro.io, the AI-assisted workflow, and what he is learning. A /now page snapshot.",
+    "A living snapshot of what I'm working on, learning and building right now. Updated when things change, not on a schedule.",
   alternates: { canonical: "/now" },
 };
 
-const notDoing = [
-  "Chasing every new framework — I would rather get deeper on fewer things.",
-  "Treating the side company as a growth story; it is a craft story.",
-  "Pretending finished work is the interesting part.",
-];
-
 export default function NowPage() {
   return (
-    <main className="container py-12 md:py-16">
-      <Manuscript
-        marginWidth="wide"
-        folio={<Folio>now</Folio>}
-        margin={
-          <>
-            <Sidenote label="stamped" leader>
-              <p className="font-mono text-[11.5px] leading-[1.9] text-muted-foreground tabnum">
-                updated
-                <br />
-                {formatDate(nowUpdated, {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </p>
-              <p className="mt-3 font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
-                A {}
-                <a
-                  href="https://nownownow.com/about"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-ink"
-                >
-                  /now page
-                </a>
-                {" "}
-                — edited when things actually change, not on a schedule.
-              </p>
-            </Sidenote>
-
-            <Sidenote label="the granular version">
-              <p className="font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
-                The week-to-week detail — the thing I just broke, the API that
-                surprised me, the prompt that worked — is in the log.
-              </p>
-              <p className="mt-3">
-                <MarginLink href="/log">the log →</MarginLink>
-              </p>
-            </Sidenote>
-
-            <Sidenote label="the tools">
-              <p>
-                <MarginLink href="/uses">/uses →</MarginLink>
-              </p>
-            </Sidenote>
-          </>
-        }
-      >
-        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-          now · a snapshot
-        </p>
-        <h1 className="mt-5 font-display display-page text-foreground">
+    <main>
+      <Wrap className="pb-10 pt-14 md:pt-20">
+        <Eyebrow>Now</Eyebrow>
+        <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.5rem,6.5vw,4.5rem)] leading-[0.95] tracking-[-0.025em]">
           What I&apos;m doing right now
         </h1>
-        <p className="mt-6 max-w-[56ch] font-serif text-[1.125rem] leading-[1.72] text-foreground/85">
-          Most personal sites tell you what someone did. This is the part that
-          keeps drifting: the work in flight, the things I&apos;m learning, and
-          what I&apos;ve deliberately said no to this season.
+        <p className="mt-6 max-w-[58ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
+          A living snapshot, not a résumé line. This page follows the{" "}
+          <a
+            href="https://nownownow.com/about"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-inline"
+          >
+            now page
+          </a>{" "}
+          convention: it changes when my focus changes.
         </p>
+        <p className="mt-4 font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+          updated {formatDate(nowUpdated, { month: "long", year: "numeric" })}
+        </p>
+      </Wrap>
 
-        <div className="mt-10">
-          <NowList items={nowItems} />
-        </div>
+      <Wrap className="pb-14">
+        <NowList items={nowItems} />
+      </Wrap>
 
-        <section className="mt-14 grid grid-cols-1 gap-y-3 border-t border-border py-9 sm:grid-cols-[3.5rem_minmax(0,1fr)] sm:gap-x-6">
-          <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground tabnum">
-            <span className="text-brand">04</span>
-          </p>
-          <div className="min-w-0">
-            <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-              What I&apos;m not doing
-            </p>
-            <ul className="mt-4">
-              {notDoing.map((line) => (
-                <li
-                  key={line}
-                  className="flex max-w-[58ch] gap-3 border-b border-border/70 py-3.5 font-serif text-[1.0625rem] leading-[1.72] text-muted-foreground last:border-0"
-                >
-                  <span
-                    aria-hidden
-                    className="mt-2 h-1 w-1 shrink-0 rounded-full bg-brand"
-                  />
-                  <span>{line}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      </Manuscript>
-
-      <p className="mt-16 max-w-[56ch] font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
-        If something here looks like a fit,{" "}
-        <Link href="/contact" className="link-ink">
-          tell me
-        </Link>
-        .
-      </p>
+      <Wrap>
+        <p className="max-w-[52ch] border-t border-border pt-8 text-[1.0625rem] leading-relaxed text-muted-foreground">
+          The learning behind these is tracked on{" "}
+          <Link href="/studies" className="link-inline">
+            the bench
+          </Link>{" "}
+          and written up in{" "}
+          <Link href="/log" className="link-inline">
+            the log
+          </Link>
+          .
+        </p>
+      </Wrap>
     </main>
   );
 }
