@@ -1,8 +1,8 @@
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import {
+  Bricolage_Grotesque,
   Geist,
-  Instrument_Serif,
   JetBrains_Mono,
   Newsreader,
 } from "next/font/google";
@@ -28,11 +28,10 @@ const newsreader = Newsreader({
   style: ["normal", "italic"],
 });
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument",
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
+  display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -127,7 +126,7 @@ export default function RootLayout({
           <JsonLd data={websiteStructuredData} />
         </head>
         <body
-          className={`${geistSans.variable} ${newsreader.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} min-h-screen bg-background font-sans antialiased`}
+          className={`${geistSans.variable} ${newsreader.variable} ${bricolage.variable} ${jetbrainsMono.variable} min-h-screen bg-background font-sans antialiased`}
         >
           <ThemeProvider>
             <SmoothScroll>

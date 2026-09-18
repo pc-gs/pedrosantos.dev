@@ -3,45 +3,45 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ── Tinta & papel — 2027 design tokens ─────────────────────────────────
-   Light: warm paper, ink text, fountain-pen blue.
-   Dark: "modo noturno" — warm near-black, chalk text, lit-up blue.
+/* ── Bancada — design tokens ────────────────────────────────────────────
+   Light: warm bone paper, ink text, Melro orange.
+   Dark: warm near-black (Estúdio à noite), chalk text, lit orange.
    The violet --ai is reserved for AI co-authorship marks. */
 :root {
-  --background: hsl(39 47% 96%);
-  --foreground: hsl(30 22% 10%);
-  --card: hsl(45 60% 99%);
-  --card-foreground: hsl(30 22% 10%);
-  --muted: hsl(40 30% 92%);
-  --muted-foreground: hsl(32 12% 40%);
-  --border: hsl(39 26% 86%);
-  --input: hsl(39 26% 84%);
-  --ring: hsl(219 58% 37%);
+  --background: #f4f1e9;
+  --foreground: #14161a;
+  --card: #fbf9f3;
+  --card-foreground: #14161a;
+  --muted: #ece7db;
+  --muted-foreground: #625c50;
+  --border: #d8d2c2;
+  --input: #d8d2c2;
+  --ring: #ff4d00;
 
-  --brand: hsl(219 58% 37%);
-  --brand-foreground: hsl(0 0% 100%);
-  --brand-muted: hsl(219 40% 42%);
+  --brand: #ff4d00;
+  --brand-foreground: #14161a;
+  --brand-muted: #b83a05;
 
   --ai: hsl(262 60% 52%);
-  --ai-foreground: hsl(0 0% 100%);
+  --ai-foreground: #ffffff;
 
   --radius: 0.125rem;
 }
 
 .dark {
-  --background: hsl(26 14% 8%);
-  --foreground: hsl(38 30% 90%);
-  --card: hsl(26 12% 11%);
-  --card-foreground: hsl(38 30% 90%);
-  --muted: hsl(26 11% 15%);
-  --muted-foreground: hsl(34 14% 64%);
-  --border: hsl(28 12% 20%);
-  --input: hsl(28 12% 24%);
-  --ring: hsl(213 78% 68%);
+  --background: #121110;
+  --foreground: #ede8df;
+  --card: #1a1816;
+  --card-foreground: #ede8df;
+  --muted: #201d1a;
+  --muted-foreground: #a59c8a;
+  --border: #302b26;
+  --input: #302b26;
+  --ring: #ff6a2b;
 
-  --brand: hsl(213 78% 68%);
-  --brand-foreground: hsl(219 50% 10%);
-  --brand-muted: hsl(214 55% 60%);
+  --brand: #ff6a2b;
+  --brand-foreground: #1a1208;
+  --brand-muted: #ff8f5c;
 
   --ai: hsl(260 80% 74%);
   --ai-foreground: hsl(260 60% 12%);
@@ -72,7 +72,7 @@
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
-  --font-display: var(--font-instrument), var(--font-newsreader), Georgia, serif;
+  --font-display: var(--font-bricolage), var(--font-geist-sans), sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
 }
 
@@ -88,10 +88,7 @@
     text-rendering: optimizeLegibility;
   }
   ::selection {
-    background: hsl(219 58% 37% / 0.22);
-  }
-  .dark ::selection {
-    background: hsl(213 78% 68% / 0.3);
+    background: color-mix(in srgb, var(--brand) 25%, transparent);
   }
 }
 
@@ -225,13 +222,6 @@
   outline-offset: 2px;
 }
 
-/* ── Design explorations ──────────────────────────────────────────────────
-   Variants under /design render standalone: no manuscript grain behind them,
-   so each visual direction is judged on its own canvas. */
-body.design-mode::before {
-  display: none;
-}
-
 /* ── View Transitions (page-to-page fades) ─────────────────────────────── */
 ::view-transition-old(root),
 ::view-transition-new(root) {
@@ -247,22 +237,8 @@ body.design-mode::before {
 }
 
 /* ── Manuscript material ──────────────────────────────────────────────────
-   The page is a printed sheet: faint paper grain behind the content (so the
-   texture lives in the whitespace, never over the ink) and marks that are
-   typeset rather than boxed. */
+   Legacy utilities still used by the pages pending their rebuild. */
 @layer base {
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.55;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23grain)' opacity='0.14'/%3E%3C/svg%3E");
-  }
-  .dark body::before {
-    opacity: 0.3;
-  }
   /* Numbers line up like set type */
   time,
   .tabnum {
@@ -289,6 +265,16 @@ body.design-mode::before {
   }
   .link-plain {
     @apply text-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-brand hover:decoration-brand;
+  }
+  .link-inline {
+    color: var(--brand-muted);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--brand) 35%, transparent);
+    text-underline-offset: 4px;
+    transition: text-decoration-color 150ms ease;
+  }
+  .link-inline:hover {
+    text-decoration-color: var(--brand);
   }
   /* Big display sizes set by hand rather than by step scale */
   .display-hero {
@@ -342,7 +328,7 @@ body.design-mode::before {
     float: left;
     margin-right: 0.5rem;
     margin-top: 0.35rem;
-    font-family: var(--font-instrument), Georgia, serif;
+    font-family: var(--font-bricolage), Georgia, serif;
     font-size: 3.9em;
     line-height: 0.78;
     color: var(--brand);

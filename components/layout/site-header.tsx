@@ -10,17 +10,17 @@ import type { PaletteItem } from "@/lib/palette";
 
 const navItems = [
   { name: "Log", href: "/log", folio: "01" },
-  { name: "Writing", href: "/blog", folio: "02" },
+  { name: "Essays", href: "/blog", folio: "02" },
   { name: "Work", href: "/projects", folio: "03" },
   { name: "Now", href: "/now", folio: "04" },
   { name: "About", href: "/about", folio: "05" },
 ];
 
-/** Running-head label: which part of the manuscript you are in. */
+/** Running head: which part of the site you are in. */
 function sectionFor(pathname: string): string | null {
   if (pathname === "/") return null;
   if (pathname.startsWith("/log")) return "the log";
-  if (pathname.startsWith("/blog")) return "writing";
+  if (pathname.startsWith("/blog")) return "essays";
   if (pathname.startsWith("/projects")) return "work";
   if (pathname.startsWith("/now")) return "now";
   if (pathname.startsWith("/uses")) return "uses";
@@ -35,8 +35,8 @@ function isActive(pathname: string, href: string) {
 }
 
 /**
- * Running head. A book prints the section at the top of every page; this does
- * the same, and grows the current section name once you have started reading.
+ * Sticky header: wordmark, section nav, command palette hint and the theme
+ * toggle. Hairlines only, one orange accent.
  */
 export function SiteHeader({ paletteItems }: { paletteItems: PaletteItem[] }) {
   const pathname = usePathname();
@@ -58,22 +58,23 @@ export function SiteHeader({ paletteItems }: { paletteItems: PaletteItem[] }) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-border bg-background">
-        <div className="container flex h-14 items-center justify-between gap-5">
+      <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
+        <div className="mx-auto flex h-14 w-full max-w-[1180px] items-center justify-between gap-5 px-5 sm:px-6 lg:px-8">
           <div className="flex min-w-0 items-baseline gap-3">
             <Link
               href="/"
-              className="font-display text-[17px] leading-none tracking-tight text-foreground transition-colors hover:text-brand"
+              className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-foreground transition-colors hover:text-brand"
             >
-              pedro santos
+              Pedro Santos
               <span className="text-brand" aria-hidden>
                 .
               </span>
+              dev
             </Link>
             {section && (
               <span
                 className={cn(
-                  "hidden truncate font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground transition-opacity duration-300 sm:inline",
+                  "hidden truncate font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-opacity duration-300 sm:inline",
                   scrolled ? "opacity-100" : "opacity-0",
                 )}
                 aria-hidden={!scrolled}
@@ -125,7 +126,7 @@ export function SiteHeader({ paletteItems }: { paletteItems: PaletteItem[] }) {
           <button
             type="button"
             className="-mr-2 inline-flex h-9 w-9 items-center justify-center text-muted-foreground transition-colors hover:text-foreground md:hidden"
-            aria-label={open ? "Close contents" : "Open contents"}
+            aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
           >
@@ -137,7 +138,10 @@ export function SiteHeader({ paletteItems }: { paletteItems: PaletteItem[] }) {
 
         {open && (
           <div className="border-t border-border bg-background md:hidden">
-            <nav className="container flex flex-col py-2" aria-label="Contents">
+            <nav
+              className="mx-auto flex w-full max-w-[1180px] flex-col px-5 py-2 sm:px-6 lg:px-8"
+              aria-label="Menu"
+            >
               {[
                 ...navItems,
                 { name: "Uses", href: "/uses", folio: "06" },

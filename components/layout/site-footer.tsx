@@ -1,9 +1,13 @@
 import { Link } from "next-view-transitions";
+import { ArrowUpRight } from "lucide-react";
 import { profile } from "@/content/profile";
+import { Wrap } from "@/components/site/wrap";
+import { Eyebrow } from "@/components/site/eyebrow";
+import { LinkButton } from "@/components/site/link-button";
 
 const contents = [
   { name: "Log", href: "/log" },
-  { name: "Writing", href: "/blog" },
+  { name: "Essays", href: "/blog" },
   { name: "Work", href: "/projects" },
   { name: "Now", href: "/now" },
   { name: "Uses", href: "/uses" },
@@ -15,101 +19,84 @@ const elsewhere = [
   { name: "GitHub", href: "https://github.com/pedrocarlos-ti" },
   { name: "LinkedIn", href: "https://linkedin.com/in/pedro-santos" },
   { name: "X", href: "https://x.com/pcgs_tsx" },
-  { name: "Email", href: `mailto:${profile.email}` },
   { name: "Writing RSS", href: "/rss.xml" },
   { name: "Log RSS", href: "/log/feed.xml" },
 ];
 
 /**
- * Colophon. A printed book ends by telling you who made it and how — this
- * footer does the same instead of stacking three columns of link lists.
+ * Site footer: the contact block every page ends on, plus the small print.
+ * One orange accent, hairlines, no dark slabs.
  */
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-28 border-t border-border">
-      <div className="container py-12">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[3.25rem_minmax(0,1fr)_15rem] lg:gap-x-7 xl:grid-cols-[4rem_minmax(0,1fr)_17rem] xl:gap-x-9">
-          <p className="hidden font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground lg:block lg:text-right">
-            colophon
-          </p>
+    <footer className="border-t border-border">
+      <Wrap className="py-16 md:py-20">
+        <Eyebrow>Contact</Eyebrow>
+        <h2 className="mt-3 font-display text-[clamp(2.25rem,6vw,4rem)] leading-[0.95] tracking-[-0.02em]">
+          Let&apos;s talk<span className="text-brand">.</span>
+        </h2>
+        <p className="mt-4 max-w-[52ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
+          {profile.availability.note}
+        </p>
+        <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <LinkButton href="/contact" variant="solid">
+            Start a conversation
+            <ArrowUpRight className="h-4 w-4" />
+          </LinkButton>
+          <a
+            href={`mailto:${profile.email}`}
+            className="link-inline font-mono text-[11px] uppercase tracking-[0.16em]"
+          >
+            {profile.email}
+          </a>
+        </div>
 
-          <div className="min-w-0">
+        <nav
+          aria-label="Contents"
+          className="mt-14 flex flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-border pt-6"
+        >
+          {contents.map((item) => (
             <Link
-              href="/"
-              className="font-display text-[1.75rem] leading-none tracking-tight text-foreground transition-colors hover:text-brand"
+              key={item.href}
+              href={item.href}
+              className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-brand"
             >
-              pedro santos
-              <span className="text-brand" aria-hidden>
-                .
-              </span>
+              {item.name}
             </Link>
+          ))}
+        </nav>
 
-            <p className="mt-5 max-w-[56ch] font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
-              Set in Instrument Serif, Newsreader and JetBrains Mono. Built with
-              Next.js, Tailwind and bun; the words are markdown in a git
-              repository. Everything drafted with a model says so{" "}
-              <span className="text-ai" aria-hidden>
-                ✦
-              </span>{" "}
-              — and every line is edited by hand.
-            </p>
-
-            <nav
-              aria-label="Contents"
-              className="mt-7 flex flex-wrap items-baseline gap-x-6 gap-y-2"
-            >
-              {contents.map((item) => (
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 font-mono text-[9.5px] uppercase tracking-[0.18em] text-muted-foreground">
+          <span>
+            © {year} {profile.name} · {profile.location}
+          </span>
+          <span className="flex flex-wrap items-center gap-5">
+            {elsewhere.map((item) =>
+              item.href.startsWith("/") ? (
                 <Link
-                  key={item.href}
+                  key={item.name}
                   href={item.href}
-                  className="border-b border-transparent pb-[3px] font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:border-brand hover:text-foreground"
+                  className="hover:text-brand"
                 >
                   {item.name}
                 </Link>
-              ))}
-            </nav>
-          </div>
-
-          <div className="min-w-0 space-y-6 lg:border-l lg:border-border lg:pl-7">
-            <div>
-              <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-                Elsewhere
-              </p>
-              <ul className="mt-3 space-y-1.5">
-                {elsewhere.map((item) => (
-                  <li key={item.name}>
-                    <a
-                      href={item.href}
-                      target={item.href.startsWith("http") ? "_blank" : undefined}
-                      rel={
-                        item.href.startsWith("http")
-                          ? "noopener noreferrer"
-                          : undefined
-                      }
-                      className="font-serif text-[0.975rem] text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-brand hover:decoration-brand"
-                    >
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
-                Imprint
-              </p>
-              <p className="mt-3 font-serif text-[0.975rem] leading-relaxed text-muted-foreground">
-                © {year} {profile.name}
-                <br />
-                {profile.location}
-              </p>
-            </div>
-          </div>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-brand"
+                >
+                  {item.name}
+                </a>
+              ),
+            )}
+          </span>
         </div>
-      </div>
+      </Wrap>
     </footer>
   );
 }
