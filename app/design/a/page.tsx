@@ -287,7 +287,7 @@ export default function BancadaPage() {
                     className="flex items-center font-mono text-[10.5px] uppercase tracking-[0.22em]"
                   >
                     <span className="px-5">{item}</span>
-                    <span className="text-[var(--bk-accent)]">✦</span>
+                    <span className="text-[var(--bk-accent)]">◆</span>
                   </span>
                 ))}
               </div>
