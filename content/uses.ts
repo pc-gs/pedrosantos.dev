@@ -31,7 +31,7 @@ export const uses: UsesGroup[] = [
       { name: "marked + gray-matter", detail: "Markdown in content/, frontmatter for metadata. No CMS." },
       { name: "next-themes", detail: "Real light/dark: system preference first, manual override second." },
       { name: "cmdk", detail: "The ⌘K palette — navigation and client-side search over every page." },
-      { name: "Vercel", detail: "Deploys and analytics. Analytics is the only third-party script." },
+      { name: "Cloud Run", detail: "Deploys the container from Google Cloud Build. Scales to zero, no vendor scripts." },
       { name: "Resend", detail: "Contact form delivery." },
     ],
   },

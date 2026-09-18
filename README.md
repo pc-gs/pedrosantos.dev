@@ -1,119 +1,59 @@
 # pedrosantos.dev
 
-Personal site of **Pedro Santos** — software engineer (React / Next.js) and founder of
-[Melro.io](https://melro.io). Version **2027.2 — “Tinta & papel”**.
+Personal site of **Pedro Santos** — software engineer in Belmonte, Portugal.
+Shipping production React and Next.js by day, building [Melro.io](https://melro.io)
+on the side. Version **2026 — “Bancada”**.
 
-An editorial, light-first site: warm paper, ink text, a fountain-pen-blue accent.
-One thing carries it:
+An honest, typographic site: warm bone paper, ink text, one orange accent (the
+same orange as Melro). Work, studies, the log and essays, with the thinking
+left in. No portrait photography, no stock, no logo walls.
 
-1. **The log** — a public learning log co-written with AI, where marked entries (✦)
-   disclose the actual prompt that started them.
+The two things that carry it:
 
-The contrast with previous iterations is deliberate: not dark-minimal (v1), not
-flashy (v3), not sidebar/coral (redesign), not pure editorial (v2).
-
-## The idea
-
-Most portfolio sites only show finished work. Finished work hides the interesting
-part — the confusion, the dead ends, the thing you learned on a Tuesday. So this
-site keeps a **log** instead: short entries about what I just learned, marked ✦ when
-an AI model helped draft them, prompt included. Longer thinking lives in **Writing**,
-where each essay carries a “how this post was made” box: my notes → the prompt(s) →
-the AI draft → my edit.
+1. **The log** — a public learning log. Entries drafted with a model are marked
+   ✦ and publish the actual prompt that started them; entries written by hand
+   say so as well.
+2. **The bench (`/studies`)** — active learning tracks, each with the log
+   entries where the work actually happened.
 
 ## Routes
 
 | Route | What it is |
 | --- | --- |
-| `/` | Hero, Now strip, the log (signature section), featured work, latest writing, CTA |
-| `/log`, `/log/[slug]` | Learning log — filter by tag or by co-authorship; per-entry prompt disclosure |
-| `/blog`, `/blog/[slug]` | Essays, each with the co-authorship process box |
-| `/projects`, `/projects/[slug]` | Case studies — problem → approach → outcome → learnings |
-| `/about` | Narrative background, working principles, experience as stories |
-| `/now` | nownownow-style snapshot of current focus |
+| `/` | Hero, “working on now” strip, studies, latest notes (newest one featured with its prompt), essays, work, footer with the latest log entry |
+| `/work`, `/work/[slug]` | Project index with illustrated covers; case studies: problem → approach → outcome → what I took away |
+| `/studies` | Learning tracks with state, why and linked notes |
+| `/log`, `/log/[slug]` | The log — tag and ✦ filters, prompt disclosure on the index and on each entry |
+| `/blog`, `/blog/[slug]` | Essays, each with its “how this post was made” paper trail |
+| `/about` | Story, principles, experience, education |
+| `/now` | nownownow-style snapshot |
 | `/uses` | Tools, stack and typefaces |
-| `/contact` | Contact form (Resend) + channels |
+| `/contact` | Form (Resend) and direct channels |
 | `/rss.xml`, `/log/feed.xml` | Two feeds, because two collections |
 | `/llms.txt` | Plain-text digest for LLMs and agents |
 | `/sitemap.xml`, `/robots.txt` | SEO plumbing |
 | `/opengraph-image` (+ per-entry) | Dynamic OG cards, prerendered for every post, log entry and project |
+| `/icon.svg`, `/apple-icon.png` | The PS monogram, served by Next file conventions |
+
+Old `/projects` URLs 308-redirect to `/work`.
 
 ## Design system
 
-- **Type** — `Instrument Serif` (display headlines), `Newsreader` (long-form reading),
-  `JetBrains Mono` (labels, metadata, log entries, code); Geist Sans remains for UI
-  chrome (form controls, toasts). All loaded with `next/font` — self-hosted, no CLS.
-- **Tokens** — CSS variables in `app/globals.css` (`:root` = paper, `.dark` = night),
-  wired into Tailwind v4 through `@theme inline`. Paper `#faf6f0`, ink `#171412`,
-  accent “ink blue” `#284e95`, and violet `--ai` reserved **exclusively** for AI
-  co-authorship marks (the ✦ chip).
-- **Layout** — 1px hairlines, small radii, generous whitespace, `clamp()` display
-  sizes, `.measure` / `.measure-narrow` reading widths, `.label` / `.label-brand`
-  for mono metadata.
-- **Motion** — cross-page view transitions, a single `.fade-up` entrance, hover colour
-  transitions. `prefers-reduced-motion` disables Lenis smooth scroll, ping/pulse
-  and the palette animation.
-- **Theme** — real light/dark via `next-themes`: system preference first, manual
-  toggle in the header. No forced-dark class.
-
-## Environment
-
-Copy `.env.example` to `.env.local` and fill in what you need:
-
-```
-RESEND_API_KEY=...            # contact form
-RESEND_FROM_EMAIL=...         # verified Resend domain
-RESEND_TO_EMAIL=...           # where submissions land
-
-NEXT_PUBLIC_SITE_URL=https://pedrosantos.dev
-```
-
-Nothing here is required to build: without any of it the site prerenders fully; only
-the contact form needs Resend to deliver.
-
-## Getting started
-
-```bash
-git clone git@github.com:pc-gs/pedrosantos.dev.git
-cd pedrosantos.dev
-bun install          # bun is the package manager (see packageManager in package.json)
-cp .env.example .env.local
-bun dev              # http://localhost:3000
-```
-
-### Scripts
-
-| Command | What it does |
-| --- | --- |
-| `bun dev` | Dev server (Turbopack) |
-| `bun run build` | Production build — everything prerendered |
-| `bun start` | Serve the production build |
-| `bun run typecheck` | `tsc --noEmit` |
-| `bun run lint` | ESLint (`next/core-web-vitals` + `next/typescript`) |
-| `bun format` | Prettier |
-| `bun clean` | Drop `.next` and the node cache |
-
-## Project structure
-
-```
-app/                      routes (App Router)
-├── api/send-email/       contact form (Resend)
-├── blog/, log/, projects/, about/, now/, uses/, contact/
-├── opengraph-image.tsx   root OG card (+ per-content cards next to each route)
-├── llms.txt/, rss.xml/, sitemap.ts, robots.ts
-└── globals.css           tokens, utilities, prose, motion
-components/
-├── layout/               site header (theme + ⌘K), footer, ask panel,
-│                         command palette, section headings, JsonLd
-├── log/                  entry rows, filterable feed, ✦ AI badge
-├── blog/                 ProcessBox — “how this post was made”
-├── now/                  NowList (shared by home + /now)
-├── sections/             contact form, project status meta
-└── ui/                   sonner toaster, X icon
-content/                  ← edit here for routine updates
-lib/                      content loaders (blog, log), feed builder, palette,
-                          structured data, OG card, date + classname helpers
-```
+- **Type** — `Bricolage Grotesque` (display), `Geist` (body and UI),
+  `JetBrains Mono` (labels, metadata, code). All self-hosted via `next/font`.
+- **Tokens** — CSS variables in `app/globals.css` (`:root` = bone paper,
+  `.dark` = “estúdio à noite”), wired into Tailwind v4 through `@theme inline`.
+  Bone `#f4f1e9`, ink `#14161a`, Melro orange `#ff4d00`.
+- **Orange rules** — `--brand` for fills, the hero and graphics; `--brand-text`
+  for small text (AA contrast on bone). The violet `--ai` and the ✦ glyph mean
+  one thing only: AI co-authorship.
+- **Layout** — hairlines, small radii, `Wrap` as the single measure, numbered
+  sections, illustrated project covers (`components/site/project-art.tsx`)
+  with a typographic fallback.
+- **Motion** — cross-page view transitions, hover colour transitions, one
+  marquee where it earns its place. `prefers-reduced-motion` disables all of it.
+- **Theme** — real light/dark via `next-themes`; `scrollbar-gutter: stable` so
+  centred content never shifts between pages.
 
 ## Content — what to edit
 
@@ -121,6 +61,7 @@ lib/                      content loaders (blog, log), feed builder, palette,
 | --- | --- |
 | Bio, tagline, socials, availability | `content/profile.ts` |
 | The Now snapshot + its updated date | `content/now.ts` |
+| Study tracks | `content/studies.ts` |
 | Projects & case studies | `content/projects.ts` |
 | Work history / education | `content/experience.ts`, `content/education.ts` |
 | `/uses` groups | `content/uses.ts` |
@@ -136,7 +77,7 @@ title: "TIL: something I just learned"
 description: "One line for the feed, the RSS item and the OG card."
 date: "2026-09-16"
 tags: ["typescript", "til"]
-aiAssisted: true          # shows the violet ✦ badge
+aiAssisted: true          # shows the violet ✦ badge and the prompt
 model: "GLM"              # optional, shown in the disclosure
 prompt: "The actual prompt that started this entry."
 ---
@@ -144,7 +85,8 @@ prompt: "The actual prompt that started this entry."
 Two or three paragraphs. Unfinished is fine — that is the format.
 ```
 
-`draft: true` shows an entry in dev and hides it in production. Reading time is computed.
+`draft: true` shows an entry in dev and hides it in production. Reading time is
+computed.
 
 ### Adding a co-written essay
 
@@ -166,35 +108,114 @@ process:
 ---
 ```
 
-The process box renders in `components/blog/process-box.tsx` (notes → prompt → first
-draft → edit). Never set `coWritten` on a piece a model didn't help draft — the whole
-point of the disclosure is that it means something.
+The process box renders in `components/blog/process-box.tsx`. Never set
+`coWritten` on a piece a model didn't help draft; the disclosure only means
+something if it is true.
+
+## Getting started
+
+```bash
+git clone git@github.com:pc-gs/pedrosantos.dev.git
+cd pedrosantos.dev
+bun install          # bun is the package manager (see packageManager in package.json)
+cp .env.example .env.local
+bun dev              # http://localhost:3000
+```
+
+### Scripts
+
+| Command | What it does |
+| --- | --- |
+| `bun dev` | Dev server (Turbopack) |
+| `bun run build` | Production build; prerenders everything except `/api/*` |
+| `bun start` | Serve the production build |
+| `bun run typecheck` | `tsc --noEmit` |
+| `bun run lint` | ESLint (`next/core-web-vitals` + `next/typescript`) |
+| `bun format` | Prettier |
+| `bun clean` | Drop `.next` and the node cache |
+
+## Environment
+
+Copy `.env.example` to `.env.local` and fill in what you need:
+
+```
+RESEND_API_KEY=...            # contact form
+RESEND_FROM_EMAIL=...         # verified Resend domain
+RESEND_TO_EMAIL=...           # where submissions land
+
+NEXT_PUBLIC_SITE_URL=https://pedrosantos.dev
+```
+
+Nothing here is required to build: without any of it the site prerenders fully;
+only the contact form needs Resend to deliver. The route creates the Resend
+client at request time on purpose, so builds never need the key.
+
+## Deploy — Google Cloud Run
+
+The site ships as a container. `next.config.ts` uses `output: "standalone"`;
+the `Dockerfile` builds with bun and runs on `node:20-alpine` as a non-root
+user. `cloudbuild.yaml` builds, pushes and deploys in one step.
+
+```bash
+# build + push + deploy (project melro-io, region europe-west1)
+gcloud builds submit --config cloudbuild.yaml
+
+# or, step by step
+gcloud builds submit --tag gcr.io/melro-io/pedrosantos-dev:latest .
+gcloud run deploy pedrosantos-dev \
+  --image gcr.io/melro-io/pedrosantos-dev:latest \
+  --region europe-west1 --allow-unauthenticated
+```
+
+Runtime env vars on the service: `NEXT_PUBLIC_SITE_URL`, `RESEND_API_KEY`,
+`RESEND_FROM_EMAIL`, `RESEND_TO_EMAIL`. Prefer Secret Manager with
+`--set-secrets` over plain env values.
+
+The custom domain is mapped on Cloud Run; DNS points at the Google addresses
+(A/AAAA for the apex, CNAME to `ghs.googlehosted.com` for `www`). SSL is
+managed automatically. Vercel is no longer part of the stack.
 
 ## Conventions
 
-- **Marking AI, always.** Violet `--ai` + ✦ mean one thing only: a model helped draft
-  this and a person edited it. Never use it as decoration.
-- **Type has jobs.** Display serif for headlines, `Newsreader` for reading, mono for
-  metadata (dates, tags, status, prompts, code), sans for UI chrome.
-- **Metadata is mono, prose is serif.** Use `.label` / `.label-brand` rather than
-  re-styling mono by hand.
+- **Marking AI, always.** Violet `--ai` + ✦ mean one thing only: a model helped
+  draft this and a person edited it. Never use it as decoration.
+- **One orange, two jobs.** `--brand` for fills and big display; `--brand-text`
+  for small text, so it passes AA on bone.
+- **No personal photos.** Identity comes from the PS monogram, the work and the
+  writing. Don't add a portrait.
 - **No decoration pretending to be design** — no gradients-for-gradients, orbs,
   parallax, stat walls or tech-logo walls. Hairlines and whitespace do the work.
 - **Motion explains, never decorates.** Anything animated must be disabled under
   `prefers-reduced-motion`.
 - **Static by default.** Content is prerendered; only `/api/*` is dynamic.
+- **URLs are forever.** Renames ship with redirects (`/projects` → `/work`).
 
-## Deployment
+## Project structure
 
-Vercel, `main` branch. Build is `bun run build`; set the env vars from
-`.env.example` in the project settings (all optional except the Resend ones if you want
-the contact form to deliver).
+```
+app/                      routes (App Router)
+├── (site)/               public pages (chrome lives in its layout)
+├── api/send-email/       contact form (Resend)
+├── icon.svg, apple-icon.png
+├── llms.txt/, rss.xml/, sitemap.ts, robots.ts
+└── globals.css           tokens, prose, dropcap, view transitions
+components/
+├── site/                 Wrap, SectionHeader, LinkButton, Screen,
+│                         project cards + project art, study cards,
+│                         log rows, post cards, now strip
+├── layout/               site header (PS wordmark + theme), footer, ⌘K palette
+├── log/, blog/, now/     entry rows, process box, now list
+└── sections/             contact form, project status meta
+content/                  ← edit here for routine updates
+lib/                      content loaders, feeds, palette, OG card, structured data
+Dockerfile, cloudbuild.yaml
+```
 
 ## Credits
 
-Next.js 15 · React 19 · Tailwind CSS v4 · bun · next-themes · next-view-transitions ·
-cmdk · Lenis · marked + gray-matter · Resend · Vercel Analytics.
-Typefaces: Instrument Serif, Newsreader, JetBrains Mono (Google Fonts, self-hosted via
-`next/font`).
+Next.js 15 · React 19 · Tailwind CSS v4 · bun · next-themes ·
+next-view-transitions · cmdk · Lenis · marked + gray-matter · Resend ·
+Google Cloud Run. Typefaces: Bricolage Grotesque, Geist, JetBrains Mono
+(Google Fonts, self-hosted via `next/font`).
 
 MIT licensed.
