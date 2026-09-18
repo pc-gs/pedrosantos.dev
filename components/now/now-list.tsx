@@ -15,23 +15,27 @@ const NOW_DATE_FORMAT: Intl.DateTimeFormatOptions = {
  */
 export function NowList({ items }: { items: NowItem[] }) {
   return (
-    <ul className="divide-y divide-border border-y border-border">
+    <ul className="border-t border-border">
       {items.map((item) => (
         <li
           key={item.id}
-          className="grid grid-cols-1 gap-2 py-5 md:grid-cols-[140px_1fr] md:items-baseline md:gap-6"
+          className="grid grid-cols-1 gap-y-1.5 border-b border-border py-4 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-x-6"
         >
-          <span className="label-brand">{nowKindLabel[item.kind]}</span>
-          <div>
+          <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+            {nowKindLabel[item.kind]}
+          </span>
+          <div className="min-w-0">
             {item.href ? (
               <Link
                 href={item.href}
-                className="font-serif text-[1.0625rem] leading-relaxed text-foreground transition-colors hover:text-brand"
+                className="group font-serif text-[1.0625rem] leading-relaxed text-foreground"
               >
-                {item.text}
+                <span className="border-b border-transparent transition-colors group-hover:border-brand">
+                  {item.text}
+                </span>
                 {!item.href.startsWith("/") && (
                   <ArrowUpRight
-                    className="ml-1 inline h-3.5 w-3.5 text-muted-foreground"
+                    className="ml-1 inline h-3.5 w-3.5 text-muted-foreground transition-colors group-hover:text-brand"
                     aria-hidden
                   />
                 )}
@@ -41,7 +45,9 @@ export function NowList({ items }: { items: NowItem[] }) {
                 {item.text}
               </p>
             )}
-            <p className="label mt-1">{formatDate(item.date, NOW_DATE_FORMAT)}</p>
+            <p className="mt-1.5 font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground/70">
+              {formatDate(item.date, NOW_DATE_FORMAT)}
+            </p>
           </div>
         </li>
       ))}

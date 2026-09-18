@@ -1,283 +1,359 @@
 import { Link } from "next-view-transitions";
-import { ArrowRight } from "lucide-react";
 import { profile } from "@/content/profile";
 import { getFeaturedProjects } from "@/content/projects";
 import { nowItems, nowUpdated } from "@/content/now";
 import { getAllLogEntries } from "@/lib/log";
 import { getAllPosts } from "@/lib/blog";
 import { formatDate } from "@/lib/date";
-import { SectionHeading } from "@/components/layout/section";
-import { SocialRow } from "@/components/layout/social-row";
 import { AskPanel } from "@/components/layout/ask-panel";
-import { EntryRow } from "@/components/log/entry-row";
 import { AiBadge } from "@/components/log/ai-badge";
 import { NowList } from "@/components/now/now-list";
+import {
+  Folio,
+  Manuscript,
+  Sidenote,
+} from "@/components/manuscript/manuscript";
+import { Mark, MarginLink, Sep, Stamp } from "@/components/manuscript/marks";
 import { projectStatusMeta } from "@/components/sections/projects/project-status";
 
-const NOW_DATE_FORMAT: Intl.DateTimeFormatOptions = {
-  month: "short",
-  year: "numeric",
-};
-const POST_DATE_FORMAT: Intl.DateTimeFormatOptions = {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-};
+const DATE: Intl.DateTimeFormatOptions = { month: "short", day: "numeric" };
+const MONTH: Intl.DateTimeFormatOptions = { month: "short", year: "numeric" };
 
 export default function HomePage() {
+  const allLog = getAllLogEntries();
+  const log = allLog.slice(0, 4);
+  const coWritten = allLog.filter((e) => e.aiAssisted).length;
   const featured = getFeaturedProjects().slice(0, 3);
-  const posts = getAllPosts().slice(0, 2);
-  const logEntries = getAllLogEntries().slice(0, 4);
+  const posts = getAllPosts().slice(0, 3);
 
   return (
-    <main className="container py-14 md:py-20">
-      {/* ── Hero: statement + ask panel ──────────────────────── */}
-      <section className="fade-up grid grid-cols-1 items-start gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-14">
-        <div className="min-w-0">
-          <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2">
-            <p className="label-brand">
-              {profile.role} · {profile.location}
-            </p>
-            {profile.availability.open && (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/30 bg-brand/5 px-2.5 py-0.5 font-mono text-[11px] uppercase tracking-wider text-brand">
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-60 motion-reduce:animate-none" />
-                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand" />
-                </span>
-                open to work
-              </span>
-            )}
-          </div>
+    <main className="container py-12 md:py-16">
+      {/* ── 00 · masthead ─────────────────────────────────────────── */}
+      <Manuscript
+        marginWidth="wide"
+        folio={<Folio>00</Folio>}
+        margin={
+          <>
+            <div>
+              {profile.availability.open && (
+                <Stamp tone="brand">open to work</Stamp>
+              )}
+              <p className="mt-3 font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
+                {profile.availability.note}
+              </p>
+            </div>
 
-          <h1 className="max-w-3xl font-display text-[clamp(2.75rem,7vw,4.75rem)] leading-[1.02] tracking-tight text-foreground">
-            Building for the web.
-            <br />
-            Logging what I learn —{" "}
-            <em className="italic text-brand">with AI as co-writer</em>.
-          </h1>
+            <div className="lg:sticky lg:top-20">
+              <AskPanel />
+            </div>
+          </>
+        }
+      >
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+          {profile.role} <Sep /> {profile.location}
+        </p>
 
-          <p className="mt-6 max-w-xl font-serif text-xl leading-relaxed text-foreground/85">
-            Hey, I&apos;m Pedro Santos. By day I ship production React and
-            Next.js; on the side I build my own things. This site is my home
-            base — a public log of what I&apos;m learning, honestly labeled
-            when AI helped, plus the projects and stories behind it all.
-          </p>
+        <h1 className="mt-5 font-display display-hero text-foreground">
+          Building for the web.
+          <br />
+          <em className="italic text-brand">
+            Logging what I learn — with AI as co-writer.
+          </em>
+        </h1>
 
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <Link
-              href="/log"
-              className="group inline-flex h-11 items-center justify-center gap-2 rounded-md bg-foreground px-5 font-mono text-sm font-medium text-background transition-opacity hover:opacity-90"
-            >
-              Read the log
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-            <Link
-              href="/projects"
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-border bg-card px-5 font-mono text-sm font-medium text-foreground transition-colors hover:border-brand hover:text-brand"
-            >
-              See selected work
-            </Link>
-          </div>
+        <p className="mt-7 max-w-[58ch] font-serif text-[1.125rem] leading-[1.72] text-foreground/85">
+          Hey, I&apos;m {profile.name}. By day I ship production React and
+          Next.js; on the side I run Melro.io. This site is a manuscript: what
+          I&apos;m doing now, what I&apos;m learning — logged in the open with the
+          prompts attached — and the work behind it, marked honestly when a
+          model helped draft it.
+        </p>
 
-          <div className="mt-8">
-            <SocialRow />
-          </div>
-
-          <div
-            className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px] text-muted-foreground/70"
-            aria-label="Tech stack"
+        <div className="mt-8 flex flex-wrap items-baseline gap-x-8 gap-y-3">
+          <Link
+            href="/log"
+            className="group inline-flex items-baseline gap-2 font-mono text-[11.5px] uppercase tracking-[0.16em] text-foreground"
           >
-            {profile.stack.map((tech, idx) => (
-              <span key={tech} className="inline-flex items-baseline gap-2">
-                <span>{tech}</span>
-                {idx < profile.stack.length - 1 && (
-                  <span aria-hidden className="text-muted-foreground/40">
-                    ·
-                  </span>
-                )}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Ask panel — real AI when a key is configured, scripted otherwise */}
-        <div className="lg:sticky lg:top-20">
-          <AskPanel />
-        </div>
-      </section>
-
-      {/* ── Now ──────────────────────────────────────────────── */}
-      <section className="mt-24 md:mt-32">
-        <SectionHeading
-          index="01"
-          eyebrow="Now"
-          title="What I'm doing right now"
-          description="A living snapshot. Updated when things actually change, not on a schedule."
-          action={
-            <span className="flex items-center gap-3">
-              <span className="label hidden sm:inline">
-                updated {formatDate(nowUpdated, NOW_DATE_FORMAT)}
-              </span>
-              <Link
-                href="/now"
-                className="inline-flex items-center gap-1 font-mono text-[13px] text-muted-foreground transition-colors hover:text-brand"
-              >
-                the now page
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
+            <span className="border-b border-brand pb-[3px] transition-colors group-hover:border-foreground">
+              read the log
             </span>
-          }
-        />
-        <NowList items={nowItems} />
-      </section>
-
-      {/* ── The log — the site's signature ───────────────────── */}
-      <section className="mt-24 md:mt-32">
-        <SectionHeading
-          index="02"
-          eyebrow="The log"
-          title="Learning in public, one entry at a time"
-          description="Short entries about what I just learned. ✦ marks entries drafted with AI and edited by me — prompt included, no pretending."
-          action={
-            <Link
-              href="/log"
-              className="inline-flex items-center gap-1 font-mono text-[13px] text-muted-foreground transition-colors hover:text-brand"
-            >
-              full log
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          }
-        />
-        <div className="divide-y divide-border border-y border-border">
-          {logEntries.map((entry) => (
-            <EntryRow key={entry.slug} entry={entry} />
-          ))}
+            <span aria-hidden className="text-brand">
+              →
+            </span>
+          </Link>
+          <Link
+            href="/projects"
+            className="group inline-flex items-baseline gap-2 font-mono text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <span className="border-b border-border pb-[3px] transition-colors group-hover:border-brand">
+              see the case studies
+            </span>
+            <span aria-hidden className="group-hover:text-brand">
+              →
+            </span>
+          </Link>
         </div>
-      </section>
 
-      {/* ── Selected work ────────────────────────────────────── */}
-      <section className="mt-24 md:mt-32">
-        <SectionHeading
-          index="03"
-          eyebrow="Selected work"
-          title="Things I've built, with the story attached"
-          description="Not a logo wall. Each one has a problem, an approach, and what I learned."
-          action={
-            <Link
-              href="/projects"
-              className="inline-flex items-center gap-1 font-mono text-[13px] text-muted-foreground transition-colors hover:text-brand"
-            >
-              all work
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          }
-        />
-        <ul className="border-y border-border divide-y divide-border">
-          {featured.map((project) => {
-            const meta = projectStatusMeta(project.status);
-            return (
-              <li key={project.slug}>
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="group relative grid grid-cols-1 gap-3 py-6 pl-4 md:grid-cols-[1fr_auto] md:items-center md:gap-8 md:pl-5"
-                >
-                  <span
-                    aria-hidden
-                    className="absolute left-0 top-1/2 hidden h-0 w-px -translate-y-1/2 bg-brand transition-all duration-300 group-hover:h-[calc(100%-1rem)] md:block"
-                  />
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <h3 className="font-display text-[1.375rem] tracking-tight text-foreground transition-colors group-hover:text-brand">
-                        {project.title}
-                      </h3>
-                      <span className="label">{meta.label}</span>
-                    </div>
-                    <p className="mt-1.5 max-w-2xl font-serif text-[0.975rem] leading-relaxed text-muted-foreground">
-                      {project.summary}
-                    </p>
-                    <p className="mt-2 font-mono text-[12px] text-muted-foreground/80">
-                      {project.stack.slice(0, 4).join(" · ")}
-                    </p>
-                  </div>
-                  <span className="shrink-0 font-mono text-[13px] text-muted-foreground/70 transition-colors group-hover:text-brand">
-                    <span className="hidden md:inline">read the case study →</span>
-                    <ArrowRight className="h-4 w-4 md:hidden" />
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+        <p className="mt-9 font-mono text-[11px] leading-relaxed text-muted-foreground/80">
+          {profile.stack.join("  ·  ")}
+        </p>
+      </Manuscript>
 
-      {/* ── Writing ──────────────────────────────────────────── */}
-      {posts.length > 0 && (
-        <section className="mt-24 md:mt-32">
-          <SectionHeading
-            index="04"
-            eyebrow="Writing"
-            title="Longer stories, co-written honestly"
-            description="Essays drafted with AI from my notes, edited by me — each one shows exactly how it was made."
-            action={
+      {/* ── 01 · now ──────────────────────────────────────────────── */}
+      <Manuscript
+        className="mt-20 md:mt-28"
+        folio={<Folio>01</Folio>}
+        margin={
+          <Sidenote label="kept drifting" leader>
+            <p className="font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
+              Updated {formatDate(nowUpdated, MONTH)} — a living snapshot, not a
+              résumé line.
+            </p>
+            <p className="mt-3">
+              <MarginLink href="/now">the now page →</MarginLink>
+            </p>
+          </Sidenote>
+        }
+      >
+        <h2 className="font-display display-block text-foreground">
+          What I&apos;m doing right now
+        </h2>
+        <p className="mt-3 max-w-[54ch] font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
+          Most sites tell you what someone did. This is the part that keeps
+          moving.
+        </p>
+        <div className="mt-7">
+          <NowList items={nowItems} />
+        </div>
+      </Manuscript>
+
+      {/* ── 02 · the log — the signature ───────────────────────────── */}
+      <Manuscript
+        className="mt-20 md:mt-28"
+        marginWidth="wide"
+        folio={<Folio>02</Folio>}
+        margin={
+          <>
+            <Sidenote label="by the numbers" leader tone="brand">
+              <p className="font-mono text-[11.5px] leading-relaxed text-muted-foreground tabnum">
+                {allLog.length} entries
+                <br />
+                {coWritten} drafted with a model
+                <br />
+                {allLog.length - coWritten} written by hand
+              </p>
+              <p className="mt-3 font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
+                Every co-written entry publishes the prompt that started it. The
+                entries that used no model say so as well — the marking only
+                means something if both halves exist.
+              </p>
+              <p className="mt-3">
+                <MarginLink href="/log">the full log →</MarginLink>
+              </p>
+            </Sidenote>
+
+            <Sidenote label="rss">
+              <p>
+                <MarginLink href="/log/feed.xml">log feed →</MarginLink>
+              </p>
+            </Sidenote>
+          </>
+        }
+      >
+        <h2 className="font-display display-block text-foreground">
+          A log, not a blog
+        </h2>
+        <p className="mt-3 max-w-[56ch] font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
+          Short entries about what I just learned, written the week I learned
+          it. Unfinished on purpose — that is what learning looks like from the
+          inside.
+        </p>
+
+        <ol className="mt-8">
+          {log.map((entry) => (
+            <li key={entry.slug} className="border-b border-border last:border-0">
               <Link
-                href="/blog"
-                className="inline-flex items-center gap-1 font-mono text-[13px] text-muted-foreground transition-colors hover:text-brand"
+                href={`/log/${entry.slug}`}
+                className="group grid grid-cols-1 items-baseline gap-x-5 gap-y-1.5 py-4 sm:grid-cols-[5.5rem_minmax(0,1fr)]"
               >
-                all posts
-                <ArrowRight className="h-3.5 w-3.5" />
+                <time
+                  dateTime={entry.date}
+                  className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground"
+                >
+                  {formatDate(entry.date, DATE)}
+                </time>
+                <div className="min-w-0">
+                  <p className="font-display text-[1.3rem] leading-snug tracking-tight text-foreground transition-colors group-hover:text-brand">
+                    {entry.title}
+                  </p>
+                  <p className="mt-2">
+                    {entry.aiAssisted ? (
+                      <AiBadge model={entry.model} short />
+                    ) : (
+                      <Mark tone="muted">
+                        <span aria-hidden>✎</span> no model
+                      </Mark>
+                    )}
+                  </p>
+                </div>
               </Link>
-            }
-          />
-          <ul className="border-y border-border divide-y divide-border">
+            </li>
+          ))}
+        </ol>
+      </Manuscript>
+
+      {/* ── 03 · selected work ─────────────────────────────────────── */}
+      <Manuscript
+        className="mt-20 md:mt-28"
+        folio={<Folio>03</Folio>}
+        margin={
+          <Sidenote label="how these read" leader>
+            <p className="font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
+              Each case study is set the same way: the problem, the approach,
+              the outcome, then what I took away. No logo wall, no gradient
+              cards.
+            </p>
+            <p className="mt-3">
+              <MarginLink href="/projects">all work →</MarginLink>
+            </p>
+          </Sidenote>
+        }
+      >
+        <h2 className="font-display display-block text-foreground">
+          Things I&apos;ve built, with the story attached
+        </h2>
+
+        <ul className="mt-8">
+          {featured.map((project) => (
+            <li key={project.slug} className="border-b border-border last:border-0">
+              <Link
+                href={`/projects/${project.slug}`}
+                className="group block py-6"
+              >
+                <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+                  <span>{project.period}</span>
+                  <Sep />
+                  <span className="text-brand">
+                    {projectStatusMeta(project.status).label}
+                  </span>
+                </p>
+                <p className="mt-2 font-display text-[1.4rem] leading-snug tracking-tight text-foreground transition-colors group-hover:text-brand">
+                  {project.title}
+                </p>
+                <p className="mt-2 max-w-[62ch] font-serif text-[1.0125rem] leading-relaxed text-muted-foreground">
+                  {project.summary}
+                </p>
+                <p className="mt-2.5 font-mono text-[11px] text-muted-foreground/80">
+                  {project.stack.slice(0, 4).join("  ·  ")}
+                </p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Manuscript>
+
+      {/* ── 04 · writing ──────────────────────────────────────────── */}
+      {posts.length > 0 && (
+        <Manuscript
+          className="mt-20 md:mt-28"
+          folio={<Folio>04</Folio>}
+          margin={
+            <Sidenote label="the disclosure" leader tone="ai">
+              <p className="font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
+                Essays start as my notes, get drafted with a model, and are
+                edited by me. Every one carries its own paper trail: notes,
+                prompts, first draft, edit.
+              </p>
+              <p className="mt-3">
+                <MarginLink href="/blog">all writing →</MarginLink>
+              </p>
+            </Sidenote>
+          }
+        >
+          <h2 className="font-display display-block text-foreground">
+            Longer thinking, co-written honestly
+          </h2>
+
+          <ul className="mt-8">
             {posts.map((post) => (
-              <li key={post.slug}>
+              <li key={post.slug} className="border-b border-border last:border-0">
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="group flex items-baseline justify-between gap-6 py-5"
+                  className="group grid grid-cols-1 items-baseline gap-x-5 gap-y-1.5 py-4 sm:grid-cols-[5.5rem_minmax(0,1fr)]"
                 >
+                  <time
+                    dateTime={post.date}
+                    className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground"
+                  >
+                    {formatDate(post.date, MONTH)}
+                  </time>
                   <div className="min-w-0">
-                    <div className="flex flex-wrap items-baseline gap-3">
-                      <h3 className="font-display text-[1.375rem] tracking-tight text-foreground transition-colors group-hover:text-brand">
-                        {post.title}
-                      </h3>
-                      {post.coWritten && <AiBadge short className="self-center" />}
-                    </div>
-                    <p className="mt-1 line-clamp-1 max-w-xl font-serif text-[0.95rem] text-muted-foreground">
-                      {post.description}
+                    <p className="font-display text-[1.3rem] leading-snug tracking-tight text-foreground transition-colors group-hover:text-brand">
+                      {post.title}
+                    </p>
+                    <p className="mt-2 font-mono text-[11px] text-muted-foreground">
+                      {post.readingTime}
+                      {post.coWritten && (
+                        <>
+                          {"  "}
+                          <Sep />{"  "}
+                          <span className="text-ai">✦ co-written</span>
+                        </>
+                      )}
                     </p>
                   </div>
-                  <span className="hidden shrink-0 font-mono text-[12px] text-muted-foreground sm:inline">
-                    {formatDate(post.date, POST_DATE_FORMAT)} · {post.readingTime}
-                  </span>
                 </Link>
               </li>
             ))}
           </ul>
-        </section>
+        </Manuscript>
       )}
 
-      {/* ── Closer ───────────────────────────────────────────── */}
-      <section className="mt-28 md:mt-40">
-        <div className="flex flex-col items-start gap-6 border-t border-border pt-12 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-xl">
-            <p className="label mb-3">Sounds like a fit?</p>
-            <p className="font-display text-4xl tracking-tight text-foreground sm:text-5xl">
-              Let&apos;s talk<span className="text-brand">.</span>
+      {/* ── 05 · close ────────────────────────────────────────────── */}
+      <Manuscript
+        className="mt-20 md:mt-28"
+        folio={<Folio>05</Folio>}
+        margin={
+          <Sidenote label="fastest route" leader>
+            <p className="font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
+              The form reaches the same inbox as a direct mail. Either is fine.
             </p>
-            <p className="mt-3 font-serif text-lg leading-relaxed text-muted-foreground">
-              Open to full-time roles and contract work. The form is the fastest
-              way — or just email me directly.
+            <p className="mt-2 break-words font-mono text-[11.5px] leading-relaxed">
+              <a href={`mailto:${profile.email}`} className="link-ink">
+                {profile.email}
+              </a>
             </p>
-          </div>
+          </Sidenote>
+        }
+      >
+        <h2 className="font-display display-block text-foreground">
+          Let&apos;s talk<span className="text-brand">.</span>
+        </h2>
+        <p className="mt-3 max-w-[52ch] font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
+          Open to full-time roles and contract work. If something in this
+          manuscript resonates — the way I work, the way I mark what a model
+          did, the case studies — that is the whole point.
+        </p>
+        <div className="mt-7 flex flex-wrap items-baseline gap-x-8 gap-y-3">
           <Link
             href="/contact"
-            className="group inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md bg-foreground px-5 font-mono text-sm font-medium text-background transition-opacity hover:opacity-90"
+            className="group inline-flex items-baseline gap-2 font-mono text-[11.5px] uppercase tracking-[0.16em] text-foreground"
           >
-            Start a conversation
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            <span className="border-b border-brand pb-[3px]">start a conversation</span>
+            <span aria-hidden className="text-brand">
+              →
+            </span>
+          </Link>
+          <Link
+            href="/about"
+            className="font-mono text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <span className="border-b border-border pb-[3px] transition-colors hover:border-brand">
+              more about me
+            </span>
           </Link>
         </div>
-      </section>
+      </Manuscript>
     </main>
   );
 }

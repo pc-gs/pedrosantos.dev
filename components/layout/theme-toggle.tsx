@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { Moon, Sun } from "lucide-react";
 
 /**
- * Light/dark toggle. Renders a neutral placeholder until mounted to avoid
- * hydration mismatch (next-themes resolves the stored/system theme client-side).
+ * Theme toggle printed as two words rather than an icon button: paper by day,
+ * night after dark. Renders the same shape before mount so nothing shifts.
  */
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
@@ -14,26 +13,35 @@ export function ThemeToggle() {
 
   useEffect(() => setMounted(true), []);
 
+  const target = mounted && resolvedTheme === "dark" ? "paper" : "night";
+
   if (!mounted) {
     return (
       <span
         aria-hidden
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground"
-      />
+        className="inline-flex items-baseline gap-1.5 border-b border-transparent pb-[3px] font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground opacity-0"
+      >
+        paper
+      </span>
     );
   }
-
-  const isDark = resolvedTheme === "dark";
 
   return (
     <button
       type="button"
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      title={isDark ? "Daylight" : "Night mode"}
+      onClick={() => setTheme(target === "paper" ? "light" : "dark")}
+      className="group inline-flex items-baseline gap-1.5 border-b border-transparent pb-[3px] font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:border-brand hover:text-foreground"
+      aria-label={target === "paper" ? "Switch to light mode" : "Switch to night mode"}
+      title={target === "paper" ? "Switch to paper (light)" : "Switch to night (dark)"}
     >
-      {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+      <span
+        aria-hidden
+        className="inline-block h-2 w-2 -translate-y-px border border-muted-foreground/50 transition-colors group-hover:border-brand"
+        style={{
+          background: target === "paper" ? "hsl(39 47% 96%)" : "hsl(26 14% 8%)",
+        }}
+      />
+      {target}
     </button>
   );
 }

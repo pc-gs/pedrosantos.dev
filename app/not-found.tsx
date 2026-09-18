@@ -1,60 +1,61 @@
 import { Link } from "next-view-transitions";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getAllLogEntries } from "@/lib/log";
+import { Folio, Manuscript, Sidenote } from "@/components/manuscript/manuscript";
+import { MarginLink } from "@/components/manuscript/marks";
 
 export default function NotFound() {
   const latest = getAllLogEntries().slice(0, 3);
 
   return (
-    <main className="container flex min-h-[60vh] flex-col justify-center py-20">
-      <div className="max-w-xl">
-        <p className="label-brand mb-4">404</p>
-        <h1 className="font-display text-[clamp(2.25rem,6vw,3.5rem)] leading-[1.05] tracking-tight text-foreground">
+    <main className="container py-16 md:py-24">
+      <Manuscript
+        folio={<Folio>404</Folio>}
+        margin={
+          <Sidenote label="try instead" leader>
+            <p className="flex flex-col gap-2">
+              <MarginLink href="/">← back home</MarginLink>
+              <MarginLink href="/log">the log</MarginLink>
+              <MarginLink href="/projects">the work</MarginLink>
+            </p>
+          </Sidenote>
+        }
+      >
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+          404
+        </p>
+        <h1 className="mt-5 font-display display-page text-foreground">
           This page doesn&apos;t exist.
         </h1>
-        <p className="mt-5 font-serif text-lg leading-relaxed text-muted-foreground">
-          It may have been moved or never built. The rest of the site is still
-          here — including whatever I was learning this week.
+        <p className="mt-6 max-w-[52ch] font-serif text-[1.125rem] leading-[1.72] text-foreground/85">
+          It may have been moved or never built. The rest of the manuscript is
+          still there — including whatever I was learning this week.
         </p>
 
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <Link
-            href="/"
-            className="inline-flex h-11 items-center gap-2 rounded-md border border-border px-5 font-mono text-sm font-medium text-foreground transition-colors hover:border-brand hover:text-brand"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            back home
-          </Link>
-          <Link
-            href="/log"
-            className="inline-flex h-11 items-center gap-2 rounded-md bg-foreground px-5 font-mono text-sm font-medium text-background transition-opacity hover:opacity-90"
-          >
-            read the log
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </div>
-
-      {latest.length > 0 && (
-        <section className="mt-14 border-t border-border pt-8">
-          <p className="label mb-4">Latest from the log</p>
-          <ul className="divide-y divide-border/70">
-            {latest.map((entry) => (
-              <li key={entry.slug}>
-                <Link
-                  href={`/log/${entry.slug}`}
-                  className="group flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-3"
-                >
-                  <span className="font-display text-lg leading-snug text-foreground transition-colors group-hover:text-brand">
-                    {entry.title}
-                  </span>
-                  <span className="label">{entry.date}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+        {latest.length > 0 && (
+          <section className="mt-14 border-t border-border pt-8">
+            <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+              latest from the log
+            </p>
+            <ul className="mt-6 border-t border-border">
+              {latest.map((entry) => (
+                <li key={entry.slug} className="border-b border-border last:border-0">
+                  <Link
+                    href={`/log/${entry.slug}`}
+                    className="group flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-3.5"
+                  >
+                    <span className="font-display text-[1.3rem] leading-snug tracking-tight text-foreground transition-colors group-hover:text-brand">
+                      {entry.title}
+                    </span>
+                    <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground tabnum">
+                      {entry.date}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </Manuscript>
     </main>
   );
 }

@@ -5,7 +5,12 @@ import { profile } from "@/content/profile";
 import { experience } from "@/content/experience";
 import { education } from "@/content/education";
 import { SocialRow } from "@/components/layout/social-row";
-import { StatusDot } from "@/components/layout/status-dot";
+import {
+  Folio,
+  Manuscript,
+  Sidenote,
+} from "@/components/manuscript/manuscript";
+import { MarginLink, Stamp } from "@/components/manuscript/marks";
 
 export const metadata: Metadata = {
   title: "About",
@@ -33,41 +38,86 @@ const principles = [
   },
 ];
 
+/** Section with its number in a sub-gutter, used for all the ruled lists here. */
+function Numbered({
+  index,
+  label,
+  children,
+}: {
+  index: string;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="grid grid-cols-1 gap-y-3 border-t border-border py-9 sm:grid-cols-[3.5rem_minmax(0,1fr)] sm:gap-x-6">
+      <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground tabnum">
+        <span className="text-brand">{index}</span>
+      </p>
+      <div className="min-w-0">
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+          {label}
+        </p>
+        <div className="mt-5">{children}</div>
+      </div>
+    </section>
+  );
+}
+
 export default function AboutPage() {
   return (
-    <main className="container py-16 md:py-24">
-      {/* Header */}
-      <header className="grid grid-cols-1 gap-8 border-b border-border pb-12 md:grid-cols-[auto_1fr] md:gap-10">
-        <Image
-          src={profile.avatarUrl}
-          alt={profile.name}
-          width={96}
-          height={96}
-          className="h-24 w-24 rounded-full border border-border object-cover grayscale"
-          unoptimized
-        />
-        <div className="min-w-0">
-          <p className="label mb-3">
-            {profile.role} · {profile.location}
+    <main className="container py-12 md:py-16">
+      <Manuscript
+        marginWidth="wide"
+        folio={<Folio>about</Folio>}
+        margin={
+          <>
+            <figure>
+              <Image
+                src={profile.avatarUrl}
+                alt={profile.name}
+                width={320}
+                height={320}
+                className="h-auto w-full border border-border object-cover grayscale"
+                unoptimized
+              />
+              <figcaption className="mt-2 font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+                {profile.location}
+              </figcaption>
+            </figure>
+
+            {profile.availability.open && (
+              <div>
+                <Stamp tone="brand">open to work</Stamp>
+                <p className="mt-3 font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
+                  {profile.availability.note}
+                </p>
+              </div>
+            )}
+
+            <Sidenote label="elsewhere">
+              <SocialRow />
+            </Sidenote>
+
+            <Sidenote label="">
+              <MarginLink href="/contact">start a conversation →</MarginLink>
+            </Sidenote>
+          </>
+        }
+      >
+        <header className="border-b border-border pb-9">
+          <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+            about · {profile.role}
           </p>
-          <h1 className="font-display text-[clamp(2.5rem,6vw,3.75rem)] leading-[1.05] tracking-tight text-foreground">
+          <h1 className="mt-5 font-display display-page text-foreground">
             {profile.name}
           </h1>
-          <p className="mt-4 max-w-2xl font-serif text-xl leading-relaxed text-muted-foreground">
-            {profile.tagline} I&apos;m open to full-time roles and contract
-            work — and I keep a meaningful side project alive on purpose.
+          <p className="mt-6 max-w-[56ch] font-serif text-[1.25rem] leading-[1.6] text-foreground/85">
+            {profile.tagline} I&apos;m open to full-time roles and contract work
+            — and I keep a meaningful side project alive on purpose.
           </p>
-          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-            <StatusDot label="Open to full-time & contract work" />
-            <SocialRow />
-          </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Narrative */}
-      <section className="mt-16 max-w-2xl">
-        <p className="label-brand mb-4">How I got here</p>
-        <div className="space-y-5 font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
+        <div className="mt-10 max-w-[62ch] space-y-5 font-serif text-[1.0625rem] leading-[1.72] text-muted-foreground">
           <p>
             I started in support and moved into software because I wanted to fix
             the things people were complaining about, not just file tickets
@@ -76,155 +126,129 @@ export default function AboutPage() {
           </p>
           <p>
             Today I ship production React and Next.js at{" "}
-            <span className="text-foreground">Aubay Portugal</span>, working on
-            a React + GraphQL codebase large enough that architecture and
-            testing actually matter. In parallel, I run{" "}
+            <span className="text-foreground">Aubay Portugal</span>, on a React +
+            GraphQL codebase large enough that frontend architecture and testing
+            stop being opinions and start being infrastructure. I care most
+            about the parts of the job that make everyone else faster: clean
+            component boundaries, patterns people can actually follow, and
+            reviews that teach instead of gatekeeping.
+          </p>
+          <p>
+            On the side I run{" "}
             <a
               href={profile.founded.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-brand underline underline-offset-4 decoration-brand/40 hover:decoration-brand"
+              className="link-ink"
             >
               {profile.founded.name}
-            </a>{" "}
-            on the side — {profile.founded.blurb.toLowerCase()}
-          </p>
-          <p>
-            The two feed each other. Founding on the side makes me a better
-            engineer at my day job, not a distracted one. It forces the
-            questions that are easy to skip when someone else owns the roadmap:
-            who is this for, what happens after we ship, what&apos;s the
-            smallest thing that&apos;s actually useful.
+            </a>
+            {" "}
+            — the engineer&apos;s version of founding: owning the whole loop, not
+            just the implementation. And this site, which is deliberately a
+            manuscript: what I&apos;m learning, the prompts behind it, and the
+            work with the thinking left in.
           </p>
         </div>
-      </section>
 
-      {/* How I think */}
-      <section className="mt-20">
-        <div className="mb-8 flex items-baseline gap-3 border-b border-border pb-4">
-          <span className="label-brand">01</span>
-          <span className="label">How I think</span>
-        </div>
-        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2">
-          {principles.map((p) => (
-            <div key={p.title} className="bg-card p-6 md:p-7">
-              <h3 className="text-base font-semibold text-foreground">
-                {p.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {p.body}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+        <Numbered index="01" label="How I think">
+          <ul>
+            {principles.map((p) => (
+              <li key={p.title} className="border-b border-border/70 py-5 first:pt-0 last:border-0">
+                <p className="font-display text-[1.3rem] leading-snug tracking-tight text-foreground">
+                  {p.title}
+                </p>
+                <p className="mt-2 max-w-[62ch] font-serif text-[1.0625rem] leading-[1.72] text-muted-foreground">
+                  {p.body}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </Numbered>
 
-      {/* Experience as stories */}
-      <section className="mt-20">
-        <div className="mb-8 flex items-baseline gap-3 border-b border-border pb-4">
-          <span className="label-brand">02</span>
-          <span className="label">Where I&apos;ve worked</span>
-        </div>
-        <ul className="space-y-10">
-          {experience.map((job) => (
-            <li
-              key={`${job.company}-${job.period}`}
-              className="grid grid-cols-1 gap-3 md:grid-cols-[220px_1fr] md:gap-10"
-            >
-              <div className="flex flex-col gap-1.5">
-                <span className="label">{job.period}</span>
-                {job.current && <StatusDot label="current" pulse={false} />}
-              </div>
-              <div className="min-w-0">
-                <h3 className="font-display text-xl leading-snug text-foreground">
+        <Numbered index="02" label="Where I&apos;ve worked">
+          <ul>
+            {experience.map((job) => (
+              <li
+                key={`${job.company}-${job.period}`}
+                className="border-b border-border/70 py-6 first:pt-0 last:border-0"
+              >
+                <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground tabnum">
+                  {job.period}
+                  {job.current && <span className="ml-2 text-brand">current</span>}
+                </p>
+                <p className="mt-2 font-display text-[1.3rem] leading-snug tracking-tight text-foreground">
                   {job.role}
                   <span className="text-muted-foreground"> · {job.company}</span>
-                </h3>
-                {job.location && (
-                  <p className="mt-0.5 label">{job.location}</p>
-                )}
-                <p className="mt-3 max-w-2xl font-serif text-[0.975rem] leading-relaxed text-muted-foreground">
+                </p>
+                <p className="mt-3 max-w-[62ch] font-serif text-[1.0625rem] leading-[1.72] text-muted-foreground">
                   {job.summary}
                 </p>
                 {job.story && (
-                  <p className="mt-3 max-w-2xl font-serif text-[0.975rem] leading-relaxed text-muted-foreground/80">
+                  <p className="mt-3 max-w-[62ch] font-serif text-[1.0625rem] leading-[1.72] text-muted-foreground/80">
                     {job.story}
                   </p>
                 )}
-                {job.stack && job.stack.length > 0 && (
-                  <p className="mt-3 font-mono text-[12px] text-muted-foreground/70">
-                    {job.stack.join(" · ")}
+                <p className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-2 font-mono text-[11px] text-muted-foreground/80">
+                  {job.stack?.join("  ·  ")}
+                  {job.link && (
+                    <a
+                      href={job.link.href}
+                      target={job.link.href.startsWith("http") ? "_blank" : undefined}
+                      rel={
+                        job.link.href.startsWith("http")
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
+                      className="link-ink"
+                    >
+                      {job.link.label} →
+                    </a>
+                  )}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </Numbered>
+
+        <Numbered index="03" label="Education &amp; study">
+          <ul>
+            {education.map((edu) => (
+              <li
+                key={`${edu.title}-${edu.org}`}
+                className="grid grid-cols-1 gap-y-1.5 border-b border-border/70 py-4 first:pt-0 last:border-0 sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-x-6"
+              >
+                <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground tabnum">
+                  {edu.period}
+                </span>
+                <div className="min-w-0">
+                  <p className="font-display text-[1.15rem] leading-snug tracking-tight text-foreground">
+                    {edu.title}{" "}
+                    <span className="font-serif text-muted-foreground">
+                      · {edu.org}
+                    </span>
                   </p>
-                )}
-                {job.link && (
-                  <Link
-                    href={job.link.href}
-                    target={job.link.href.startsWith("http") ? "_blank" : undefined}
-                    rel={
-                      job.link.href.startsWith("http")
-                        ? "noopener noreferrer"
-                        : undefined
-                    }
-                    className="mt-3 inline-flex items-center gap-1 font-mono text-[13px] text-brand hover:underline"
-                  >
-                    {job.link.label} →
-                  </Link>
-                )}
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
+                  <p className="mt-1 font-serif text-[0.975rem] text-muted-foreground">
+                    {edu.note}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Numbered>
+      </Manuscript>
 
-      {/* Education — minimal, at the bottom */}
-      <section className="mt-20">
-        <div className="mb-8 flex items-baseline gap-3 border-b border-border pb-4">
-          <span className="label-brand">03</span>
-          <span className="label">Education &amp; study</span>
-        </div>
-        <ul className="divide-y divide-border border-y border-border">
-          {education.map((edu) => (
-            <li
-              key={`${edu.title}-${edu.org}`}
-              className="grid grid-cols-1 gap-1 py-4 md:grid-cols-[160px_1fr] md:gap-8"
-            >
-              <span className="label">{edu.period}</span>
-              <div>
-                <p className="font-display text-base leading-snug text-foreground">
-                  {edu.title}{" "}
-                  <span className="font-serif text-muted-foreground">
-                    · {edu.org}
-                  </span>
-                </p>
-                <p className="mt-0.5 font-serif text-[0.95rem] text-muted-foreground">
-                  {edu.note}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* CTA */}
-      <section className="mt-20 rounded-lg border border-border bg-card p-6 md:p-8">
-        <p className="text-base text-foreground">
-          Curious about working together?{" "}
-          <Link
-            href="/contact"
-            className="text-brand underline underline-offset-4 decoration-brand/40 hover:decoration-brand"
-          >
-            Let&apos;s talk
-          </Link>{" "}
-          — or see{" "}
-          <Link
-            href="/projects"
-            className="text-foreground underline underline-offset-4 decoration-border hover:text-brand hover:decoration-brand"
-          >
-            what I&apos;ve built
-          </Link>
-          .
-        </p>
-      </section>
+      <p className="mt-16 max-w-[56ch] font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
+        Curious about working together?{" "}
+        <Link href="/contact" className="link-ink">
+          Let&apos;s talk
+        </Link>{" "}
+        — or see{" "}
+        <Link href="/projects" className="link-plain">
+          what I&apos;ve built
+        </Link>
+        .
+      </p>
     </main>
   );
 }

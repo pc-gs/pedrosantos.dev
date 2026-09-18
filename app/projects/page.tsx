@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { Link } from "next-view-transitions";
-import { ArrowRight } from "lucide-react";
 import { getAllProjects } from "@/content/projects";
 import { projectStatusMeta } from "@/components/sections/projects/project-status";
+import {
+  Folio,
+  Manuscript,
+  Sidenote,
+} from "@/components/manuscript/manuscript";
+import { MarginLink, Sep } from "@/components/manuscript/marks";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -15,70 +20,98 @@ export default function ProjectsPage() {
   const projects = getAllProjects();
 
   return (
-    <main className="container py-16 md:py-24">
-      <header className="fade-up border-b border-border pb-8">
-        <p className="label mb-4">Work</p>
-        <h1 className="max-w-3xl font-display text-[clamp(2.5rem,6vw,4rem)] leading-[1.05] tracking-tight text-foreground">
-          Things I&apos;ve built, with the story attached.
-        </h1>
-        <p className="mt-5 max-w-xl font-serif text-lg leading-relaxed text-muted-foreground">
-          Not a grid of gradient cards. Each project below has a case study —
-          what problem existed, what I actually built, and what I took away from
-          it.
-        </p>
-      </header>
+    <main className="container py-12 md:py-16">
+      <Manuscript
+        marginWidth="wide"
+        folio={<Folio>work</Folio>}
+        margin={
+          <>
+            <Sidenote label="how these read" leader>
+              <p className="font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
+                Every case study is set the same way: the problem as I found it,
+                the approach I took, the outcome, then what I took away. No logo
+                wall, no gradient cards, no metrics I cannot defend.
+              </p>
+            </Sidenote>
 
-      <ul className="divide-y divide-border border-b border-border">
+            <Sidenote label="elsewhere">
+              <p>
+                <MarginLink href="https://github.com/pedrocarlos-ti">
+                  github →
+                </MarginLink>
+              </p>
+            </Sidenote>
+          </>
+        }
+      >
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+          work
+        </p>
+        <h1 className="mt-5 font-display display-page text-foreground">
+          Things I&apos;ve built, with the story attached
+        </h1>
+        <p className="mt-6 max-w-[56ch] font-serif text-[1.125rem] leading-[1.72] text-foreground/85">
+          A portfolio usually shows the finished thing and hides the thinking.
+          These are the other way round.
+        </p>
+      </Manuscript>
+
+      <div className="mt-16">
         {projects.map((project) => {
           const meta = projectStatusMeta(project.status);
           return (
-            <li key={project.slug}>
-              <Link
-                href={`/projects/${project.slug}`}
-                className="group grid grid-cols-1 gap-4 py-8 md:grid-cols-[200px_1fr_auto] md:items-start md:gap-10"
-              >
-                <div className="flex flex-col gap-1.5">
-                  <span className="label">{project.period}</span>
-                  <span className="label-brand">{meta.label}</span>
-                  <span className="label">{project.role}</span>
-                </div>
-
-                <div className="min-w-0">
-                  <h2 className="font-display text-2xl leading-snug tracking-tight text-foreground transition-colors group-hover:text-brand">
-                    {project.title}
-                  </h2>
-                  <p className="mt-1 font-serif text-[1.0625rem] text-muted-foreground">
-                    {project.tagline}
+            <Manuscript
+              key={project.slug}
+              className="border-b border-border py-9 first:border-t last:border-b-0"
+              folio={
+                <div className="space-y-2">
+                  <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand">
+                    {meta.label}
                   </p>
-                  <p className="mt-3 max-w-2xl font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
-                    {project.summary}
-                  </p>
-                  <p className="mt-3 font-mono text-[12px] text-muted-foreground/80">
-                    {project.stack.join(" · ")}
+                  <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground tabnum">
+                    {project.period}
                   </p>
                 </div>
-
-                <span className="hidden shrink-0 self-center font-mono text-[13px] text-muted-foreground transition-colors group-hover:text-brand md:inline">
-                  case study →
-                </span>
-              </Link>
-            </li>
+              }
+              margin={
+                <Sidenote label="stack" leader>
+                  <p className="font-mono text-[11px] leading-[1.9] text-muted-foreground">
+                    {project.stack.join("  ·  ")}
+                  </p>
+                  <p className="mt-3 font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
+                    {project.role}
+                  </p>
+                  <p className="mt-3">
+                    <MarginLink href={`/projects/${project.slug}`}>
+                      case study →
+                    </MarginLink>
+                  </p>
+                </Sidenote>
+              }
+            >
+              <h2 className="font-display text-[1.75rem] leading-snug tracking-tight">
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="border-b border-transparent pb-[2px] text-foreground transition-colors hover:border-brand"
+                >
+                  {project.title}
+                </Link>
+              </h2>
+              <p className="mt-2 font-serif text-[1.0625rem] leading-snug text-muted-foreground italic">
+                {project.tagline}
+              </p>
+              <p className="mt-4 max-w-[62ch] font-serif text-[1.0625rem] leading-[1.72] text-muted-foreground">
+                {project.summary}
+              </p>
+              <p className="mt-4 font-mono text-[11px] text-muted-foreground/80">
+                {project.tags.join("  ·  ")}
+                <Sep />
+                <span className="ml-3">{project.year}</span>
+              </p>
+            </Manuscript>
           );
         })}
-      </ul>
-
-      <p className="mt-10 font-mono text-[13px] text-muted-foreground">
-        More on{" "}
-        <Link
-          href="https://github.com/pedrocarlos-ti"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-foreground underline underline-offset-4 decoration-border hover:text-brand hover:decoration-brand"
-        >
-          GitHub
-        </Link>{" "}
-        <ArrowRight className="inline h-3.5 w-3.5" />
-      </p>
+      </div>
     </main>
   );
 }

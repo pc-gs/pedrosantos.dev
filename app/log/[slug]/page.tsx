@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Link } from "next-view-transitions";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { marked } from "marked";
 import {
   getAllLogEntries,
   getAllLogSlugs,
   getLogEntryBySlug,
 } from "@/lib/log";
 import { formatDate } from "@/lib/date";
-import { AiBadge } from "@/components/log/ai-badge";
+import { dateParts } from "@/components/log/entry-row";
+import {
+  DateFolio,
+  Manuscript,
+  Sidenote,
+} from "@/components/manuscript/manuscript";
+import { HandWrittenMark, TagRun } from "@/components/manuscript/marks";
 import { JsonLd } from "@/components/layout/json-ld";
 import {
   generateArticleStructuredData,
@@ -59,9 +63,10 @@ export default async function LogEntryPage({
   const index = all.findIndex((e) => e.slug === entry.slug);
   const newer = all[index - 1];
   const older = all[index + 1];
+  const { day, month } = dateParts(entry.date);
 
   return (
-    <main className="container py-14 md:py-20">
+    <main className="container py-12 md:py-16">
       <JsonLd
         data={generateArticleStructuredData({
           type: "TechArticle",
@@ -80,89 +85,116 @@ export default async function LogEntryPage({
           { name: entry.title, url: `${SITE_URL}/log/${entry.slug}` },
         ])}
       />
-      <article className="mx-auto max-w-2xl">
-        <Link
-          href="/log"
-          className="inline-flex items-center gap-1.5 font-mono text-[13px] text-muted-foreground transition-colors hover:text-brand"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          the log
-        </Link>
 
-        <header className="mt-8">
-          <p className="label">
-            <time dateTime={entry.date}>{formatDate(entry.date)}</time>
-            {entry.aiAssisted && (
-              <span className="ml-3 inline-flex translate-y-[-1px] align-middle">
-                <AiBadge model={entry.model} />
-              </span>
+      <Manuscript
+        marginWidth="wide"
+        folio={<DateFolio day={day} month={month} />}
+        margin={
+          <>
+            {entry.aiAssisted ? (
+              <Sidenote label="✦ the prompt that started this" tone="ai" leader>
+                {entry.prompt ? (
+                  <p className="font-mono text-[11.5px] leading-[1.75] text-foreground/80">
+                    &ldquo;{entry.prompt}&rdquo;
+                  </p>
+                ) : (
+                  <p className="font-mono text-[11.5px] text-muted-foreground">
+                    Prompt not recorded.
+                  </p>
+                )}
+                <p className="mt-3.5 font-serif text-[0.9rem] leading-relaxed text-muted-foreground">
+                  Drafted from that prompt
+                  {entry.model ? ` with ${entry.model}` : ""}, then rewritten,
+                  cut and checked by hand.
+                </p>
+              </Sidenote>
+            ) : (
+              <Sidenote label="no model involved" leader>
+                <HandWrittenMark />
+                <p className="mt-3 font-serif text-[0.9rem] leading-relaxed text-muted-foreground">
+                  No model was involved in drafting this entry.
+                </p>
+              </Sidenote>
             )}
+
+            <Sidenote label="entry">
+              <p className="font-mono text-[11.5px] leading-[1.9] text-muted-foreground tabnum">
+                {formatDate(entry.date, {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+                <br />
+                {entry.readingTime}
+              </p>
+              <div className="mt-3">
+                <TagRun tags={entry.tags} />
+              </div>
+            </Sidenote>
+
+            <Sidenote label="">
+              <p>
+                <Link
+                  href="/log"
+                  className="inline-block border-b border-brand/30 pb-[3px] font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand transition-colors hover:border-brand"
+                >
+                  ← the whole log
+                </Link>
+              </p>
+            </Sidenote>
+          </>
+        }
+      >
+        <header className="border-b border-border pb-8">
+          <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+            the log ·{" "}
+            <time dateTime={entry.date}>{formatDate(entry.date)}</time>
           </p>
-          <h1 className="mt-4 font-display text-4xl leading-[1.08] tracking-tight text-foreground md:text-5xl">
+          <h1 className="mt-5 font-display display-page text-foreground">
             {entry.title}
           </h1>
           {entry.description && (
-            <p className="mt-4 font-serif text-xl leading-relaxed text-muted-foreground">
+            <p className="mt-6 max-w-[56ch] font-serif text-[1.125rem] leading-[1.72] text-foreground/85">
               {entry.description}
             </p>
           )}
-          <p className="mt-4 font-mono text-[12px] text-muted-foreground/70">
-            {entry.tags.map((t) => `#${t}`).join(" ")} · {entry.readingTime}
-          </p>
         </header>
 
-        {entry.prompt && (
-          <aside className="mt-8 rounded-lg border border-ai/25 bg-ai/5 p-4">
-            <p className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-ai">
-              ✦ the prompt that started this
-            </p>
-            <p className="mt-2 font-mono text-[12.5px] leading-relaxed text-foreground/80">
-              &ldquo;{entry.prompt}&rdquo;
-            </p>
-            {entry.model && (
-              <p className="mt-2 font-mono text-[11px] text-muted-foreground">
-                drafted with {entry.model} · edited by Pedro
-              </p>
-            )}
-          </aside>
-        )}
-
         <div
-          className="prose mt-10"
-          dangerouslySetInnerHTML={{ __html: marked.parse(entry.content) as string }}
+          className="prose mt-10 max-w-[62ch]"
+          dangerouslySetInnerHTML={{ __html: entry.body }}
         />
+      </Manuscript>
 
-        <nav className="mt-14 grid grid-cols-1 gap-3 border-t border-border pt-6 sm:grid-cols-2">
-          <div>
-            {older && (
-              <Link
-                href={`/log/${older.slug}`}
-                className="group inline-flex flex-col gap-0.5"
-              >
-                <span className="label">← older</span>
-                <span className="font-display text-lg text-foreground transition-colors group-hover:text-brand">
-                  {older.title}
-                </span>
-              </Link>
-            )}
-          </div>
-          <div className="sm:text-right">
-            {newer && (
-              <Link
-                href={`/log/${newer.slug}`}
-                className="group inline-flex flex-col items-start gap-0.5 sm:items-end"
-              >
-                <span className="label">
-                  newer <ArrowRight className="inline h-3 w-3" />
-                </span>
-                <span className="font-display text-lg text-foreground transition-colors group-hover:text-brand">
-                  {newer.title}
-                </span>
-              </Link>
-            )}
-          </div>
-        </nav>
-      </article>
+      <nav
+        aria-label="Older and newer entries"
+        className="mt-20 grid grid-cols-1 gap-8 border-t border-border pt-6 sm:grid-cols-2"
+      >
+        {older ? (
+          <Link href={`/log/${older.slug}`} className="group min-w-0">
+            <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+              ← older
+            </span>
+            <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-tight text-foreground transition-colors group-hover:text-brand">
+              {older.title}
+            </span>
+          </Link>
+        ) : (
+          <span />
+        )}
+        {newer ? (
+          <Link href={`/log/${newer.slug}`} className="group min-w-0 sm:text-right">
+            <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+              newer →
+            </span>
+            <span className="mt-2 block font-display text-[1.25rem] leading-snug tracking-tight text-foreground transition-colors group-hover:text-brand">
+              {newer.title}
+            </span>
+          </Link>
+        ) : (
+          <span className="hidden sm:block" />
+        )}
+      </nav>
     </main>
   );
 }

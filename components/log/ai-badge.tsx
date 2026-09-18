@@ -1,9 +1,8 @@
-import { Sparkles } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Mark } from "@/components/manuscript/marks";
 
 /**
- * AI co-authorship mark — the violet ✦ chip. Used on log entries and
- * posts drafted with AI assistance and human-edited.
+ * AI co-authorship mark — the ✦ annotation. Set as typeset type rather than a
+ * capsule: it should read like a note in the margin, not a tag on a card.
  */
 export function AiBadge({
   model,
@@ -12,22 +11,23 @@ export function AiBadge({
 }: {
   model?: string;
   className?: string;
+  /** Drop the model name (feed rows, tight margins). */
   short?: boolean;
 }) {
+  const label = short || !model ? "co-written" : `co-written with ${model}`;
+
   return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-1 rounded-full border border-ai/30 bg-ai/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider text-ai",
-        className,
-      )}
+    <Mark
+      tone="ai"
+      className={className}
       title={
         model
-          ? `Drafted with ${model}, edited by Pedro — the prompt is shown below`
-          : "Drafted with AI, edited by Pedro"
+          ? `Drafted with ${model} and edited by Pedro — the prompt is shown beside it`
+          : "Drafted with AI and edited by Pedro"
       }
     >
-      <Sparkles className="h-3 w-3" aria-hidden />
-      {short ? "AI" : "co-written"}
-    </span>
+      <span aria-hidden>✦</span>
+      {label}
+    </Mark>
   );
 }

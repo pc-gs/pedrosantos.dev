@@ -5,7 +5,6 @@ import { profile } from "@/content/profile";
 import { nowItems, nowKindLabel, nowUpdated } from "@/content/now";
 import { formatDate } from "@/lib/date";
 import { cn } from "@/lib/utils";
-import { ArrowUp, Sparkles } from "lucide-react";
 
 type Message = {
   id: number;
@@ -166,83 +165,111 @@ export function AskPanel() {
   const showSuggestions = messages.length === 0;
 
   return (
-    <div className="flex h-full min-h-[26rem] flex-col overflow-hidden rounded-lg border border-border bg-card shadow-[0_1px_0_hsl(30_22%_10%/0.04)]">
-      {/* header */}
-      <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
-        <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted-foreground">
-          <Sparkles className="h-3.5 w-3.5 text-ai" aria-hidden />
-          Ask my site
+    <div className="sheet flex h-full min-h-[23rem] flex-col border border-border bg-card">
+      {/* slip header */}
+      <div className="flex items-baseline justify-between gap-3 border-b border-border px-4 py-2.5">
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+          <span className="text-ai" aria-hidden>
+            ✦
+          </span>{" "}
+          ask my site
         </p>
-        <span
+        <p
           className={cn(
-            "flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider",
+            "flex items-baseline gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.18em]",
             mode === "live" ? "text-brand" : "text-muted-foreground",
           )}
         >
           <span
             className={cn(
-              "relative flex h-1.5 w-1.5",
-              mode === "live" && "motion-safe:animate-ping absolute opacity-60",
+              "inline-block h-1.5 w-1.5 -translate-y-px",
+              mode === "live"
+                ? "bg-brand motion-safe:animate-pulse"
+                : "bg-muted-foreground/50",
             )}
             aria-hidden
           />
-          <span className={cn("h-1.5 w-1.5 rounded-full", mode === "live" ? "bg-brand" : "bg-muted-foreground/60")} aria-hidden />
-          {mode === "live" ? "ai · live" : mode === "offline" ? "scripted · offline" : "ready"}
-        </span>
+          {mode === "live" ? "live model" : mode === "offline" ? "scripted" : "ready"}
+        </p>
       </div>
 
       {/* transcript */}
       <div
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex-1 space-y-4 overflow-y-auto px-4 py-4"
+        className="flex-1 space-y-5 overflow-y-auto px-4 py-4"
         aria-live="polite"
       >
         {showSuggestions ? (
-          <div className="flex h-full flex-col justify-center gap-4">
-            <p className="max-w-[38ch] font-serif text-lg leading-snug text-foreground/90">
-              Ask about Pedro&apos;s work, stack, availability — or why this site
-              is co-written with AI.
+          <div className="flex h-full flex-col justify-center gap-5">
+            <p className="font-serif text-[1.0625rem] leading-relaxed text-foreground/90">
+              Ask this site about Pedro — the work, the stack, what he is open to,
+              or why the log is co-written with AI.
             </p>
-            <div className="flex flex-wrap gap-2">
+            <ul className="space-y-2.5">
               {SUGGESTIONS.map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  onClick={() => send(s)}
-                  className="rounded-full border border-border bg-background px-3 py-1.5 font-mono text-[12px] text-muted-foreground transition-colors hover:border-brand hover:text-brand"
-                >
-                  {s}
-                </button>
+                <li key={s}>
+                  <button
+                    type="button"
+                    onClick={() => send(s)}
+                    className="group flex items-baseline gap-2 text-left font-serif text-[0.975rem] text-muted-foreground transition-colors hover:text-brand"
+                  >
+                    <span
+                      aria-hidden
+                      className="font-mono text-[10.5px] text-muted-foreground/60 transition-colors group-hover:text-brand"
+                    >
+                      ▸
+                    </span>
+                    <span className="border-b border-border pb-[2px] transition-colors group-hover:border-brand">
+                      {s}
+                    </span>
+                  </button>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         ) : (
-          messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={cn(
-                "max-w-[85%] rounded-lg px-3.5 py-2.5 text-[0.9rem] leading-relaxed",
-                msg.role === "user"
-                  ? "ml-auto bg-foreground text-background"
-                  : "mr-auto border border-border bg-background font-serif text-[0.95rem] text-foreground/90",
-              )}
-            >
-              <span className="whitespace-pre-wrap">{msg.text}</span>
-              {msg.streaming && <span className="cursor-blink font-mono text-brand">▌</span>}
-            </div>
-          ))
+          messages.map((msg) =>
+            msg.role === "user" ? (
+              <p
+                key={msg.id}
+                className="ml-auto max-w-[94%] border-b border-border pb-2 text-right font-mono text-[11.5px] leading-relaxed text-foreground"
+              >
+                <span aria-hidden className="mr-1.5 text-brand">
+                  ▸
+                </span>
+                <span className="whitespace-pre-wrap">{msg.text}</span>
+              </p>
+            ) : (
+              <div key={msg.id} className="border-l border-border pl-3">
+                <p className="font-serif text-[1.0125rem] leading-[1.7] text-foreground/90">
+                  <span className="whitespace-pre-wrap">{msg.text}</span>
+                  {msg.streaming && (
+                    <span
+                      className="cursor-blink ml-0.5 font-mono text-brand"
+                      aria-hidden
+                    >
+                      ▌
+                    </span>
+                  )}
+                </p>
+              </div>
+            ),
+          )
         )}
       </div>
 
-      {/* input */}
+      {/* input — a single ruled line, like writing on the slip */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
           send(input);
         }}
-        className="flex items-center gap-2 border-t border-border p-3"
+        className="flex items-baseline gap-3 border-t border-border px-4 py-3"
       >
+        <span aria-hidden className="font-mono text-[11.5px] text-brand">
+          ▸
+        </span>
         <label htmlFor="ask-input" className="sr-only">
           Ask this site a question about Pedro
         </label>
@@ -250,25 +277,25 @@ export function AskPanel() {
           id="ask-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask anything…"
+          placeholder="ask anything…"
           maxLength={500}
           autoComplete="off"
-          className="h-9 min-w-0 flex-1 rounded-md border border-input bg-background px-3 font-mono text-[13px] text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-brand"
+          className="h-7 min-w-0 flex-1 border-b border-input bg-transparent pb-1 font-mono text-[11.5px] text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-brand"
         />
         <button
           type="submit"
           disabled={busy || !input.trim()}
-          className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-foreground text-background transition-opacity hover:opacity-90 disabled:opacity-40"
+          className="shrink-0 font-mono text-[13px] text-foreground transition-colors hover:text-brand disabled:opacity-30"
           aria-label="Send question"
         >
-          <ArrowUp className="h-4 w-4" />
+          →
         </button>
       </form>
 
-      <p className="border-t border-border/60 px-4 py-2 font-mono text-[11px] leading-relaxed text-muted-foreground/80">
+      <p className="border-t border-border px-4 py-2.5 font-mono text-[10px] leading-relaxed text-muted-foreground/80">
         {mode === "offline"
-          ? "runs locally · no llm · synced from pedro's own content"
-          : "answers from pedro's own content · ai can be wrong"}
+          ? "no model key configured · answers from pedro's own content"
+          : "grounded in pedro's own content · a model can still be wrong"}
       </p>
     </div>
   );

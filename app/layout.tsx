@@ -134,7 +134,8 @@ export default function RootLayout({
         >
           <ThemeProvider>
             <SmoothScroll>
-              <div className="flex min-h-screen flex-col">
+              {/* Above the paper grain so ink is never tinted by the sheet */}
+              <div className="relative z-10 flex min-h-screen flex-col">
                 <a href="#main" className="skip-link">
                   Skip to content
                 </a>

@@ -1,57 +1,89 @@
 import { Link } from "next-view-transitions";
-import { formatDate } from "@/lib/date";
 import type { LogEntryPreview } from "@/lib/types";
-import { AiBadge } from "@/components/log/ai-badge";
+import {
+  DateFolio,
+  Manuscript,
+  Sidenote,
+} from "@/components/manuscript/manuscript";
+import { HandWrittenMark, TagRun } from "@/components/manuscript/marks";
 
-const DATE_FORMAT: Intl.DateTimeFormatOptions = {
-  month: "short",
-  day: "numeric",
-};
+/** Split an ISO date into the pieces the folio gutter prints. */
+export function dateParts(iso: string) {
+  const [year, month, day] = iso.split("-");
+  const parsed = new Date(`${year}-${month ?? "01"}-01T00:00:00`);
+  return {
+    day: day ?? "01",
+    month: Number.isNaN(parsed.getTime())
+      ? ""
+      : parsed.toLocaleDateString("en-US", { month: "short" }),
+  };
+}
 
 /**
- * A single log entry row — date, title, tags, AI co-authorship mark,
- * and (when present) a <details> disclosure showing the prompt that
- * seeded the entry. No client JS needed.
+ * A log entry as an annotated spread: the entry in the text block, and its
+ * disclosure in the margin — permanently visible, not hidden behind a click.
+ * The prompt is the annotation, so the co-authorship is the layout itself.
  */
 export function EntryRow({ entry }: { entry: LogEntryPreview }) {
+  const { day, month } = dateParts(entry.date);
+
   return (
-    <article className="group grid grid-cols-1 gap-1 py-5 md:grid-cols-[92px_1fr] md:gap-6">
-      <p className="label pt-1.5 md:text-right">
-        <time dateTime={entry.date}>{formatDate(entry.date, DATE_FORMAT)}</time>
-      </p>
-      <div className="min-w-0">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-          <h3 className="font-display text-xl leading-snug tracking-tight md:text-[1.375rem]">
-            <Link
-              href={`/log/${entry.slug}`}
-              className="text-foreground transition-colors group-hover:text-brand"
-            >
-              {entry.title}
-            </Link>
-          </h3>
-          {entry.aiAssisted && <AiBadge model={entry.model} short />}
-        </div>
-        {entry.description && (
-          <p className="mt-1.5 max-w-2xl font-serif text-[0.975rem] leading-relaxed text-muted-foreground">
-            {entry.description}
-          </p>
-        )}
-        <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5">
-          <span className="font-mono text-[11px] text-muted-foreground/70">
-            {entry.tags.map((t) => `#${t}`).join(" ")}
-          </span>
-          {entry.prompt && (
-            <details className="min-w-0 flex-1">
-              <summary className="inline cursor-pointer list-none font-mono text-[11px] text-muted-foreground/70 underline decoration-dotted underline-offset-4 transition-colors hover:text-ai [&::-webkit-details-marker]:hidden">
-                ✦ the prompt
-              </summary>
-              <p className="mt-2 max-w-2xl rounded-md border border-ai/25 bg-ai/5 p-3 font-mono text-[12px] leading-relaxed text-foreground/80">
+    <Manuscript
+      className="border-b border-border py-9 last:border-0"
+      folio={<DateFolio day={day} month={month} />}
+      margin={
+        entry.aiAssisted ? (
+          <Sidenote label="✦ the prompt that started this" tone="ai" leader>
+            {entry.prompt ? (
+              <p className="font-mono text-[11.5px] leading-[1.75] text-foreground/80">
                 &ldquo;{entry.prompt}&rdquo;
               </p>
-            </details>
-          )}
-        </div>
+            ) : (
+              <p className="font-mono text-[11.5px] leading-[1.75] text-muted-foreground">
+                Prompt not recorded.
+              </p>
+            )}
+            <p className="mt-3.5 font-serif text-[0.9rem] leading-relaxed text-muted-foreground">
+              Drafted from that prompt
+              {entry.model ? ` with ${entry.model}` : ""}, then rewritten, cut
+              and checked by hand.
+            </p>
+          </Sidenote>
+        ) : (
+          <Sidenote label="no model involved" leader>
+            <HandWrittenMark />
+            <p className="mt-3 font-serif text-[0.9rem] leading-relaxed text-muted-foreground">
+              Written start to finish by hand. The disclosure cuts both ways
+              around here.
+            </p>
+          </Sidenote>
+        )
+      }
+    >
+      <h3 className="font-display text-[1.55rem] leading-snug tracking-tight">
+        <Link
+          href={`/log/${entry.slug}`}
+          className="border-b border-transparent pb-[2px] text-foreground transition-colors hover:border-brand"
+        >
+          {entry.title}
+        </Link>
+      </h3>
+
+      {entry.description && (
+        <p className="mt-3 max-w-[62ch] font-serif text-[1.0625rem] leading-[1.72] text-muted-foreground">
+          {entry.description}
+        </p>
+      )}
+
+      <div className="mt-4 flex flex-wrap items-baseline gap-x-5 gap-y-2">
+        <TagRun tags={entry.tags} />
+        <Link
+          href={`/log/${entry.slug}`}
+          className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-brand"
+        >
+          read →
+        </Link>
       </div>
-    </article>
+    </Manuscript>
   );
 }

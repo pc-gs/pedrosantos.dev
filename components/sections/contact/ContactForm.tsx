@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Send, Loader2, CheckCircle2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -49,27 +49,28 @@ export function ContactForm() {
 
   if (done) {
     return (
-      <div className="flex flex-col items-start gap-3 rounded-lg border border-border bg-card p-8">
-        <CheckCircle2 className="h-6 w-6 text-brand" />
-        <h3 className="text-lg font-semibold text-foreground">Message sent</h3>
-        <p className="text-sm leading-relaxed text-muted-foreground">
+      <div className="border-t border-border pt-8">
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand">
+          sent
+        </p>
+        <p className="mt-4 max-w-[52ch] font-serif text-[1.0625rem] leading-[1.72] text-muted-foreground">
           Thanks for reaching out. I&apos;ll reply to your email shortly —
-          usually within a day or two.
+          usually within a day or two, and always by hand.
         </p>
         <button
           type="button"
           onClick={() => setDone(false)}
-          className="mt-2 font-mono text-[13px] text-brand hover:underline"
+          className="mt-5 border-b border-brand/30 pb-[3px] font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand transition-colors hover:border-brand"
         >
-          send another →
+          write another →
         </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
+      <div className="grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2">
         <Field
           label="Name"
           error={form.formState.errors.name?.message}
@@ -84,25 +85,30 @@ export function ContactForm() {
           placeholder="you@company.com"
         />
       </div>
+
       <Field
         label="Subject"
         error={form.formState.errors.subject?.message}
         {...form.register("subject")}
-        placeholder="What's this about?"
+        placeholder="What is this about?"
       />
-      <div className="space-y-2">
-        <label htmlFor="message" className="label block">
+
+      <div>
+        <label
+          htmlFor="message"
+          className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground"
+        >
           Message
         </label>
         <textarea
           id="message"
           rows={6}
-          placeholder="Tell me about the role, the project, or what you're building..."
+          placeholder="Tell me about the role, the project, or what you are building…"
           {...form.register("message")}
-          className="w-full resize-none rounded-md border border-border bg-background px-3.5 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-brand focus:ring-1 focus:ring-brand"
+          className="ruled mt-2 w-full resize-none border-b border-input bg-transparent py-0 font-serif text-[1.0625rem] text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-brand"
         />
         {form.formState.errors.message && (
-          <p className="font-mono text-[12px] text-destructive">
+          <p className="mt-2 font-mono text-[11px] text-destructive">
             {form.formState.errors.message.message}
           </p>
         )}
@@ -111,18 +117,15 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-foreground px-5 font-mono text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-60"
+        className="inline-flex h-11 items-center gap-2 border border-foreground bg-foreground px-5 font-mono text-[11.5px] uppercase tracking-[0.16em] text-background transition-colors hover:bg-background hover:text-foreground disabled:opacity-50"
       >
         {submitting ? (
           <>
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
             sending…
           </>
         ) : (
-          <>
-            <Send className="h-4 w-4" />
-            send message
-          </>
+          <>send message →</>
         )}
       </button>
     </form>
@@ -140,18 +143,21 @@ function Field({
   type?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
-    <div className="space-y-2">
-      <label htmlFor={label} className="label block">
+    <div>
+      <label
+        htmlFor={label}
+        className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground"
+      >
         {label}
       </label>
       <input
         id={label}
         type={type}
-        className="w-full rounded-md border border-border bg-background px-3.5 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-brand focus:ring-1 focus:ring-brand"
+        className="mt-2 w-full border-b border-input bg-transparent py-2 font-serif text-[1.125rem] text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-brand"
         {...props}
       />
       {error && (
-        <p className="font-mono text-[12px] text-destructive">{error}</p>
+        <p className="mt-2 font-mono text-[11px] text-destructive">{error}</p>
       )}
     </div>
   );

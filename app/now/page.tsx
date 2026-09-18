@@ -3,96 +3,122 @@ import { Link } from "next-view-transitions";
 import { nowItems, nowUpdated } from "@/content/now";
 import { formatDate } from "@/lib/date";
 import { NowList } from "@/components/now/now-list";
+import { Folio, Manuscript, Sidenote } from "@/components/manuscript/manuscript";
+import { MarginLink } from "@/components/manuscript/marks";
 
 export const metadata: Metadata = {
   title: "Now",
   description:
-    "What Pedro Santos is working on right now — day job, Melro.io, the AI-assisted workflow, and what he's learning. A /now page snapshot.",
+    "What Pedro Santos is working on right now — day job, Melro.io, the AI-assisted workflow, and what he is learning. A /now page snapshot.",
   alternates: { canonical: "/now" },
 };
 
+const notDoing = [
+  "Chasing every new framework — I would rather get deeper on fewer things.",
+  "Treating the side company as a growth story; it is a craft story.",
+  "Pretending finished work is the interesting part.",
+];
+
 export default function NowPage() {
   return (
-    <main className="container py-14 md:py-20">
-      <header className="fade-up border-b border-border pb-8">
-        <p className="label mb-4">Now</p>
-        <h1 className="max-w-3xl font-display text-[clamp(2.5rem,6vw,4rem)] leading-[1.05] tracking-tight text-foreground">
+    <main className="container py-12 md:py-16">
+      <Manuscript
+        marginWidth="wide"
+        folio={<Folio>now</Folio>}
+        margin={
+          <>
+            <Sidenote label="stamped" leader>
+              <p className="font-mono text-[11.5px] leading-[1.9] text-muted-foreground tabnum">
+                updated
+                <br />
+                {formatDate(nowUpdated, {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </p>
+              <p className="mt-3 font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
+                A {}
+                <a
+                  href="https://nownownow.com/about"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-ink"
+                >
+                  /now page
+                </a>
+                {" "}
+                — edited when things actually change, not on a schedule.
+              </p>
+            </Sidenote>
+
+            <Sidenote label="the granular version">
+              <p className="font-serif text-[0.925rem] leading-relaxed text-muted-foreground">
+                The week-to-week detail — the thing I just broke, the API that
+                surprised me, the prompt that worked — is in the log.
+              </p>
+              <p className="mt-3">
+                <MarginLink href="/log">the log →</MarginLink>
+              </p>
+            </Sidenote>
+
+            <Sidenote label="the tools">
+              <p>
+                <MarginLink href="/uses">/uses →</MarginLink>
+              </p>
+            </Sidenote>
+          </>
+        }
+      >
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+          now · a snapshot
+        </p>
+        <h1 className="mt-5 font-display display-page text-foreground">
           What I&apos;m doing right now
         </h1>
-        <p className="mt-5 max-w-xl font-serif text-lg leading-relaxed text-muted-foreground">
+        <p className="mt-6 max-w-[56ch] font-serif text-[1.125rem] leading-[1.72] text-foreground/85">
           Most personal sites tell you what someone did. This is the part that
           keeps drifting: the work in flight, the things I&apos;m learning, and
           what I&apos;ve deliberately said no to this season.
         </p>
-        <p className="mt-5 font-mono text-[12px] text-muted-foreground">
-          last updated{" "}
-          <time dateTime={nowUpdated}>{formatDate(nowUpdated)}</time> · a{" "}
-          <a
-            href="https://nownownow.com/about"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-border underline-offset-4 transition-colors hover:text-brand hover:decoration-brand"
-          >
-            /now page
-          </a>
-        </p>
-      </header>
 
-      <section className="mt-10">
-        <NowList items={nowItems} />
-      </section>
+        <div className="mt-10">
+          <NowList items={nowItems} />
+        </div>
 
-      <section className="mt-14 grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
-        <div>
-          <h2 className="font-display text-2xl tracking-tight text-foreground">
-            The granular version
-          </h2>
-          <p className="mt-3 max-w-md font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
-            This page is the summary. The week-to-week detail — the thing I just
-            broke, the API that surprised me, the prompt that worked — lives in{" "}
-            <Link
-              href="/log"
-              className="text-brand underline decoration-brand/40 underline-offset-4 hover:decoration-brand"
-            >
-              the log
-            </Link>
-            .
+        <section className="mt-14 grid grid-cols-1 gap-y-3 border-t border-border py-9 sm:grid-cols-[3.5rem_minmax(0,1fr)] sm:gap-x-6">
+          <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground tabnum">
+            <span className="text-brand">04</span>
           </p>
-        </div>
-        <div>
-          <h2 className="font-display text-2xl tracking-tight text-foreground">
-            What I&apos;m not doing
-          </h2>
-          <ul className="mt-3 space-y-2 font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
-            <li>Chasing every new framework — I&apos;d rather get deeper.</li>
-            <li>
-              Treating the side company as a growth story; it&apos;s a craft
-              story.
-            </li>
-            <li>Pretending finished work is the interesting part.</li>
-          </ul>
-        </div>
-      </section>
+          <div className="min-w-0">
+            <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+              What I&apos;m not doing
+            </p>
+            <ul className="mt-4">
+              {notDoing.map((line) => (
+                <li
+                  key={line}
+                  className="flex max-w-[58ch] gap-3 border-b border-border/70 py-3.5 font-serif text-[1.0625rem] leading-[1.72] text-muted-foreground last:border-0"
+                >
+                  <span
+                    aria-hidden
+                    className="mt-2 h-1 w-1 shrink-0 rounded-full bg-brand"
+                  />
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </Manuscript>
 
-      <section className="mt-14 border-t border-border pt-8">
-        <p className="max-w-xl font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
-          Curious about the tools behind all of this? There&apos;s a{" "}
-          <Link
-            href="/uses"
-            className="text-brand underline decoration-brand/40 underline-offset-4 hover:decoration-brand"
-          >
-            /uses
-          </Link>{" "}
-          page. And if something here looks like a fit,{" "}
-          <Link
-            href="/contact"
-            className="text-brand underline decoration-brand/40 underline-offset-4 hover:decoration-brand"
-          >
-            tell me
-          </Link>
-          .
-        </p>
-      </section>
+      <p className="mt-16 max-w-[56ch] font-serif text-[1.0625rem] leading-relaxed text-muted-foreground">
+        If something here looks like a fit,{" "}
+        <Link href="/contact" className="link-ink">
+          tell me
+        </Link>
+        .
+      </p>
     </main>
   );
 }
