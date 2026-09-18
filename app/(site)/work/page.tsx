@@ -78,7 +78,7 @@ export default function WorkPage() {
                   href={`/work/${project.slug}`}
                   className="group mt-4 inline-flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:text-brand-text"
                 >
-                  Read the case study
+                  Read the story
                   <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
               </div>

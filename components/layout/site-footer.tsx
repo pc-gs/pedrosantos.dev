@@ -1,9 +1,9 @@
 import { Link } from "next-view-transitions";
 import { ArrowUpRight } from "lucide-react";
 import { profile } from "@/content/profile";
+import { getAllLogEntries } from "@/lib/log";
+import { formatDate } from "@/lib/date";
 import { Wrap } from "@/components/site/wrap";
-import { Eyebrow } from "@/components/site/eyebrow";
-import { LinkButton } from "@/components/site/link-button";
 
 const contents = [
   { name: "Log", href: "/log" },
@@ -25,38 +25,81 @@ const elsewhere = [
 ];
 
 /**
- * Site footer: the contact block every page ends on, plus the small print.
- * One orange accent, hairlines, no dark slabs.
+ * Site footer. Instead of repeating a big call to action on every page, it
+ * shows the latest note (the site is alive) and the practical lines: how to
+ * reach me, where to go next, small print. The full pitch lives on /contact.
  */
 export function SiteFooter() {
   const year = new Date().getFullYear();
+  const latest = getAllLogEntries()[0];
 
   return (
     <footer className="border-t border-border">
-      <Wrap className="py-16 md:py-20">
-        <Eyebrow>Contact</Eyebrow>
-        <h2 className="mt-3 font-display text-[clamp(2.25rem,6vw,4rem)] leading-[0.95] tracking-[-0.02em]">
-          Let&apos;s talk<span className="text-brand-text">.</span>
-        </h2>
-        <p className="mt-4 max-w-[52ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
-          {profile.availability.note}
-        </p>
-        <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-          <LinkButton href="/contact" variant="solid">
-            Start a conversation
-            <ArrowUpRight className="h-4 w-4" />
-          </LinkButton>
-          <a
-            href={`mailto:${profile.email}`}
-            className="link-inline font-mono text-[11px] uppercase tracking-[0.16em]"
-          >
-            {profile.email}
-          </a>
+      <Wrap className="py-14 md:py-16">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              Say hi
+            </p>
+            {profile.availability.open && (
+              <p className="mt-3 max-w-[42ch] text-[1rem] leading-relaxed">
+                Open to full-time roles and contract work, remote-friendly, EU
+                timezones.
+              </p>
+            )}
+            <div className="mt-4 flex flex-wrap items-baseline gap-x-6 gap-y-3">
+              <a
+                href={`mailto:${profile.email}`}
+                className="link-inline font-mono text-[11px] uppercase tracking-[0.16em]"
+              >
+                {profile.email}
+              </a>
+              <Link
+                href="/contact"
+                className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-brand-text transition-colors hover:text-foreground"
+              >
+                the form →
+              </Link>
+            </div>
+          </div>
+
+          {latest && (
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                Latest from the log
+              </p>
+              <Link href={`/log/${latest.slug}`} className="group mt-3 block">
+                <span className="font-display text-[1.375rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-brand">
+                  {latest.title}
+                </span>
+                <span className="mt-2 flex flex-wrap items-baseline gap-x-4 gap-y-1 font-mono text-[9.5px] uppercase tracking-[0.16em] text-muted-foreground">
+                  <time dateTime={latest.date}>
+                    {formatDate(latest.date, {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </time>
+                  {latest.aiAssisted ? (
+                    <span className="text-ai">
+                      ✦ co-written{latest.model ? ` with ${latest.model}` : ""}
+                    </span>
+                  ) : (
+                    <span>✎ by hand</span>
+                  )}
+                  <ArrowUpRight
+                    className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    aria-hidden
+                  />
+                </span>
+              </Link>
+            </div>
+          )}
         </div>
 
         <nav
           aria-label="Contents"
-          className="mt-14 flex flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-border pt-6"
+          className="mt-12 flex flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-border pt-6"
         >
           {contents.map((item) => (
             <Link

@@ -5,6 +5,7 @@ import { getFeaturedProjects } from "@/content/projects";
 import { studies } from "@/content/studies";
 import { getAllLogEntries } from "@/lib/log";
 import { getAllPosts } from "@/lib/blog";
+import { formatDate } from "@/lib/date";
 import type { LogEntry } from "@/lib/types";
 import { Wrap } from "@/components/site/wrap";
 import { Eyebrow } from "@/components/site/eyebrow";
@@ -18,7 +19,7 @@ import { PostCard } from "@/components/site/post-card";
 
 export default function HomePage() {
   const allLog = getAllLogEntries();
-  const log = allLog.slice(0, 4);
+  const [featuredNote, ...restLog] = allLog.slice(0, 4);
   const logBySlug = new Map(allLog.map((entry) => [entry.slug, entry]));
   const featured = getFeaturedProjects().slice(0, 3);
   const posts = getAllPosts().slice(0, 2);
@@ -107,8 +108,47 @@ export default function HomePage() {
               </Link>
             }
           />
-          <ol className="mt-4">
-            {log.map((entry) => (
+          {featuredNote && (
+            <div className="mt-8 border border-border bg-card p-6">
+              <div className="flex flex-wrap items-baseline justify-between gap-3 font-mono text-[9.5px] uppercase tracking-[0.16em] text-muted-foreground">
+                <time dateTime={featuredNote.date}>
+                  {formatDate(featuredNote.date, {
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </time>
+                <span className={featuredNote.aiAssisted ? "text-ai" : ""}>
+                  {featuredNote.aiAssisted ? "✦ co-written" : "✎ by hand"}
+                </span>
+              </div>
+              <h3 className="mt-3 font-display text-[clamp(1.5rem,2.6vw,1.875rem)] leading-tight tracking-[-0.015em]">
+                <Link
+                  href={`/log/${featuredNote.slug}`}
+                  className="transition-colors hover:text-brand-text"
+                >
+                  {featuredNote.title}
+                </Link>
+              </h3>
+              {featuredNote.description && (
+                <p className="mt-2 max-w-[62ch] text-[1rem] leading-relaxed text-muted-foreground">
+                  {featuredNote.description}
+                </p>
+              )}
+              {featuredNote.aiAssisted && featuredNote.prompt && (
+                <blockquote className="mt-4 max-w-[62ch] border-l-2 border-ai/40 pl-4">
+                  <p className="font-mono text-[11.5px] leading-relaxed text-foreground/80">
+                    &ldquo;{featuredNote.prompt}&rdquo;
+                  </p>
+                  <p className="mt-1.5 font-mono text-[9.5px] uppercase tracking-[0.16em] text-ai">
+                    ✦ the prompt that started it
+                  </p>
+                </blockquote>
+              )}
+            </div>
+          )}
+
+          <ol className="mt-6">
+            {restLog.map((entry) => (
               <LogRow key={entry.slug} entry={entry} />
             ))}
           </ol>
@@ -136,7 +176,7 @@ export default function HomePage() {
         <Wrap className="py-16 md:py-24">
           <SectionHeader
             eyebrow="04 · Work"
-            title="Selected work"
+            title="Things I've built"
             description="Tools I built for myself and for other people. Each one has a case study: the problem, the approach, and what I took away."
             action={
               <Link

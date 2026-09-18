@@ -92,7 +92,7 @@ export default async function ProjectDetailPage({
   return (
     <main>
       <Wrap className="pt-14 md:pt-20">
-        <Eyebrow>Work · Case study</Eyebrow>
+        <Eyebrow>Work · The story</Eyebrow>
         <h1 className="mt-5 max-w-[20ch] font-display text-[clamp(2.25rem,6vw,4rem)] leading-[0.98] tracking-[-0.02em]">
           {project.title}
         </h1>
