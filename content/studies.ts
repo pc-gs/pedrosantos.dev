@@ -24,7 +24,7 @@ export const studies: Study[] = [
   {
     id: "cross-platform",
     title: "Desktop & cross-platform",
-    why: "Tauri makes desktop feel like shipping web — until the webview reminds you it isn't Chrome. I want the platform edges to stop being a tax.",
+    why: "Tauri makes desktop feel like shipping web, until the webview reminds you it isn't Chrome. I want the platform edges to stop being a tax.",
     state: "learning",
     since: "2026-05",
     updatedAt: "2026-08-21",

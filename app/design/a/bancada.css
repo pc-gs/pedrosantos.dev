@@ -32,6 +32,18 @@
   border-color: color-mix(in srgb, var(--bk-bg) 25%, transparent);
 }
 
+.link-inline {
+  color: var(--bk-blue);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--bk-blue) 35%, transparent);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 150ms ease;
+}
+
+.link-inline:hover {
+  text-decoration-color: var(--bk-blue);
+}
+
 .bk-shadow {
   box-shadow: 4px 4px 0 0 var(--bk-ink);
 }

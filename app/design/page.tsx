@@ -5,7 +5,7 @@ export default function DesignIndexPage() {
     {
       href: "/design/a",
       label: "A · Bancada",
-      note: "Bone canvas, ink, electric orange. Graphic, work-first, hard shadows.",
+      note: "Hero revised: human intro, now-card up front, studies first. Winner candidate.",
     },
     {
       href: "/design/b",

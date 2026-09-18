@@ -36,7 +36,6 @@ const TICKER = [
   "React Native",
   "Tauri",
   "Melro.io",
-  "AI-assisted workflow",
   "open to work",
 ];
 
@@ -65,26 +64,15 @@ function Wrap({
   );
 }
 
-function Eyebrow({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <p
-      className={cn(
-        "font-mono text-[10.5px] uppercase tracking-[0.22em] text-[var(--bk-muted)]",
-        className,
-      )}
-    >
+    <p className="font-mono text-[10.5px] uppercase tracking-[0.22em] text-[var(--bk-muted)]">
       {children}
     </p>
   );
 }
 
-/** Flat browser frame — the web-native counterpart of a device mockup. */
+/** Flat browser frame. The web-native counterpart of a device mockup. */
 function Screen({
   label,
   children,
@@ -109,34 +97,32 @@ function Screen({
   );
 }
 
-function NoteBadge({ entry }: { entry: LogEntry }) {
-  if (entry.aiAssisted) {
+function NowLink({ href }: { href: string }) {
+  const className =
+    "mt-1.5 inline-flex items-center gap-1 font-mono text-[9.5px] uppercase tracking-[0.16em] text-[var(--bk-accent)]";
+  if (href.startsWith("/")) {
     return (
-      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--bk-blue)]">
-        ✦ co-written{entry.model ? ` · ${entry.model}` : ""}
-      </span>
+      <Link href={href} className={className}>
+        read more
+        <ArrowUpRight className="h-3 w-3" />
+      </Link>
     );
   }
   return (
-    <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--bk-muted)]">
-      ✎ by hand
-    </span>
+    <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+      visit
+      <ArrowUpRight className="h-3 w-3" />
+    </a>
   );
 }
 
-function WorkCard({ project, wide }: { project: Project; wide?: boolean }) {
+function WorkCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className={cn(
-        "group block border border-[var(--bk-ink)] bg-[var(--bk-panel)] bk-shadow transition-transform duration-150 hover:-translate-y-1",
-        wide && "md:grid md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]",
-      )}
+      className="group flex flex-col border border-[var(--bk-ink)] bg-[var(--bk-panel)] transition-transform duration-150 hover:-translate-y-1"
     >
-      <Screen
-        label={project.slug}
-        className={cn(wide ? "border-b md:border-b-0 md:border-r" : "border-b")}
-      >
+      <Screen label={project.slug} className="border-b">
         <ProjectCover
           slug={project.slug}
           title={project.title}
@@ -144,26 +130,18 @@ function WorkCard({ project, wide }: { project: Project; wide?: boolean }) {
           className="[--cover-bg:var(--bk-ink)] [--cover-fg:var(--bk-accent)]"
         />
       </Screen>
-
-      <div className="flex flex-col justify-center p-5 md:p-6">
-        <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--bk-muted)]">
+      <div className="flex flex-1 flex-col p-4">
+        <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[9.5px] uppercase tracking-[0.18em] text-[var(--bk-muted)]">
           <span>{project.period}</span>
           <span className="text-[var(--bk-accent)]">
             {projectStatusMeta(project.status).label}
           </span>
         </p>
-        <h3 className="bancada-display mt-2 text-[1.5rem] leading-tight tracking-[-0.01em] transition-colors group-hover:text-[var(--bk-accent)]">
+        <h3 className="bancada-display mt-2 text-[1.25rem] leading-tight tracking-[-0.01em] transition-colors group-hover:text-[var(--bk-accent)]">
           {project.title}
         </h3>
-        <p className="mt-2 max-w-[58ch] text-[0.95rem] leading-relaxed text-[var(--bk-muted)]">
+        <p className="mt-1.5 text-[0.875rem] leading-relaxed text-[var(--bk-muted)]">
           {project.tagline}
-        </p>
-        <p className="mt-3 font-mono text-[10.5px] text-[var(--bk-muted)]">
-          {project.stack.join("  ·  ")}
-        </p>
-        <p className="mt-4 inline-flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.16em]">
-          case study
-          <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </p>
       </div>
     </Link>
@@ -176,7 +154,6 @@ export default function BancadaPage() {
   const logBySlug = new Map(allLog.map((entry) => [entry.slug, entry]));
   const featured = getFeaturedProjects().slice(0, 3);
   const posts = getAllPosts().slice(0, 2);
-  const [lead, second, third] = featured;
 
   return (
     <div className={`${bricolage.variable} bancada min-h-screen`}>
@@ -187,9 +164,6 @@ export default function BancadaPage() {
             Pedro Santos<span className="text-[var(--bk-accent)]">.</span>dev
           </p>
           <nav className="hidden items-center gap-6 font-mono text-[10.5px] uppercase tracking-[0.18em] md:flex">
-            <a href="#work" className="hover:text-[var(--bk-accent)]">
-              Work
-            </a>
             <a href="#studies" className="hover:text-[var(--bk-accent)]">
               Studies
             </a>
@@ -198,6 +172,9 @@ export default function BancadaPage() {
             </a>
             <a href="#essays" className="hover:text-[var(--bk-accent)]">
               Essays
+            </a>
+            <a href="#work" className="hover:text-[var(--bk-accent)]">
+              Work
             </a>
             <a href="#contact" className="hover:text-[var(--bk-accent)]">
               Contact
@@ -219,23 +196,37 @@ export default function BancadaPage() {
             <Eyebrow>
               {profile.role} · {profile.location}
             </Eyebrow>
-            <h1 className="bancada-display mt-6 text-[clamp(2.75rem,8vw,6rem)] leading-[0.93] tracking-[-0.025em]">
-              Building for the web.
+            <h1 className="bancada-display mt-6 text-[clamp(2.5rem,7vw,5.25rem)] leading-[0.95] tracking-[-0.025em]">
+              Hi, I&apos;m Pedro.
               <br />
               <span className="text-[var(--bk-accent)]">
-                Logging what I learn.
+                I build software for the web.
               </span>
             </h1>
-            <p className="mt-7 max-w-[52ch] text-[1.0625rem] leading-relaxed text-[var(--bk-muted)]">
-              {profile.tagline} This site puts the work and the learning log
-              side by side — prompts attached, nothing polished past the truth.
+            <p className="mt-7 max-w-[54ch] text-[1.0625rem] leading-relaxed text-[var(--bk-muted)]">
+              Software engineer from Belmonte, Portugal, with more than a
+              decade in tech. By day I ship production React and GraphQL at
+              Aubay. On the side I&apos;m building{" "}
+              <a
+                href={profile.founded.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-inline"
+              >
+                Melro.io
+              </a>
+              , a small company that writes software for local businesses.
+            </p>
+            <p className="mt-4 max-w-[54ch] text-[1.0625rem] leading-relaxed text-[var(--bk-muted)]">
+              This site is where I write down what I&apos;m working on and what
+              I learn while doing it.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <a
-                href="#work"
+                href="#studies"
                 className="inline-flex items-center gap-2 border border-[var(--bk-ink)] bg-[var(--bk-ink)] px-5 py-3 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--bk-bg)] transition-colors hover:bg-[var(--bk-accent)] hover:text-[var(--bk-bg)]"
               >
-                See the work
+                What I&apos;m studying
                 <ArrowDownRight className="h-4 w-4" />
               </a>
               <a
@@ -251,12 +242,12 @@ export default function BancadaPage() {
             </p>
           </div>
 
-          {/* on the bench */}
+          {/* what I'm working on now */}
           <aside className="lg:pt-1">
             <div className="border border-[var(--bk-ink)] bg-[var(--bk-panel)] bk-shadow">
               <div className="flex items-baseline justify-between gap-3 border-b border-[var(--bk-ink)] px-4 py-3">
                 <span className="font-mono text-[10px] uppercase tracking-[0.22em]">
-                  On the bench
+                  Working on now
                 </span>
                 <span className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-[var(--bk-muted)]">
                   upd {formatDate(nowUpdated, MONTH)}
@@ -266,20 +257,21 @@ export default function BancadaPage() {
                 {nowItems.slice(0, 4).map((item) => (
                   <li
                     key={item.id}
-                    className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-3 border-b border-[var(--bk-line)] px-4 py-3 last:border-0"
+                    className="border-b border-[var(--bk-line)] px-4 py-3 last:border-0"
                   >
-                    <span className="font-mono text-[9px] uppercase leading-4 tracking-[0.16em] text-[var(--bk-accent)]">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--bk-accent)]">
                       {nowKindLabel[item.kind]}
-                    </span>
-                    <span className="text-[0.875rem] leading-snug">
+                    </p>
+                    <p className="mt-1 text-[0.875rem] leading-snug">
                       {item.text}
-                    </span>
+                    </p>
+                    {item.href && <NowLink href={item.href} />}
                   </li>
                 ))}
               </ul>
             </div>
             <p className="mt-3 font-mono text-[9.5px] uppercase tracking-[0.18em] text-[var(--bk-muted)]">
-              updated weekly — not a résumé line
+              a living snapshot, updated when things change
             </p>
           </aside>
         </Wrap>
@@ -303,56 +295,17 @@ export default function BancadaPage() {
           </div>
         </div>
 
-        {/* ── work ──────────────────────────────────────────────────── */}
-        <section id="work" className="border-b border-[var(--bk-ink)]">
-          <Wrap className="py-16 md:py-20">
-            <div className="flex flex-wrap items-end justify-between gap-6 border-b border-[var(--bk-ink)] pb-4">
-              <div>
-                <Eyebrow>01 — Selected work</Eyebrow>
-                <h2 className="bancada-display mt-2 text-[clamp(1.6rem,3vw,2.4rem)] leading-tight tracking-[-0.015em]">
-                  Built, shipped, and written up
-                </h2>
-              </div>
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:text-[var(--bk-accent)]"
-              >
-                all work
-                <ArrowUpRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
-
-            <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-12">
-              {lead && (
-                <div className="md:col-span-7">
-                  <WorkCard project={lead} />
-                </div>
-              )}
-              {second && (
-                <div className="md:col-span-5">
-                  <WorkCard project={second} />
-                </div>
-              )}
-              {third && (
-                <div className="md:col-span-12">
-                  <WorkCard project={third} wide />
-                </div>
-              )}
-            </div>
-          </Wrap>
-        </section>
-
         {/* ── studies ───────────────────────────────────────────────── */}
         <section id="studies" className="border-b border-[var(--bk-ink)]">
           <Wrap className="py-16 md:py-20">
             <div className="border-b border-[var(--bk-ink)] pb-4">
-              <Eyebrow>02 — On the bench</Eyebrow>
+              <Eyebrow>01 · On the bench</Eyebrow>
               <h2 className="bancada-display mt-2 text-[clamp(1.6rem,3vw,2.4rem)] leading-tight tracking-[-0.015em]">
                 What I&apos;m studying right now
               </h2>
               <p className="mt-2 max-w-[58ch] text-[0.95rem] leading-relaxed text-[var(--bk-muted)]">
-                A track is a thread I&apos;m pulling on — with the notes that
-                show the actual work, not a progress bar.
+                A track is something I&apos;m actively learning, with the notes
+                that show the actual work. No progress bars.
               </p>
             </div>
 
@@ -414,9 +367,9 @@ export default function BancadaPage() {
           <Wrap className="py-16 md:py-20">
             <div className="flex flex-wrap items-end justify-between gap-6 border-b border-[var(--bk-ink)] pb-4">
               <div>
-                <Eyebrow>03 — The log</Eyebrow>
+                <Eyebrow>02 · The log</Eyebrow>
                 <h2 className="bancada-display mt-2 text-[clamp(1.6rem,3vw,2.4rem)] leading-tight tracking-[-0.015em]">
-                  A log, not a blog
+                  Short notes, written the week I learn something
                 </h2>
               </div>
               <Link
@@ -447,7 +400,9 @@ export default function BancadaPage() {
                     <span className="bancada-display text-[1.25rem] leading-snug tracking-[-0.01em] transition-colors group-hover:text-[var(--bk-accent)]">
                       {entry.title}
                     </span>
-                    <NoteBadge entry={entry} />
+                    <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--bk-muted)]">
+                      {entry.aiAssisted ? "✦ co-written" : "✎ by hand"}
+                    </span>
                   </Link>
                 </li>
               ))}
@@ -459,9 +414,9 @@ export default function BancadaPage() {
         <section id="essays" className="border-b border-[var(--bk-ink)]">
           <Wrap className="py-16 md:py-20">
             <div className="border-b border-[var(--bk-ink)] pb-4">
-              <Eyebrow>04 — Essays</Eyebrow>
+              <Eyebrow>03 · Essays</Eyebrow>
               <h2 className="bancada-display mt-2 text-[clamp(1.6rem,3vw,2.4rem)] leading-tight tracking-[-0.015em]">
-                Longer thinking, co-written honestly
+                Longer thinking, written in the open
               </h2>
             </div>
             <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
@@ -483,9 +438,39 @@ export default function BancadaPage() {
                   <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--bk-muted)]">
                     {formatDate(post.date, MONTH)}
                     {post.readingTime ? `  ·  ${post.readingTime}` : ""}
-                    {post.coWritten ? "  ·  ✦ co-written" : ""}
                   </p>
                 </Link>
+              ))}
+            </div>
+          </Wrap>
+        </section>
+
+        {/* ── work ──────────────────────────────────────────────────── */}
+        <section id="work" className="border-b border-[var(--bk-ink)]">
+          <Wrap className="py-16 md:py-20">
+            <div className="flex flex-wrap items-end justify-between gap-6 border-b border-[var(--bk-ink)] pb-4">
+              <div>
+                <Eyebrow>04 · Selected work</Eyebrow>
+                <h2 className="bancada-display mt-2 text-[clamp(1.6rem,3vw,2.4rem)] leading-tight tracking-[-0.015em]">
+                  Projects with the story attached
+                </h2>
+                <p className="mt-2 max-w-[58ch] text-[0.95rem] leading-relaxed text-[var(--bk-muted)]">
+                  Tools I built for myself and for other people. Each one has a
+                  case study: the problem, the approach, and what I took away.
+                </p>
+              </div>
+              <Link
+                href="/projects"
+                className="inline-flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:text-[var(--bk-accent)]"
+              >
+                all work
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+
+            <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+              {featured.map((project) => (
+                <WorkCard key={project.slug} project={project} />
               ))}
             </div>
           </Wrap>
@@ -494,7 +479,9 @@ export default function BancadaPage() {
         {/* ── contact ───────────────────────────────────────────────── */}
         <footer id="contact" className="bancada-bg-ink">
           <Wrap className="py-16 md:py-20">
-            <Eyebrow className="text-[var(--bk-bg)]/70">05 — Contact</Eyebrow>
+            <p className="font-mono text-[10.5px] uppercase tracking-[0.22em] text-[var(--bk-bg)]/70">
+              05 · Contact
+            </p>
             <h2 className="bancada-display mt-3 text-[clamp(2.5rem,7vw,4.5rem)] leading-[0.95] tracking-[-0.02em]">
               Let&apos;s talk<span className="text-[var(--bk-accent)]">.</span>
             </h2>
@@ -517,7 +504,7 @@ export default function BancadaPage() {
               </a>
             </div>
             <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t pt-6 font-mono text-[9.5px] uppercase tracking-[0.18em] opacity-70 bk-rule-invert">
-              <span>© 2026 Pedro Santos</span>
+              <span>© 2026 Pedro Santos · Belmonte, Portugal</span>
               <span className="flex items-center gap-5">
                 <a href="/log/feed.xml" className="hover:opacity-100">
                   log feed
