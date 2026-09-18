@@ -1,6 +1,6 @@
 /* ── Variant A · "Bancada" ────────────────────────────────────────────────
-   Bone canvas, ink, electric orange. Graphic and work-first: visible rules,
-   hard shadows, oversized type. Exploration code — scoped on purpose. */
+   Warm bone canvas, ink text, Melro orange. Calm and typographic: hairlines,
+   generous whitespace, one accent. Exploration code — scoped on purpose. */
 
 .bancada {
   --bk-bg: #f4f1e9;
@@ -19,19 +19,6 @@
   font-weight: 700;
 }
 
-.bancada-rule {
-  border-color: var(--bk-line);
-}
-
-.bancada-bg-ink {
-  background-color: var(--bk-ink);
-  color: var(--bk-bg);
-}
-
-.bk-rule-invert {
-  border-color: color-mix(in srgb, var(--bk-bg) 25%, transparent);
-}
-
 .link-inline {
   color: var(--bk-blue);
   text-decoration: underline;
@@ -42,37 +29,4 @@
 
 .link-inline:hover {
   text-decoration-color: var(--bk-blue);
-}
-
-.bk-shadow {
-  box-shadow: 4px 4px 0 0 var(--bk-ink);
-}
-
-.bk-shadow-accent {
-  box-shadow: 4px 4px 0 0 var(--bk-accent);
-}
-
-.bk-ticker {
-  display: flex;
-  width: max-content;
-  animation: bk-marquee 46s linear infinite;
-}
-
-@keyframes bk-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.bk-ticker:hover {
-  animation-play-state: paused;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bk-ticker {
-    animation: none;
-  }
 }

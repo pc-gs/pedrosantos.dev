@@ -28,17 +28,6 @@ const bricolage = Bricolage_Grotesque({
 const DATE: Intl.DateTimeFormatOptions = { month: "short", day: "numeric" };
 const MONTH: Intl.DateTimeFormatOptions = { month: "short", year: "numeric" };
 
-const TICKER = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "GraphQL",
-  "React Native",
-  "Tauri",
-  "Melro.io",
-  "open to work",
-];
-
 const STUDY_STATE_CLASS: Record<Study["state"], string> = {
   applying: "bg-[var(--bk-accent)] text-[var(--bk-bg)] border-[var(--bk-ink)]",
   learning: "bg-[var(--bk-ink)] text-[var(--bk-bg)] border-[var(--bk-ink)]",
@@ -120,14 +109,14 @@ function WorkCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group flex flex-col border border-[var(--bk-ink)] bg-[var(--bk-panel)] transition-transform duration-150 hover:-translate-y-1"
+      className="group flex flex-col border border-[var(--bk-line)] bg-[var(--bk-panel)] transition-colors hover:border-[var(--bk-ink)]"
     >
       <Screen label={project.slug} className="border-b">
         <ProjectCover
           slug={project.slug}
           title={project.title}
           corner={String(project.year)}
-          className="[--cover-bg:var(--bk-ink)] [--cover-fg:var(--bk-accent)]"
+          className="[--cover-bg:var(--bk-panel)] [--cover-fg:var(--bk-ink)]"
         />
       </Screen>
       <div className="flex flex-1 flex-col p-4">
@@ -158,7 +147,7 @@ export default function BancadaPage() {
   return (
     <div className={`${bricolage.variable} bancada min-h-screen`}>
       {/* ── bar ─────────────────────────────────────────────────────── */}
-      <header className="border-b border-[var(--bk-ink)]">
+      <header className="border-b border-[var(--bk-line)]">
         <Wrap className="flex items-center justify-between gap-4 py-4">
           <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em]">
             Pedro Santos<span className="text-[var(--bk-accent)]">.</span>dev
@@ -181,7 +170,7 @@ export default function BancadaPage() {
             </a>
           </nav>
           {profile.availability.open && (
-            <span className="inline-flex items-center gap-2 border border-[var(--bk-ink)] bg-[var(--bk-panel)] px-3 py-1.5 font-mono text-[9.5px] uppercase tracking-[0.18em] bk-shadow-accent">
+            <span className="inline-flex items-center gap-2 border border-[var(--bk-line)] px-3 py-1.5 font-mono text-[9.5px] uppercase tracking-[0.18em] text-[var(--bk-muted)]">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--bk-accent)]" />
               open to work
             </span>
@@ -191,116 +180,89 @@ export default function BancadaPage() {
 
       <main>
         {/* ── hero ──────────────────────────────────────────────────── */}
-        <Wrap className="grid grid-cols-1 gap-12 pb-14 pt-12 md:pt-16 lg:grid-cols-[1.3fr_0.7fr] lg:gap-14">
-          <div>
-            <Eyebrow>
-              {profile.role} · {profile.location}
-            </Eyebrow>
-            <h1 className="bancada-display mt-6 text-[clamp(2.5rem,7vw,5.25rem)] leading-[0.95] tracking-[-0.025em]">
-              Hi, I&apos;m Pedro.
-              <br />
-              <span className="text-[var(--bk-accent)]">
-                I build software for the web.
-              </span>
-            </h1>
-            <p className="mt-7 max-w-[54ch] text-[1.0625rem] leading-relaxed text-[var(--bk-muted)]">
-              Software engineer from Belmonte, Portugal, with more than a
-              decade in tech. By day I ship production React and GraphQL at
-              Aubay. On the side I&apos;m building{" "}
-              <a
-                href={profile.founded.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link-inline"
-              >
-                Melro.io
-              </a>
-              , a small company that writes software for local businesses.
-            </p>
-            <p className="mt-4 max-w-[54ch] text-[1.0625rem] leading-relaxed text-[var(--bk-muted)]">
-              This site is where I write down what I&apos;m working on and what
-              I learn while doing it.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <a
-                href="#studies"
-                className="inline-flex items-center gap-2 border border-[var(--bk-ink)] bg-[var(--bk-ink)] px-5 py-3 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--bk-bg)] transition-colors hover:bg-[var(--bk-accent)] hover:text-[var(--bk-bg)]"
-              >
-                What I&apos;m studying
-                <ArrowDownRight className="h-4 w-4" />
-              </a>
-              <a
-                href="#notes"
-                className="inline-flex items-center gap-2 border-b border-[var(--bk-ink)] pb-1 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors hover:border-[var(--bk-accent)] hover:text-[var(--bk-accent)]"
-              >
-                Read the log
-                <ArrowUpRight className="h-3.5 w-3.5" />
-              </a>
-            </div>
-            <p className="mt-10 font-mono text-[10.5px] uppercase tracking-[0.18em] text-[var(--bk-muted)]">
-              {profile.stack.join("  ·  ")}
-            </p>
+        <Wrap className="pb-16 pt-14 md:pb-20 md:pt-20">
+          <Eyebrow>
+            {profile.role} · {profile.location}
+          </Eyebrow>
+          <h1 className="bancada-display mt-6 max-w-[16ch] text-[clamp(2.75rem,8vw,6rem)] leading-[0.93] tracking-[-0.025em]">
+            Hi, I&apos;m Pedro.
+            <br />
+            <span className="text-[var(--bk-accent)]">
+              I build software for the web.
+            </span>
+          </h1>
+          <p className="mt-8 max-w-[58ch] text-[1.0625rem] leading-relaxed text-[var(--bk-muted)]">
+            Software engineer from Belmonte, Portugal, with more than a decade
+            in tech. By day I ship production React and GraphQL at Aubay. On
+            the side I&apos;m building{" "}
+            <a
+              href={profile.founded.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-inline"
+            >
+              Melro.io
+            </a>
+            , a small company that writes software for local businesses.
+          </p>
+          <p className="mt-4 max-w-[58ch] text-[1.0625rem] leading-relaxed text-[var(--bk-muted)]">
+            This site is where I write down what I&apos;m working on and what I
+            learn while doing it.
+          </p>
+          <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <a
+              href="#studies"
+              className="inline-flex items-center gap-2 border border-[var(--bk-ink)] bg-[var(--bk-ink)] px-5 py-3 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--bk-bg)] transition-colors hover:border-[var(--bk-accent)] hover:bg-[var(--bk-accent)]"
+            >
+              What I&apos;m studying
+              <ArrowDownRight className="h-4 w-4" />
+            </a>
+            <a
+              href="#notes"
+              className="inline-flex items-center gap-2 border-b border-[var(--bk-line)] pb-1 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors hover:border-[var(--bk-accent)] hover:text-[var(--bk-accent)]"
+            >
+              Read the log
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
           </div>
-
-          {/* what I'm working on now */}
-          <aside className="lg:pt-1">
-            <div className="border border-[var(--bk-ink)] bg-[var(--bk-panel)] bk-shadow">
-              <div className="flex items-baseline justify-between gap-3 border-b border-[var(--bk-ink)] px-4 py-3">
-                <span className="font-mono text-[10px] uppercase tracking-[0.22em]">
-                  Working on now
-                </span>
-                <span className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-[var(--bk-muted)]">
-                  upd {formatDate(nowUpdated, MONTH)}
-                </span>
-              </div>
-              <ul>
-                {nowItems.slice(0, 4).map((item) => (
-                  <li
-                    key={item.id}
-                    className="border-b border-[var(--bk-line)] px-4 py-3 last:border-0"
-                  >
-                    <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--bk-accent)]">
-                      {nowKindLabel[item.kind]}
-                    </p>
-                    <p className="mt-1 text-[0.875rem] leading-snug">
-                      {item.text}
-                    </p>
-                    {item.href && <NowLink href={item.href} />}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <p className="mt-3 font-mono text-[9.5px] uppercase tracking-[0.18em] text-[var(--bk-muted)]">
-              a living snapshot, updated when things change
-            </p>
-          </aside>
+          <p className="mt-10 font-mono text-[10.5px] uppercase tracking-[0.18em] text-[var(--bk-muted)]">
+            {profile.stack.join("  ·  ")}
+          </p>
         </Wrap>
 
-        {/* ── ticker ────────────────────────────────────────────────── */}
-        <div className="overflow-hidden border-y border-[var(--bk-ink)] bancada-bg-ink py-3">
-          <div className="bk-ticker">
-            {[0, 1].map((copy) => (
-              <div key={copy} className="flex shrink-0 items-center">
-                {TICKER.map((item) => (
-                  <span
-                    key={`${copy}-${item}`}
-                    className="flex items-center font-mono text-[10.5px] uppercase tracking-[0.22em]"
-                  >
-                    <span className="px-5">{item}</span>
-                    <span className="text-[var(--bk-accent)]">◆</span>
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* ── working on now ────────────────────────────────────────── */}
+        <section className="border-y border-[var(--bk-line)] bg-[var(--bk-panel)]">
+          <Wrap className="py-8 md:py-10">
+            <div className="flex flex-wrap items-baseline justify-between gap-3">
+              <p className="font-mono text-[10px] uppercase tracking-[0.22em]">
+                Working on now
+              </p>
+              <p className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-[var(--bk-muted)]">
+                updated {formatDate(nowUpdated, MONTH)}
+              </p>
+            </div>
+            <div className="mt-6 grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+              {nowItems.slice(0, 4).map((item) => (
+                <div key={item.id} className="border-t border-[var(--bk-line)] pt-4">
+                  <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--bk-accent)]">
+                    {nowKindLabel[item.kind]}
+                  </p>
+                  <p className="mt-1.5 text-[0.875rem] leading-snug">
+                    {item.text}
+                  </p>
+                  {item.href && <NowLink href={item.href} />}
+                </div>
+              ))}
+            </div>
+          </Wrap>
+        </section>
 
         {/* ── studies ───────────────────────────────────────────────── */}
-        <section id="studies" className="border-b border-[var(--bk-ink)]">
-          <Wrap className="py-16 md:py-20">
-            <div className="border-b border-[var(--bk-ink)] pb-4">
+        <section id="studies" className="border-b border-[var(--bk-line)]">
+          <Wrap className="py-16 md:py-24">
+            <div className="border-b border-[var(--bk-line)] pb-4">
               <Eyebrow>01 · On the bench</Eyebrow>
-              <h2 className="bancada-display mt-2 text-[clamp(1.6rem,3vw,2.4rem)] leading-tight tracking-[-0.015em]">
+              <h2 className="bancada-display mt-2 text-[clamp(1.75rem,3.4vw,2.75rem)] leading-tight tracking-[-0.015em]">
                 What I&apos;m studying right now
               </h2>
               <p className="mt-2 max-w-[58ch] text-[0.95rem] leading-relaxed text-[var(--bk-muted)]">
@@ -309,7 +271,7 @@ export default function BancadaPage() {
               </p>
             </div>
 
-            <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
               {studies.map((study) => {
                 const linked = study.logSlugs
                   .map((slug) => logBySlug.get(slug))
@@ -317,7 +279,7 @@ export default function BancadaPage() {
                 return (
                   <article
                     key={study.id}
-                    className="flex flex-col border border-[var(--bk-ink)] bg-[var(--bk-panel)] p-6"
+                    className="flex flex-col border border-[var(--bk-line)] bg-[var(--bk-panel)] p-6"
                   >
                     <div className="flex items-center justify-between gap-4">
                       <span
@@ -363,12 +325,12 @@ export default function BancadaPage() {
         </section>
 
         {/* ── log ───────────────────────────────────────────────────── */}
-        <section id="notes" className="border-b border-[var(--bk-ink)]">
-          <Wrap className="py-16 md:py-20">
-            <div className="flex flex-wrap items-end justify-between gap-6 border-b border-[var(--bk-ink)] pb-4">
+        <section id="notes" className="border-b border-[var(--bk-line)]">
+          <Wrap className="py-16 md:py-24">
+            <div className="flex flex-wrap items-end justify-between gap-6 border-b border-[var(--bk-line)] pb-4">
               <div>
                 <Eyebrow>02 · The log</Eyebrow>
-                <h2 className="bancada-display mt-2 text-[clamp(1.6rem,3vw,2.4rem)] leading-tight tracking-[-0.015em]">
+                <h2 className="bancada-display mt-2 text-[clamp(1.75rem,3.4vw,2.75rem)] leading-tight tracking-[-0.015em]">
                   Short notes, written the week I learn something
                 </h2>
               </div>
@@ -411,11 +373,11 @@ export default function BancadaPage() {
         </section>
 
         {/* ── essays ────────────────────────────────────────────────── */}
-        <section id="essays" className="border-b border-[var(--bk-ink)]">
-          <Wrap className="py-16 md:py-20">
-            <div className="border-b border-[var(--bk-ink)] pb-4">
+        <section id="essays" className="border-b border-[var(--bk-line)]">
+          <Wrap className="py-16 md:py-24">
+            <div className="border-b border-[var(--bk-line)] pb-4">
               <Eyebrow>03 · Essays</Eyebrow>
-              <h2 className="bancada-display mt-2 text-[clamp(1.6rem,3vw,2.4rem)] leading-tight tracking-[-0.015em]">
+              <h2 className="bancada-display mt-2 text-[clamp(1.75rem,3.4vw,2.75rem)] leading-tight tracking-[-0.015em]">
                 Longer thinking, written in the open
               </h2>
             </div>
@@ -424,7 +386,7 @@ export default function BancadaPage() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="group border border-[var(--bk-ink)] bg-[var(--bk-panel)] p-6 transition-transform duration-150 hover:-translate-y-1"
+                  className="group border border-[var(--bk-line)] bg-[var(--bk-panel)] p-6 transition-colors hover:border-[var(--bk-ink)]"
                 >
                   <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--bk-accent)]">
                     Essay {String(index + 1).padStart(2, "0")}
@@ -446,12 +408,12 @@ export default function BancadaPage() {
         </section>
 
         {/* ── work ──────────────────────────────────────────────────── */}
-        <section id="work" className="border-b border-[var(--bk-ink)]">
-          <Wrap className="py-16 md:py-20">
-            <div className="flex flex-wrap items-end justify-between gap-6 border-b border-[var(--bk-ink)] pb-4">
+        <section id="work" className="border-b border-[var(--bk-line)]">
+          <Wrap className="py-16 md:py-24">
+            <div className="flex flex-wrap items-end justify-between gap-6 border-b border-[var(--bk-line)] pb-4">
               <div>
                 <Eyebrow>04 · Selected work</Eyebrow>
-                <h2 className="bancada-display mt-2 text-[clamp(1.6rem,3vw,2.4rem)] leading-tight tracking-[-0.015em]">
+                <h2 className="bancada-display mt-2 text-[clamp(1.75rem,3.4vw,2.75rem)] leading-tight tracking-[-0.015em]">
                   Projects with the story attached
                 </h2>
                 <p className="mt-2 max-w-[58ch] text-[0.95rem] leading-relaxed text-[var(--bk-muted)]">
@@ -477,39 +439,37 @@ export default function BancadaPage() {
         </section>
 
         {/* ── contact ───────────────────────────────────────────────── */}
-        <footer id="contact" className="bancada-bg-ink">
-          <Wrap className="py-16 md:py-20">
-            <p className="font-mono text-[10.5px] uppercase tracking-[0.22em] text-[var(--bk-bg)]/70">
-              05 · Contact
-            </p>
+        <footer id="contact">
+          <Wrap className="py-20 md:py-28">
+            <Eyebrow>05 · Contact</Eyebrow>
             <h2 className="bancada-display mt-3 text-[clamp(2.5rem,7vw,4.5rem)] leading-[0.95] tracking-[-0.02em]">
               Let&apos;s talk<span className="text-[var(--bk-accent)]">.</span>
             </h2>
-            <p className="mt-4 max-w-[52ch] text-[1rem] leading-relaxed opacity-80">
+            <p className="mt-4 max-w-[52ch] text-[1.0625rem] leading-relaxed text-[var(--bk-muted)]">
               {profile.availability.note}
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 border border-[var(--bk-bg)] px-5 py-3 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors hover:border-[var(--bk-accent)] hover:text-[var(--bk-accent)]"
+                className="inline-flex items-center gap-2 border border-[var(--bk-ink)] bg-[var(--bk-ink)] px-5 py-3 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--bk-bg)] transition-colors hover:border-[var(--bk-accent)] hover:bg-[var(--bk-accent)]"
               >
                 Start a conversation
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
               <a
                 href={`mailto:${profile.email}`}
-                className="font-mono text-[11px] uppercase tracking-[0.16em] underline decoration-[color:var(--bk-accent)] underline-offset-4"
+                className="link-inline font-mono text-[11px] uppercase tracking-[0.16em]"
               >
                 {profile.email}
               </a>
             </div>
-            <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t pt-6 font-mono text-[9.5px] uppercase tracking-[0.18em] opacity-70 bk-rule-invert">
+            <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-[var(--bk-line)] pt-6 font-mono text-[9.5px] uppercase tracking-[0.18em] text-[var(--bk-muted)]">
               <span>© 2026 Pedro Santos · Belmonte, Portugal</span>
               <span className="flex items-center gap-5">
-                <a href="/log/feed.xml" className="hover:opacity-100">
+                <a href="/log/feed.xml" className="hover:text-[var(--bk-accent)]">
                   log feed
                 </a>
-                <a href="/rss.xml" className="hover:opacity-100">
+                <a href="/rss.xml" className="hover:text-[var(--bk-accent)]">
                   writing feed
                 </a>
               </span>
