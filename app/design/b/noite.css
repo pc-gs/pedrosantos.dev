@@ -1,0 +1,51 @@
+/* ── Variant B · "Estúdio à noite" ────────────────────────────────────────
+   Warm near-black, chalk text, amber light. Cinematic and quiet: exhibits
+   alternate left/right, type does the talking. Exploration code — scoped. */
+
+.noite {
+  --nt-bg: #0f0e0c;
+  --nt-panel: #171511;
+  --nt-ink: #ede8df;
+  --nt-muted: #a59c8a;
+  --nt-line: #2b2620;
+  --nt-accent: #ffb23e;
+  background-color: var(--nt-bg);
+  color: var(--nt-ink);
+}
+
+.noite-display {
+  font-family: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+.nt-rule {
+  border-color: var(--nt-line);
+}
+
+.nt-pill {
+  border: 1px solid color-mix(in srgb, var(--nt-accent) 45%, transparent);
+}
+
+.nt-panel {
+  background-color: var(--nt-panel);
+}
+
+.nt-spotlight {
+  background:
+    radial-gradient(
+      55% 42% at 50% 0%,
+      color-mix(in srgb, var(--nt-accent) 14%, transparent),
+      transparent 72%
+    ),
+    var(--nt-bg);
+}
+
+.nt-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E");
+}
