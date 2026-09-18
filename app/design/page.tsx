@@ -4,8 +4,8 @@ export default function DesignIndexPage() {
   const ready = [
     {
       href: "/design/a",
-      label: "A · Bancada",
-      note: "Hero revised: human intro, now-card up front, studies first. Winner candidate.",
+      label: "A · Bancada (calma)",
+      note: "Hero em destaque, now em faixa clara, estudos antes do trabalho. Sem preto.",
     },
     {
       href: "/design/b",
