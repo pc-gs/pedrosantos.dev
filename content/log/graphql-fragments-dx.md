@@ -6,7 +6,7 @@ tags: ["graphql", "react", "frontend"]
 aiAssisted: false
 ---
 
-I knew about fragments for years the way you know about a keyboard shortcut someone told you about once: technically. Then a refactor at Aubay forced the issue — six components each declaring near-identical fields, and one schema change breaking all of them in different ways.
+I knew about fragments for years the way you know about a keyboard shortcut someone told you about once: technically. Then a refactor at the day job forced the issue — six components each declaring near-identical fields, and one schema change breaking all of them in different ways.
 
 Moving each component's fields into a colocated fragment meant:
 

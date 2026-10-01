@@ -17,7 +17,7 @@ export const nowItems: NowItem[] = [
   {
     id: "day-job",
     kind: "working",
-    text: "Shipping features on a React + GraphQL codebase at Aubay Portugal — focused on frontend architecture, DX and testing practices.",
+    text: "Shipping features on a React + GraphQL codebase — focused on frontend architecture, DX and testing practices.",
     date: "2026-09",
   },
   {

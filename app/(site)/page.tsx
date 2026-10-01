@@ -38,7 +38,7 @@ export default function HomePage() {
         </h1>
         <p className="mt-8 max-w-[58ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
           Software engineer from Belmonte, Portugal, with more than a decade in
-          tech. By day I ship production React and GraphQL at Aubay. On the
+          tech. By day I ship production React and GraphQL on a large product codebase. On the
           side I&apos;m building{" "}
           <a
             href={profile.founded.url}

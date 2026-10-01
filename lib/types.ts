@@ -115,17 +115,7 @@ export type UsesGroup = {
   items: UseItem[];
 };
 
-export type ExperienceItem = {
-  role: string;
-  company: string;
-  period: string;
-  location?: string;
-  current?: boolean;
-  summary: string;
-  story?: string;
-  stack?: string[];
-  link?: { label: string; href: string };
-};
+;
 
 export type EducationItem = {
   title: string;

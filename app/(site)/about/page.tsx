@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Link } from "next-view-transitions";
 import { profile } from "@/content/profile";
-import { experience } from "@/content/experience";
 import { education } from "@/content/education";
 import { Wrap } from "@/components/site/wrap";
 import { Eyebrow } from "@/components/site/eyebrow";
@@ -83,7 +82,7 @@ export default function AboutPage() {
           {[
             { label: "Based in", value: profile.location },
             { label: "In tech", value: "more than a decade" },
-            { label: "Now", value: "React + GraphQL at Aubay" },
+            { label: "Now", value: "React + GraphQL in production" },
             { label: "Availability", value: "full-time & contract, remote (EU)" },
           ].map((row) => (
             <div key={row.label}>
@@ -105,13 +104,12 @@ export default function AboutPage() {
             user&apos;s frustration backward, not from the tech stack forward.
           </p>
           <p>
-            Today I ship production React and Next.js at{" "}
-            <span className="text-foreground">Aubay Portugal</span>, on a React
-            + GraphQL codebase large enough that frontend architecture and
-            testing stop being opinions and start being infrastructure. I care
-            most about the parts of the job that make everyone else faster:
-            clean component boundaries, patterns people can actually follow,
-            and reviews that teach instead of gatekeeping.
+            Today I ship production React and Next.js on a React + GraphQL
+            codebase large enough that frontend architecture and testing stop
+            being opinions and start being infrastructure. I care most about
+            the parts of the job that make everyone else faster: clean
+            component boundaries, patterns people can actually follow, and
+            reviews that teach instead of gatekeeping.
           </p>
           <p>
             On the side I run{" "}
@@ -155,55 +153,21 @@ export default function AboutPage() {
         </Numbered>
 
         <Numbered index="02" label="Where I've worked">
-          <ul>
-            {experience.map((job) => (
-              <li
-                key={`${job.company}-${job.period}`}
-                className="border-b border-border py-6 first:pt-0 last:border-0"
-              >
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                  {job.period}
-                  {job.current && (
-                    <span className="ml-2 text-brand-text">current</span>
-                  )}
-                </p>
-                <p className="mt-2 font-display text-[1.3rem] leading-snug tracking-[-0.01em]">
-                  {job.role}
-                  <span className="text-muted-foreground">
-                    {" "}
-                    · {job.company}
-                  </span>
-                </p>
-                <p className="mt-3 max-w-[62ch] text-[1.0625rem] leading-[1.75] text-muted-foreground">
-                  {job.summary}
-                </p>
-                {job.story && (
-                  <p className="mt-3 max-w-[62ch] text-[1.0625rem] leading-[1.75] text-muted-foreground/85">
-                    {job.story}
-                  </p>
-                )}
-                <p className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-2 font-mono text-[10.5px] text-muted-foreground">
-                  {job.stack?.join("  ·  ")}
-                  {job.link && (
-                    <a
-                      href={job.link.href}
-                      target={
-                        job.link.href.startsWith("http") ? "_blank" : undefined
-                      }
-                      rel={
-                        job.link.href.startsWith("http")
-                          ? "noopener noreferrer"
-                          : undefined
-                      }
-                      className="text-brand-text transition-colors hover:text-foreground"
-                    >
-                      {job.link.label} ↗
-                    </a>
-                  )}
-                </p>
-              </li>
-            ))}
-          </ul>
+          <p className="max-w-[62ch] text-[1.0625rem] leading-[1.75] text-muted-foreground">
+            The full work history lives on LinkedIn. This site keeps what
+            matters for the work I do today: the stack I use, what I&apos;m
+            studying, and what I&apos;m building.
+          </p>
+          <p className="mt-4">
+            <a
+              href="https://linkedin.com/in/pedro-santos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-inline font-mono text-[10.5px] uppercase tracking-[0.16em]"
+            >
+              linkedin.com/in/pedro-santos ↗
+            </a>
+          </p>
         </Numbered>
 
         <Numbered index="03" label="Education & study">
