@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -8,10 +8,10 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters."),
+  name: z.string().trim().min(2, "Name must be at least 2 characters.").max(100),
   email: z.string().email("Please enter a valid email address."),
-  subject: z.string().min(5, "Subject must be at least 5 characters."),
-  message: z.string().min(10, "Message must be at least 10 characters."),
+  subject: z.string().trim().min(5, "Subject must be at least 5 characters.").max(200),
+  message: z.string().trim().min(10, "Message must be at least 10 characters.").max(5000),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -19,6 +19,10 @@ type FormValues = z.infer<typeof formSchema>;
 export function ContactForm() {
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  // Spam traps checked by /api/send-email: a hidden field only bots fill in,
+  // and the time the form was shown, to reject instant submissions.
+  const honeypotRef = useRef<HTMLInputElement>(null);
+  const startedAtRef = useRef(Date.now());
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -31,12 +35,17 @@ export function ContactForm() {
       const res = await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values,
+          website: honeypotRef.current?.value ?? "",
+          fillTimeMs: Date.now() - startedAtRef.current,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to send message");
       setDone(true);
       form.reset();
+      startedAtRef.current = Date.now();
       toast.success("Message sent — I'll get back to you soon.");
     } catch (err) {
       const message =
@@ -70,6 +79,18 @@ export function ContactForm() {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
+      <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label htmlFor="contact-website">Website</label>
+        <input
+          ref={honeypotRef}
+          id="contact-website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          defaultValue=""
+        />
+      </div>
       <div className="grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2">
         <Field
           label="Name"

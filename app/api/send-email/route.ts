@@ -7,6 +7,67 @@ export const dynamic = "force-dynamic";
 // Email validation regex
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Submissions faster than this after the form was shown are treated as bots
+const MIN_FILL_TIME_MS = 3000;
+
+// Returns why a submission looks like spam, or null if it looks legitimate.
+// Patterns come from real spam: random-case gibberish subjects
+// (e.g. "CykhOCZKjIMyGwRMlrZiK"), digit-only messages and Gmail addresses
+// padded with dots (e.g. "f.etexe.q.a.h.a.l6.1.2@gmail.com").
+function detectSpam(fields: {
+  email: string;
+  subject: string;
+  message: string;
+  website: unknown;
+  fillTimeMs: unknown;
+}): string | null {
+  if (typeof fields.website === "string" && fields.website.trim() !== "") {
+    return "honeypot";
+  }
+
+  // Measured client-side so clock differences between browser and server don't matter
+  if (typeof fields.fillTimeMs !== "number" || !Number.isFinite(fields.fillTimeMs)) {
+    return "missing fill time";
+  }
+  if (fields.fillTimeMs < MIN_FILL_TIME_MS) return "submitted too fast";
+
+  if (isGibberish(fields.subject) || isGibberish(fields.message)) {
+    return "gibberish";
+  }
+
+  if (/^[\d\s+().-]+$/.test(fields.message)) return "digits-only message";
+
+  const [local, domain] = fields.email.toLowerCase().split("@");
+  if (
+    (domain === "gmail.com" || domain === "googlemail.com") &&
+    (local.match(/\./g) ?? []).length >= 4
+  ) {
+    return "dotted gmail address";
+  }
+
+  return null;
+}
+
+// A long single token with many upper- and lowercase letters mixed together
+function isGibberish(text: string): boolean {
+  if (/\s/.test(text) || text.length < 12) return false;
+  const upper = (text.match(/[A-Z]/g) ?? []).length;
+  const lower = (text.match(/[a-z]/g) ?? []).length;
+  return upper >= 4 && lower >= 4;
+}
+
+function isSameOrigin(request: NextRequest): boolean {
+  const origin = request.headers.get("origin");
+  const host =
+    request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+  if (!origin || !host) return false;
+  try {
+    return new URL(origin).host === host;
+  } catch {
+    return false;
+  }
+}
+
 // Simple HTML escape function to prevent XSS
 function escapeHtml(text: string): string {
   const map: Record<string, string> = {
@@ -166,10 +227,22 @@ export async function POST(request: NextRequest) {
 
     const resend = new Resend(resendApiKey);
 
-    const { name, email, subject, message } = await request.json();
+    // Reject cross-site posts; browsers always send Origin on fetch POSTs
+    if (!isSameOrigin(request)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const { name, email, subject, message, website, fillTimeMs } =
+      await request.json();
 
     // Validate form data
-    if (!name || !email || !subject || !message) {
+    if (
+      typeof name !== "string" ||
+      typeof email !== "string" ||
+      typeof subject !== "string" ||
+      typeof message !== "string" ||
+      !name || !email || !subject || !message
+    ) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -195,6 +268,31 @@ export async function POST(request: NextRequest) {
         { error: "All fields are required" },
         { status: 400 }
       );
+    }
+
+    // Same limits as the client-side schema in ContactForm
+    if (
+      trimmedName.length < 2 || trimmedName.length > 100 ||
+      trimmedSubject.length < 5 || trimmedSubject.length > 200 ||
+      trimmedMessage.length < 10 || trimmedMessage.length > 5000
+    ) {
+      return NextResponse.json(
+        { error: "One or more fields have an invalid length" },
+        { status: 400 }
+      );
+    }
+
+    const spamReason = detectSpam({
+      email: trimmedEmail,
+      subject: trimmedSubject,
+      message: trimmedMessage,
+      website,
+      fillTimeMs,
+    });
+    if (spamReason) {
+      console.warn(`Contact form spam dropped (${spamReason}): ${trimmedEmail}`);
+      // Pretend it worked so bots don't learn to adapt
+      return NextResponse.json({ success: true });
     }
 
     // Get current timestamp
