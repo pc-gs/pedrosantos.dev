@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 type Stage = {
@@ -64,24 +64,38 @@ const leadLabel = {
   model: "Model drafts",
 } as const;
 
+const MIN = 26;
+const MAX = 74;
+
 /**
  * "Human judgement vs AI drafting". A tab list of the stages of a working
- * day; the split under it is a slider the visitor can drag to inspect each
- * side. The split starts where the selected stage's lead sits.
+ * day over a split panel. Each stage opens the split toward whoever leads it;
+ * the seam can be dragged (or moved with the range input) and both columns
+ * reflow around it, the narrower side dimming as it gives up room.
  */
 export function Duality() {
   const [active, setActive] = useState(0);
-  const [split, setSplit] = useState(66);
+  const [split, setSplit] = useState(64);
+  const [dragging, setDragging] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
   const sliderId = useId();
   const stage = stages[active];
+  const humanShare = (split - MIN) / (MAX - MIN);
 
   function select(i: number) {
     setActive(i);
-    setSplit(stages[i].lead === "human" ? 66 : 34);
+    setSplit(stages[i].lead === "human" ? 64 : 36);
+  }
+
+  function splitFromPointer(clientX: number) {
+    const rect = panelRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const pct = ((clientX - rect.left) / rect.width) * 100;
+    setSplit(Math.round(Math.min(MAX, Math.max(MIN, pct))));
   }
 
   return (
-    <div className="border border-border bg-background/80 backdrop-blur-[2px]">
+    <div className="border border-border bg-background/85 backdrop-blur-sm">
       <div
         role="tablist"
         aria-label="Stages of a working day"
@@ -97,84 +111,120 @@ export function Duality() {
             onClick={() => select(i)}
             onKeyDown={(e) => {
               if (e.key === "ArrowRight") select((i + 1) % stages.length);
-              if (e.key === "ArrowLeft") select((i - 1 + stages.length) % stages.length);
+              if (e.key === "ArrowLeft")
+                select((i - 1 + stages.length) % stages.length);
             }}
             tabIndex={i === active ? 0 : -1}
             className={cn(
-              "border-r border-border px-2 py-3 text-left font-mono text-[10px] uppercase tracking-[0.16em] transition-colors last:border-r-0 sm:px-4",
+              "relative border-r border-border px-2 py-3.5 text-left font-mono text-[10px] uppercase tracking-[0.16em] transition-colors last:border-r-0 sm:px-4",
               i === active
-                ? "bg-foreground text-background"
+                ? "text-foreground"
                 : "text-muted-foreground hover:text-foreground",
             )}
           >
-            <span className="block opacity-60 tabnum">0{i + 1}</span>
+            <span className="flex items-center gap-1.5 opacity-70 tabnum">
+              0{i + 1}
+              <span
+                aria-hidden
+                className={cn(
+                  "h-1.5 w-1.5",
+                  s.lead === "human" ? "bg-brand" : "border border-ai",
+                )}
+              />
+            </span>
             {s.label}
+            <span
+              aria-hidden
+              className={cn(
+                "absolute inset-x-0 -bottom-px h-0.5 origin-left bg-foreground transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+                i === active ? "scale-x-100" : "scale-x-0",
+              )}
+            />
           </button>
         ))}
       </div>
 
       <div
+        ref={panelRef}
         id="duality-panel"
         role="tabpanel"
         aria-labelledby={`tab-${stage.id}`}
-        className="relative grid min-h-[17rem] grid-cols-1 md:block"
+        onPointerDown={(e) => {
+          if (window.innerWidth < 768) return;
+          e.currentTarget.setPointerCapture(e.pointerId);
+          setDragging(true);
+          splitFromPointer(e.clientX);
+        }}
+        onPointerMove={(e) => dragging && splitFromPointer(e.clientX)}
+        onPointerUp={() => setDragging(false)}
+        onPointerCancel={() => setDragging(false)}
+        className={cn(
+          "grid min-h-[18rem] grid-cols-1 md:cursor-ew-resize md:grid-cols-[var(--human)_1px_var(--model)] md:select-none",
+          !dragging &&
+            "md:transition-[grid-template-columns] md:duration-700 md:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+        )}
+        style={{
+          ["--human" as string]: `${split}fr`,
+          ["--model" as string]: `${100 - split}fr`,
+        }}
       >
-        {/* Human side, clipped by the split on wide screens */}
         <div
-          className="p-5 md:absolute md:inset-0 md:p-8 md:[clip-path:inset(0_var(--cut)_0_0)]"
-          style={{ ["--cut" as string]: `${100 - split}%` }}
+          className="min-w-0 p-5 transition-opacity duration-300 md:p-8"
+          style={{ opacity: 0.4 + 0.6 * Math.min(1, humanShare * 1.6) }}
         >
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-text">
             ✎ Human judgement
           </p>
-          <p className="mt-3 max-w-[34ch] font-display text-[1.375rem] leading-snug tracking-[-0.01em] md:text-[1.6rem]">
+          <p
+            key={`h-${stage.id}`}
+            className="mt-4 max-w-[34ch] font-display text-[1.375rem] leading-snug tracking-[-0.01em] motion-safe:animate-[rise_600ms_cubic-bezier(0.22,1,0.36,1)] md:text-[1.55rem]"
+          >
             {stage.human}
           </p>
         </div>
 
-        {/* Model side */}
+        <div aria-hidden className="relative hidden bg-foreground md:block">
+          <span className="absolute top-1/2 left-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center border border-foreground bg-background font-mono text-[11px]">
+            ⇆
+          </span>
+        </div>
+
         <div
-          className="border-t border-border p-5 md:absolute md:inset-0 md:border-t-0 md:p-8 md:text-right md:[clip-path:inset(0_0_0_var(--cut))]"
-          style={{ ["--cut" as string]: `${split}%` }}
+          className="min-w-0 border-t border-border p-5 transition-opacity duration-300 md:border-t-0 md:p-8"
+          style={{
+            opacity: 0.4 + 0.6 * Math.min(1, (1 - humanShare) * 1.6),
+          }}
         >
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ai">
             ✦ Model drafting
           </p>
-          <p className="mt-3 max-w-[34ch] font-display text-[1.375rem] leading-snug tracking-[-0.01em] text-muted-foreground md:ml-auto md:text-[1.6rem]">
+          <p
+            key={`m-${stage.id}`}
+            className="mt-4 max-w-[34ch] font-display text-[1.375rem] leading-snug tracking-[-0.01em] text-muted-foreground motion-safe:animate-[rise_600ms_120ms_cubic-bezier(0.22,1,0.36,1)_both] md:text-[1.55rem]"
+          >
             {stage.model}
           </p>
-        </div>
-
-        {/* The seam */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-y-0 hidden w-px bg-foreground md:block"
-          style={{ left: `${split}%` }}
-        >
-          <span className="absolute top-1/2 left-1/2 flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center border border-foreground bg-background font-mono text-[11px]">
-            ⇆
-          </span>
         </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-border px-5 py-4 md:px-8">
         <label
           htmlFor={sliderId}
-          className="hidden font-mono md:inline text-[10px] uppercase tracking-[0.18em] text-muted-foreground"
+          className="hidden font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground md:inline"
         >
-          Inspect
+          Drag the seam
         </label>
         <input
           id={sliderId}
           type="range"
-          min={8}
-          max={92}
+          min={MIN}
+          max={MAX}
           value={split}
           onChange={(e) => setSplit(Number(e.target.value))}
-          aria-valuetext={`${split}% human side visible`}
-          className="hidden h-1 min-w-[10rem] flex-1 md:block cursor-ew-resize accent-[var(--brand)]"
+          aria-valuetext={`Human side ${split}%, model side ${100 - split}%`}
+          className="hidden h-1 min-w-[10rem] flex-1 cursor-ew-resize accent-[var(--brand)] md:block"
         />
-        <span className="font-mono text-[10px] uppercase tracking-[0.18em]">
+        <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.18em]">
           {leadLabel[stage.lead]}
         </span>
       </div>

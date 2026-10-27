@@ -200,3 +200,56 @@
     animation: none;
   }
 }
+
+/* ── Home: motion for the hero and bento art (all used behind motion-safe) ── */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+/* The agent terminal reveals one line per step, holds, then starts over */
+@keyframes typeout {
+  0% {
+    max-height: 0;
+  }
+  70%,
+  100% {
+    max-height: 8.75em;
+  }
+}
+@keyframes travel {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}

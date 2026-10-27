@@ -57,7 +57,8 @@ export function DotField() {
         for (let i = 0; i < cols; i++) {
           const x = ox + i * GAP;
           let v =
-            Math.sin(x * 0.011 + time * 0.6) * Math.cos(y * 0.013 - time * 0.4) +
+            Math.sin(x * 0.011 + time * 0.6) *
+              Math.cos(y * 0.013 - time * 0.4) +
             Math.sin((x + y) * 0.006 + time * 0.25);
           v = (v + 2) / 4; // 0..1
 
@@ -70,7 +71,8 @@ export function DotField() {
             const age = (t - r.born) / 1000;
             const radius = age * 260;
             const rd = Math.abs(Math.hypot(x - r.x, y - r.y) - radius);
-            if (rd < 26) lift += (1 - rd / 26) * Math.max(0, 1 - age / 1.4) * 0.8;
+            if (rd < 26)
+              lift += (1 - rd / 26) * Math.max(0, 1 - age / 1.4) * 0.8;
           }
 
           const alpha = Math.min(0.5, (0.05 + v * 0.11 + lift * 0.3) * depth);
