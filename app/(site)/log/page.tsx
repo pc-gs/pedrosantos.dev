@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { getAllLogEntries } from "@/lib/log";
+import { getAllPosts } from "@/lib/blog";
 import { LogFeed } from "@/components/log/log-feed";
 import { JsonLd } from "@/components/layout/json-ld";
 import { generateCollectionStructuredData } from "@/lib/structured-data";
 import { Wrap } from "@/components/site/wrap";
 import { Eyebrow } from "@/components/site/eyebrow";
+import { PostCard } from "@/components/site/post-card";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pedrosantos.dev";
 
@@ -17,6 +19,7 @@ export const metadata: Metadata = {
 
 export default function LogPage() {
   const entries = getAllLogEntries();
+  const posts = getAllPosts();
   const aiCount = entries.filter((e) => e.aiAssisted).length;
 
   return (
@@ -27,10 +30,16 @@ export default function LogPage() {
           description:
             "A public learning log: short entries on what I just learned. ✦ entries are co-written with AI and show their prompts.",
           url: `${SITE_URL}/log`,
-          items: entries.map((e) => ({
-            title: e.title,
-            url: `${SITE_URL}/log/${e.slug}`,
-          })),
+          items: [
+            ...entries.map((e) => ({
+              title: e.title,
+              url: `${SITE_URL}/log/${e.slug}`,
+            })),
+            ...posts.map((p) => ({
+              title: p.title,
+              url: `${SITE_URL}/blog/${p.slug}`,
+            })),
+          ],
         })}
       />
 
@@ -81,14 +90,38 @@ export default function LogPage() {
               >
                 log RSS ↗
               </a>
+              <br />
+              <a
+                href="/rss.xml"
+                className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-brand-text transition-colors hover:text-foreground"
+              >
+                essays RSS ↗
+              </a>
             </p>
           </div>
         </div>
       </Wrap>
 
-      <Wrap className="pb-20 md:pb-24">
+      <Wrap className="pb-16 md:pb-20">
         <LogFeed entries={entries} />
       </Wrap>
+
+      {posts.length > 0 && (
+        <section id="essays" className="scroll-mt-20 border-t border-border">
+          <Wrap className="py-16 md:py-20">
+            <Eyebrow>Longer reads</Eyebrow>
+            <p className="mt-4 max-w-[58ch] text-[1rem] leading-relaxed text-muted-foreground">
+              The few entries that outgrew the log. Each one ends with its paper
+              trail: my notes, the prompts, and what I changed by hand.
+            </p>
+            <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
+              {posts.map((post, index) => (
+                <PostCard key={post.slug} post={post} index={index} />
+              ))}
+            </div>
+          </Wrap>
+        </section>
+      )}
     </main>
   );
 }

@@ -6,7 +6,7 @@ export const profile: Profile = {
   tagline:
     "I make software, break it, fix it, and learn something along the way. Shipping production React and Next.js by day; building Melro.io on the side.",
   intro:
-    "Hey, I'm Pedro Santos. I ship production React and Next.js work during the day and build my own things on the side. I love the web, and with AI as a drafting partner I'm learning to build professionally and securely for any environment: browser, phone, desktop. Here's what I'm working on right now. If something resonates, let's talk.",
+    "Hey, I'm Pedro Santos, a software engineer with more than a decade in tech. I ship production React, Next.js and TypeScript, and lately desktop apps with Tauri and Rust. On the side I run Melro.io. Instead of a portfolio, my site is a changelog of what I ship, write and learn; the full work history is on LinkedIn.",
   location: "Belmonte, Portugal",
   email: "pedrocarlos.ti@gmail.com",
   avatarUrl: "https://avatars.githubusercontent.com/u/18473317?v=4",

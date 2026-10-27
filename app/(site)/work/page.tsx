@@ -49,6 +49,7 @@ export default function WorkPage() {
                   <ProjectArt
                     slug={project.slug}
                     title={project.title}
+                    cover={project.cover}
                     corner={String(project.year)}
                   />
                 </Screen>

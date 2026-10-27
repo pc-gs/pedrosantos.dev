@@ -19,6 +19,14 @@ export type CaseStudy = {
   learnings?: string[];
 };
 
+/** A dated moment in a project's life; each one becomes a changelog row. */
+export type ProjectMilestone = {
+  /** ISO date, or "YYYY-MM" when only the month is known. */
+  date: string;
+  kind: "started" | "shipped" | "update";
+  title: string;
+};
+
 export type Project = {
   slug: string;
   title: string;
@@ -36,6 +44,8 @@ export type Project = {
   cover?: string;
   caseStudy: CaseStudy;
   highlights?: string[];
+  /** Dated milestones, newest last. Only real dates: no guessing. */
+  milestones?: ProjectMilestone[];
 };
 
 export type BlogPost = {

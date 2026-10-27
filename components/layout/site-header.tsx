@@ -9,16 +9,16 @@ import { CommandPalette } from "@/components/layout/command-palette";
 import type { PaletteItem } from "@/lib/palette";
 
 const navItems = [
-  { name: "Log", href: "/log", folio: "01" },
-  { name: "Studies", href: "/studies", folio: "02" },
-  { name: "Essays", href: "/blog", folio: "03" },
-  { name: "Work", href: "/work", folio: "04" },
-  { name: "About", href: "/about", folio: "05" },
+  { name: "Work", href: "/work", folio: "01" },
+  { name: "Log", href: "/log", folio: "02" },
+  { name: "About", href: "/about", folio: "03" },
 ];
 
 /** Running head: which part of the site you are in. */
 function isActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
+  // Essays are part of the log.
+  if (href === "/log" && pathname.startsWith("/blog/")) return true;
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
@@ -27,7 +27,14 @@ function isActive(pathname: string, href: string) {
  * toggle. Hairlines only, one orange accent. Nothing in here may change width
  * between routes: the nav has to sit still while you move around.
  */
-export function SiteHeader({ paletteItems }: { paletteItems: PaletteItem[] }) {
+export function SiteHeader({
+  paletteItems,
+  version,
+}: {
+  paletteItems: PaletteItem[];
+  /** "v2026.09": the month of the newest changelog row. */
+  version: string;
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -52,6 +59,9 @@ export function SiteHeader({ paletteItems }: { paletteItems: PaletteItem[] }) {
               <span className="font-mono text-[10px] font-normal tracking-[0.06em] text-muted-foreground">
                 .dev
               </span>
+            </span>
+            <span className="hidden font-mono text-[10px] tracking-[0.06em] text-brand-text sm:inline">
+              {version}
             </span>
           </Link>
 

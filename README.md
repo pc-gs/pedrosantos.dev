@@ -4,27 +4,35 @@ Personal site of **Pedro Santos** — software engineer in Belmonte, Portugal.
 Shipping production React and Next.js by day, building [Melro.io](https://melro.io)
 on the side. Version **2026 — “Bancada”**.
 
+Not a portfolio: a personal **changelog**. The home page is one stream of
+everything dated on the site (project milestones, log entries, essays, study
+tracks), grouped by month like release notes, with a filter for work, writing
+and learning. The header carries a version (`v2026.09`), which is simply the
+month of the newest row. Work history lives on LinkedIn; the site shows what I
+ship, write and learn.
+
 An honest, typographic site: warm bone paper, ink text, one orange accent (the
-same orange as Melro). Work, studies, the log and essays, with the thinking
-left in. No portrait photography, no stock, no logo walls.
+same orange as Melro). No portrait photography, no stock, no logo walls.
 
-The two things that carry it:
+What carries it:
 
-1. **The log** — a public learning log. Entries drafted with a model are marked
-   ✦ and publish the actual prompt that started them; entries written by hand
-   say so as well.
-2. **The bench (`/studies`)** — active learning tracks, each with the log
-   entries where the work actually happened.
+1. **The changelog** (`/`): status, pinned work, then the stream. Built from
+   content, never written by hand (`lib/timeline.ts`).
+2. **The log** (`/log`): a public learning log. Entries drafted with a model
+   are marked ✦ and publish the actual prompt that started them; entries
+   written by hand say so as well. Essays sit at the end of the log.
+3. **Margin notes**: entry and essay pages keep date, disclosure, study track
+   and tags in a margin column, like a lab notebook.
 
 ## Routes
 
 | Route | What it is |
 | --- | --- |
-| `/` | Hero, “working on now” strip, studies, latest notes (newest one featured with its prompt), essays, work, footer with the latest log entry |
-| `/work`, `/work/[slug]` | Project index with illustrated covers; case studies: problem → approach → outcome → what I took away |
-| `/studies` | Learning tracks with state, why and linked notes |
-| `/log`, `/log/[slug]` | The log — tag and ✦ filters, prompt disclosure on the index and on each entry |
-| `/blog`, `/blog/[slug]` | Essays, each with its “how this post was made” paper trail |
+| `/` | The changelog: intro, status (availability + now), pinned projects, the monthly stream with filters |
+| `/work`, `/work/[slug]` | Project index; case studies: problem → approach → outcome → what I took away → the project's changelog |
+| `/studies` | Learning tracks with state, why and linked notes (not in the main nav; linked from the changelog and entries) |
+| `/log`, `/log/[slug]` | The log — tag and ✦ filters, essays at the end, margin notes on each entry |
+| `/blog/[slug]` | Essays, each with its “how this post was made” paper trail. `/blog` itself redirects to `/log#essays` |
 | `/about` | Story, principles, experience, education |
 | `/now` | nownownow-style snapshot |
 | `/uses` | Tools, stack and typefaces |
@@ -35,7 +43,8 @@ The two things that carry it:
 | `/opengraph-image` (+ per-entry) | Dynamic OG cards, prerendered for every post, log entry and project |
 | `/icon.svg`, `/apple-icon.png` | The PS monogram, served by Next file conventions |
 
-Old `/projects` URLs 308-redirect to `/work`.
+Old `/projects` URLs 308-redirect to `/work`; retired project pages redirect
+to `/work` too (see `next.config.ts`).
 
 ## Design system
 
@@ -47,9 +56,10 @@ Old `/projects` URLs 308-redirect to `/work`.
 - **Orange rules** — `--brand` for fills, the hero and graphics; `--brand-text`
   for small text (AA contrast on bone). The violet `--ai` and the ✦ glyph mean
   one thing only: AI co-authorship.
-- **Layout** — hairlines, small radii, `Wrap` as the single measure, numbered
-  sections, illustrated project covers (`components/site/project-art.tsx`)
-  with a typographic fallback.
+- **Layout** — hairlines, small radii, `Wrap` as the single measure, a margin
+  column on entry and essay pages (`components/site/margin.tsx`). Project
+  covers use a real screenshot when the project has `cover`, otherwise a drawn
+  scene (`components/site/project-art.tsx`) or the typographic fallback.
 - **Motion** — cross-page view transitions, hover colour transitions, one
   marquee where it earns its place. `prefers-reduced-motion` disables all of it.
 - **Theme** — real light/dark via `next-themes`; `scrollbar-gutter: stable` so
@@ -62,8 +72,8 @@ Old `/projects` URLs 308-redirect to `/work`.
 | Bio, tagline, socials, availability | `content/profile.ts` |
 | The Now snapshot + its updated date | `content/now.ts` |
 | Study tracks | `content/studies.ts` |
-| Projects & case studies | `content/projects.ts` |
-| Work history / education | `content/experience.ts`, `content/education.ts` |
+| Projects, case studies & milestones | `content/projects.ts` |
+| Education | `content/education.ts` (work history is on LinkedIn, not here) |
 | `/uses` groups | `content/uses.ts` |
 | Log entries | add a `*.md` in `content/log/` |
 | Essays | add a `*.md` in `content/blog/` |
@@ -111,6 +121,22 @@ process:
 The process box renders in `components/blog/process-box.tsx`. Never set
 `coWritten` on a piece a model didn't help draft; the disclosure only means
 something if it is true.
+
+### Adding a project milestone
+
+Milestones are what put a project in the changelog. Add them to the project in
+`content/projects.ts`, oldest first, with real dates only (use `"YYYY-MM"`
+when you only know the month):
+
+```ts
+milestones: [
+  { date: "2026-02-20", kind: "started", title: "First build: …" },
+  { date: "2026-08-07", kind: "update", title: "What changed, in one line" },
+],
+```
+
+`kind` is `started`, `shipped` or `update`. A real screenshot goes in
+`public/work/<slug>/` and is referenced with `cover: "/work/<slug>/file.png"`.
 
 ## Getting started
 
@@ -200,14 +226,15 @@ app/                      routes (App Router)
 ├── llms.txt/, rss.xml/, sitemap.ts, robots.ts
 └── globals.css           tokens, prose, dropcap, view transitions
 components/
-├── site/                 Wrap, SectionHeader, LinkButton, Screen,
-│                         project cards + project art, study cards,
-│                         log rows, post cards, now strip
+├── changelog/            the home stream (client-side filters) + pinned project
+├── site/                 Wrap, SectionHeader, LinkButton, Screen, margin notes,
+│                         project art, study cards, post cards
 ├── layout/               site header (PS wordmark + theme), footer, ⌘K palette
 ├── log/, blog/, now/     entry rows, process box, now list
 └── sections/             contact form, project status meta
 content/                  ← edit here for routine updates
-lib/                      content loaders, feeds, palette, OG card, structured data
+lib/                      content loaders, timeline (the changelog), feeds,
+                          palette, OG card, structured data
 Dockerfile, cloudbuild.yaml
 ```
 

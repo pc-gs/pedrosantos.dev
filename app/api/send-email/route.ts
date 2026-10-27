@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { profile } from "@/content/profile";
 
 export const dynamic = "force-dynamic";
 
@@ -153,7 +154,7 @@ export async function POST(request: NextRequest) {
   try {
     const resendApiKey = process.env.RESEND_API_KEY;
     const resendFromEmail = process.env.RESEND_FROM_EMAIL || "Contact Form <contact@mail.pedrosantos.dev>";
-    const resendToEmail = process.env.RESEND_TO_EMAIL || "pedrocarlos.ti@gmail.com";
+    const resendToEmail = process.env.RESEND_TO_EMAIL || profile.email;
 
     // Check if API key is configured
     if (!resendApiKey) {

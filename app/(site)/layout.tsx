@@ -1,6 +1,7 @@
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { getPaletteItems } from "@/lib/palette";
+import { getCurrentVersion } from "@/lib/timeline";
 
 /**
  * Chrome for the public site (header, footer, skip link).
@@ -18,7 +19,7 @@ export default function SiteLayout({
       <a href="#main" className="skip-link">
         Skip to content
       </a>
-      <SiteHeader paletteItems={getPaletteItems()} />
+      <SiteHeader paletteItems={getPaletteItems()} version={getCurrentVersion()} />
       <div className="flex-1">
         <div id="main">{children}</div>
       </div>

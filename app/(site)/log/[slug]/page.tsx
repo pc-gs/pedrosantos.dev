@@ -7,6 +7,7 @@ import {
   getLogEntryBySlug,
 } from "@/lib/log";
 import { formatDate } from "@/lib/date";
+import { studies } from "@/content/studies";
 import { JsonLd } from "@/components/layout/json-ld";
 import {
   generateArticleStructuredData,
@@ -14,6 +15,7 @@ import {
 } from "@/lib/structured-data";
 import { Wrap } from "@/components/site/wrap";
 import { Eyebrow } from "@/components/site/eyebrow";
+import { MarginLayout, MarginNote } from "@/components/site/margin";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pedrosantos.dev";
 
@@ -58,6 +60,7 @@ export default async function LogEntryPage({
   const index = all.findIndex((e) => e.slug === entry.slug);
   const newer = all[index - 1];
   const older = all[index + 1];
+  const study = studies.find((track) => track.logSlugs.includes(entry.slug));
 
   return (
     <main>
@@ -82,14 +85,9 @@ export default async function LogEntryPage({
 
       <Wrap className="pt-14 md:pt-20">
         <Eyebrow>
-          The log ·{" "}
-          <time dateTime={entry.date}>
-            {formatDate(entry.date, {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </time>
+          <Link href="/log" className="transition-colors hover:text-foreground">
+            The log
+          </Link>
         </Eyebrow>
         <h1 className="mt-5 max-w-[22ch] font-display text-[clamp(2.25rem,6vw,4rem)] leading-[0.98] tracking-[-0.02em]">
           {entry.title}
@@ -99,56 +97,73 @@ export default async function LogEntryPage({
             {entry.description}
           </p>
         )}
-
-        <div className="mt-6 flex flex-wrap items-baseline gap-x-4 gap-y-2">
-          <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
-            {entry.readingTime}
-          </span>
-          {entry.tags.map((tag) => (
-            <span
-              key={tag}
-              className="font-mono text-[10px] tracking-[0.08em] text-muted-foreground"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-
-        {entry.aiAssisted ? (
-          <section className="mt-8 max-w-[62ch] border border-ai/30 bg-ai/5 p-4">
-            <p className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-ai">
-              ✦ co-written{entry.model ? ` with ${entry.model}` : ""}
-            </p>
-            {entry.prompt ? (
-              <p className="mt-2 font-mono text-[11.5px] leading-relaxed text-foreground/80">
-                &ldquo;{entry.prompt}&rdquo;
-              </p>
-            ) : (
-              <p className="mt-2 font-mono text-[11.5px] text-muted-foreground">
-                Prompt not recorded.
-              </p>
-            )}
-            <p className="mt-2 text-[0.9rem] leading-relaxed text-muted-foreground">
-              Drafted from that prompt, then rewritten, cut and checked by hand.
-            </p>
-          </section>
-        ) : (
-          <section className="mt-8 max-w-[62ch] border border-border p-4">
-            <p className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-muted-foreground">
-              ✎ by hand
-            </p>
-            <p className="mt-2 text-[0.9rem] leading-relaxed text-muted-foreground">
-              No model was involved in drafting this entry.
-            </p>
-          </section>
-        )}
       </Wrap>
 
       <Wrap className="mt-10">
-        <div
-          className="prose max-w-[62ch]"
-          dangerouslySetInnerHTML={{ __html: entry.body }}
-        />
+        <MarginLayout
+          notes={
+            <>
+              <MarginNote label="Written">
+                <time dateTime={entry.date}>
+                  {formatDate(entry.date, {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </time>
+                <span className="text-muted-foreground"> · {entry.readingTime}</span>
+              </MarginNote>
+
+              {entry.aiAssisted ? (
+                <MarginNote
+                  tone="ai"
+                  label={`✦ co-written${entry.model ? ` with ${entry.model}` : ""}`}
+                >
+                  {entry.prompt ? (
+                    <p className="font-mono text-[11.5px] leading-relaxed text-foreground/80">
+                      &ldquo;{entry.prompt}&rdquo;
+                    </p>
+                  ) : (
+                    <p className="font-mono text-[11.5px] text-muted-foreground">
+                      Prompt not recorded.
+                    </p>
+                  )}
+                  <p className="mt-2 text-muted-foreground">
+                    Drafted from that prompt, then rewritten, cut and checked by
+                    hand.
+                  </p>
+                </MarginNote>
+              ) : (
+                <MarginNote label="✎ by hand">
+                  <p className="text-muted-foreground">
+                    No model was involved in drafting this entry.
+                  </p>
+                </MarginNote>
+              )}
+
+              {study && (
+                <MarginNote label="Part of" tone="brand">
+                  <Link href={`/studies#${study.id}`} className="link-inline">
+                    {study.title}
+                  </Link>
+                </MarginNote>
+              )}
+
+              {entry.tags.length > 0 && (
+                <MarginNote label="Tags">
+                  <p className="font-mono text-[11px] tracking-[0.04em] text-muted-foreground">
+                    {entry.tags.map((tag) => `#${tag}`).join("  ")}
+                  </p>
+                </MarginNote>
+              )}
+            </>
+          }
+        >
+          <div
+            className="prose"
+            dangerouslySetInnerHTML={{ __html: entry.body }}
+          />
+        </MarginLayout>
       </Wrap>
 
       <Wrap className="mt-12">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Link } from "next-view-transitions";
 import { notFound } from "next/navigation";
 import { getAllProjects, getProjectBySlug } from "@/content/projects";
+import { formatDate } from "@/lib/date";
 import { renderMarkdown } from "@/lib/markdown";
 import { projectStatusMeta } from "@/components/sections/projects/project-status";
 import { profile } from "@/content/profile";
@@ -109,6 +110,7 @@ export default async function ProjectDetailPage({
           <ProjectArt
             slug={project.slug}
             title={project.title}
+            cover={project.cover}
             corner={String(project.year)}
           />
         </Screen>
@@ -232,6 +234,42 @@ export default async function ProjectDetailPage({
               </div>
             </section>
           )}
+
+        {project.milestones && project.milestones.length > 0 && (
+          <section className="border-t border-border py-10 md:py-12">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-[4rem_minmax(0,1fr)] md:gap-6">
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-brand-text">
+                {project.caseStudy.learnings?.length ? "05" : "04"}
+              </p>
+              <div className="min-w-0">
+                <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+                  Changelog
+                </p>
+                <ol className="mt-4 max-w-[62ch]">
+                  {[...project.milestones].reverse().map((milestone) => (
+                    <li
+                      key={milestone.date}
+                      className="grid grid-cols-[6.5rem_minmax(0,1fr)] gap-x-4 border-t border-border py-3 first:border-t-0"
+                    >
+                      <span className="pt-[3px] font-mono text-[10.5px] uppercase tracking-[0.12em] text-muted-foreground">
+                        <time dateTime={milestone.date}>
+                          {formatDate(milestone.date, {
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </time>
+                        <span className="block text-brand-text">{milestone.kind}</span>
+                      </span>
+                      <span className="text-[1rem] leading-relaxed">
+                        {milestone.title}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          </section>
+        )}
 
         <nav
           aria-label="Previous and next project"
