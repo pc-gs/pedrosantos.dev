@@ -2,6 +2,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { getPaletteItems } from "@/lib/palette";
 import { getCurrentVersion } from "@/lib/timeline";
+import { DotField } from "@/components/creation/dot-field";
 
 /**
  * Chrome for the public site (header, footer, skip link).
@@ -15,7 +16,8 @@ export default function SiteLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="relative isolate flex min-h-screen flex-col">
+      <DotField />
       <a href="#main" className="skip-link">
         Skip to content
       </a>

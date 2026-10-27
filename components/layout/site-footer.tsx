@@ -1,9 +1,10 @@
 import { Link } from "next-view-transitions";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Mail, Rss } from "lucide-react";
 import { profile } from "@/content/profile";
 import { getAllLogEntries } from "@/lib/log";
 import { formatDate } from "@/lib/date";
 import { Wrap } from "@/components/site/wrap";
+import { XIcon } from "@/components/ui/x-icon";
 
 const contents = [
   { name: "Work", href: "/work" },
@@ -16,11 +17,42 @@ const contents = [
 ];
 
 const elsewhere = [
-  { name: "GitHub", href: "https://github.com/pc-gs" },
-  { name: "LinkedIn", href: "https://linkedin.com/in/pedro-santos" },
-  { name: "X", href: "https://x.com/pcgs_tsx" },
-  { name: "Writing RSS", href: "/rss.xml" },
-  { name: "Log RSS", href: "/log/feed.xml" },
+  {
+    name: "GitHub",
+    handle: "pc-gs",
+    href: "https://github.com/pc-gs",
+    icon: <Github className="h-4 w-4" aria-hidden />,
+  },
+  {
+    name: "X",
+    handle: "@pcgs_tsx",
+    href: "https://x.com/pcgs_tsx",
+    icon: <XIcon size={14} />,
+  },
+  {
+    name: "LinkedIn",
+    handle: "pedro-santos",
+    href: "https://linkedin.com/in/pedro-santos",
+    icon: <Linkedin className="h-4 w-4" aria-hidden />,
+  },
+  {
+    name: "Email",
+    handle: profile.email,
+    href: `mailto:${profile.email}`,
+    icon: <Mail className="h-4 w-4" aria-hidden />,
+  },
+  {
+    name: "Writing RSS",
+    handle: "/rss.xml",
+    href: "/rss.xml",
+    icon: <Rss className="h-4 w-4" aria-hidden />,
+  },
+  {
+    name: "Log RSS",
+    handle: "/log/feed.xml",
+    href: "/log/feed.xml",
+    icon: <Rss className="h-4 w-4" aria-hidden />,
+  },
 ];
 
 /**
@@ -111,32 +143,43 @@ export function SiteFooter() {
           ))}
         </nav>
 
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 font-mono text-[9.5px] uppercase tracking-[0.18em] text-muted-foreground">
-          <span>
-            © {year} {profile.name} · {profile.location}
-          </span>
-          <span className="flex flex-wrap items-center gap-5">
-            {elsewhere.map((item) =>
-              item.href.startsWith("/") ? (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="hover:text-brand-text"
-                >
-                  {item.name}
-                </Link>
-              ) : (
+        <ul
+          aria-label="Elsewhere"
+          className="mt-6 grid grid-cols-1 border-t border-l border-border sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {elsewhere.map((item) => {
+            const external = item.href.startsWith("http");
+            return (
+              <li key={item.name} className="border-r border-b border-border">
                 <a
-                  key={item.name}
                   href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-brand-text"
+                  {...(external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className="group flex items-center gap-3 bg-background/70 px-4 py-3.5 backdrop-blur-[2px] transition-colors hover:bg-card"
                 >
-                  {item.name}
+                  <span className="text-muted-foreground transition-colors group-hover:text-brand">
+                    {item.icon}
+                  </span>
+                  <span className="font-mono text-[10.5px] uppercase tracking-[0.16em]">
+                    {item.name}
+                  </span>
+                  <span className="ml-auto truncate font-mono text-[10.5px] text-muted-foreground">
+                    {item.handle}
+                  </span>
                 </a>
-              ),
-            )}
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 font-mono text-[9.5px] uppercase tracking-[0.18em] text-muted-foreground">
+          <span>
+            © {year} {profile.name}
+          </span>
+          <span className="tabnum">40.36° N · 7.35° W · {profile.location}</span>
+          <span className="text-brand-text">
+            ⌁ Crafted between Belmonte &amp; the Cloud
           </span>
         </div>
       </Wrap>
