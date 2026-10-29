@@ -13,7 +13,6 @@ export type PaletteItem = {
 const PAGES: PaletteItem[] = [
   { id: "page-home", label: "Home", href: "/", kind: "page" },
   { id: "page-log", label: "The log", hint: "learning in public", href: "/log", kind: "page" },
-  { id: "page-writing", label: "Essays", hint: "longer reads", href: "/blog", kind: "page" },
   { id: "page-studies", label: "Studies", hint: "on the bench", href: "/studies", kind: "page" },
   { id: "page-projects", label: "Work", hint: "case studies", href: "/work", kind: "page" },
   { id: "page-about", label: "About", href: "/about", kind: "page" },

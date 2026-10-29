@@ -6,10 +6,9 @@ import { formatDate } from "@/lib/date";
 import { Wrap } from "@/components/site/wrap";
 
 const contents = [
+  { name: "Work", href: "/work" },
   { name: "Log", href: "/log" },
   { name: "Studies", href: "/studies" },
-  { name: "Essays", href: "/blog" },
-  { name: "Work", href: "/work" },
   { name: "Now", href: "/now" },
   { name: "Uses", href: "/uses" },
   { name: "About", href: "/about" },

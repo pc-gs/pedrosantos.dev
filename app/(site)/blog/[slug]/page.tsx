@@ -12,6 +12,7 @@ import {
 } from "@/lib/structured-data";
 import { Wrap } from "@/components/site/wrap";
 import { Eyebrow } from "@/components/site/eyebrow";
+import { MarginLayout, MarginNote } from "@/components/site/margin";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pedrosantos.dev";
 
@@ -75,21 +76,16 @@ export default async function BlogPostPage({
       <JsonLd
         data={generateBreadcrumbStructuredData([
           { name: "Home", url: SITE_URL },
-          { name: "Essays", url: `${SITE_URL}/blog` },
+          { name: "Log", url: `${SITE_URL}/log` },
           { name: post.title, url: `${SITE_URL}/blog/${post.slug}` },
         ])}
       />
 
       <Wrap className="pt-14 md:pt-20">
         <Eyebrow>
-          Essays ·{" "}
-          <time dateTime={post.date}>
-            {formatDate(post.date, {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </time>
+          <Link href="/log#essays" className="transition-colors hover:text-foreground">
+            The log · essay
+          </Link>
         </Eyebrow>
         <h1 className="mt-5 max-w-[22ch] font-display text-[clamp(2.25rem,6vw,4rem)] leading-[0.98] tracking-[-0.02em]">
           {post.title}
@@ -97,69 +93,80 @@ export default async function BlogPostPage({
         <p className="mt-5 max-w-[58ch] text-[1.125rem] leading-relaxed text-muted-foreground">
           {post.description}
         </p>
-
-        <div className="mt-6 flex flex-wrap items-baseline gap-x-4 gap-y-2">
-          <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
-            {post.readingTime}
-          </span>
-          {post.tags.map((tag) => (
-            <span
-              key={tag}
-              className="font-mono text-[10px] tracking-[0.08em] text-muted-foreground"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-
-        {post.coWritten ? (
-          <section className="mt-8 max-w-[62ch] border border-ai/30 bg-ai/5 p-4">
-            <p className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-ai">
-              ✦ co-written
-            </p>
-            <p className="mt-2 text-[0.9rem] leading-relaxed text-muted-foreground">
-              Drafted from my own notes with a model, then edited by hand. The
-              full paper trail is at the end of the essay.
-            </p>
-          </section>
-        ) : (
-          <section className="mt-8 max-w-[62ch] border border-border p-4">
-            <p className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-muted-foreground">
-              ✎ by hand
-            </p>
-            <p className="mt-2 text-[0.9rem] leading-relaxed text-muted-foreground">
-              Written start to finish by hand.
-            </p>
-          </section>
-        )}
       </Wrap>
 
       <Wrap className="mt-10">
-        <article className="max-w-[64ch]">
-          <div
-            className="prose dropcap"
-            dangerouslySetInnerHTML={{ __html: post.body }}
-          />
+        <MarginLayout
+          notes={
+            <>
+              <MarginNote label="Written">
+                <time dateTime={post.date}>
+                  {formatDate(post.date, {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </time>
+                {post.readingTime && (
+                  <span className="text-muted-foreground"> · {post.readingTime}</span>
+                )}
+              </MarginNote>
 
-          {post.coWritten && post.process && (
-            <ProcessBox process={post.process} />
-          )}
+              {post.coWritten ? (
+                <MarginNote tone="ai" label="✦ co-written">
+                  <p className="text-muted-foreground">
+                    Drafted from my own notes with a model, then edited by hand.
+                  </p>
+                  {post.process && (
+                    <a href="#paper-trail" className="link-inline mt-1.5 inline-block">
+                      Read the paper trail ↓
+                    </a>
+                  )}
+                </MarginNote>
+              ) : (
+                <MarginNote label="✎ by hand">
+                  <p className="text-muted-foreground">
+                    Written start to finish by hand.
+                  </p>
+                </MarginNote>
+              )}
 
-          <div className="mt-14 border-t border-border pt-6">
-            <p className="max-w-[58ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
-              Written by{" "}
-              <Link href="/about" className="link-inline">
-                {profile.name}
-              </Link>
-              {post.coWritten ? " with a model as drafting partner" : ""},{" "}
-              {profile.role.toLowerCase()}, {profile.location}.{" "}
-              <Link href="/contact" className="link-inline">
-                Get in touch
-              </Link>
-              .
-            </p>
-          </div>
-        </article>
+              {post.tags.length > 0 && (
+                <MarginNote label="Tags">
+                  <p className="font-mono text-[11px] tracking-[0.04em] text-muted-foreground">
+                    {post.tags.map((tag) => `#${tag}`).join("  ")}
+                  </p>
+                </MarginNote>
+              )}
+            </>
+          }
+        >
+          <article>
+            <div
+              className="prose dropcap"
+              dangerouslySetInnerHTML={{ __html: post.body }}
+            />
+
+            {post.coWritten && post.process && (
+              <ProcessBox process={post.process} />
+            )}
+
+            <div className="mt-14 border-t border-border pt-6">
+              <p className="max-w-[58ch] text-[1.0625rem] leading-relaxed text-muted-foreground">
+                Written by{" "}
+                <Link href="/about" className="link-inline">
+                  {profile.name}
+                </Link>
+                {post.coWritten ? " with a model as drafting partner" : ""},{" "}
+                {profile.role.toLowerCase()}, {profile.location}.{" "}
+                <Link href="/contact" className="link-inline">
+                  Get in touch
+                </Link>
+                .
+              </p>
+            </div>
+          </article>
+        </MarginLayout>
       </Wrap>
 
       <Wrap className="mt-12">
@@ -198,10 +205,10 @@ export default async function BlogPostPage({
 
         <p className="mb-4">
           <Link
-            href="/blog"
+            href="/log#essays"
             className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-brand-text transition-colors hover:text-foreground"
           >
-            ← all essays
+            ← back to the log
           </Link>
         </p>
       </Wrap>

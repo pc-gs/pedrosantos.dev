@@ -1,15 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import { marked } from "marked";
+import { readingTimeFor, renderMarkdown } from "@/lib/markdown";
 import type { BlogPost } from "@/lib/types";
 
 const BLOG_DIR = path.join(process.cwd(), "content", "blog");
-
-marked.setOptions({
-  gfm: true,
-  breaks: false,
-});
 
 type Frontmatter = {
   title?: string;
@@ -26,12 +21,6 @@ type Frontmatter = {
     humanEdit?: string;
   };
 };
-
-function readingTimeFor(text: string): string {
-  const words = text.trim().split(/\s+/).filter(Boolean).length;
-  const minutes = Math.max(1, Math.round(words / 200));
-  return `${minutes} min read`;
-}
 
 function loadPostFile(fileName: string): BlogPost | null {
   const fullPath = path.join(BLOG_DIR, fileName);
@@ -61,7 +50,7 @@ function loadPostFile(fileName: string): BlogPost | null {
     tags: Array.isArray(fm.tags) ? fm.tags : [],
     draft: Boolean(fm.draft),
     readingTime: fm.readingTime ?? readingTimeFor(content),
-    body: marked.parse(content) as string,
+    body: renderMarkdown(content),
     content,
     coWritten: Boolean(fm.coWritten),
     process,

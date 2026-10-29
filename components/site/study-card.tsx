@@ -20,7 +20,10 @@ export function StudyCard({
   notes: LogEntry[];
 }) {
   return (
-    <article className="flex flex-col border border-border bg-card p-6">
+    <article
+      id={study.id}
+      className="flex scroll-mt-20 flex-col border border-border bg-card p-6"
+    >
       <div className="flex items-center justify-between gap-4">
         <span
           className={cn(

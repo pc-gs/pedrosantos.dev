@@ -44,3 +44,7 @@ next-env.d.ts
 # design exploration artifacts
 /review/
 /.playwright-mcp/
+
+# Claude Code local state
+.claude/worktrees/
+.claude/settings.local.json

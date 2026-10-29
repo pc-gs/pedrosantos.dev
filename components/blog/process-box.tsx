@@ -17,7 +17,7 @@ export function ProcessBox({
     <aside className={cn("mt-16", className)} aria-labelledby="paper-trail">
       <h2
         id="paper-trail"
-        className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground"
+        className="scroll-mt-20 font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground"
       >
         <span className="text-ai" aria-hidden>
           ✦

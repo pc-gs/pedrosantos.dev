@@ -1,15 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import { marked } from "marked";
+import { readingTimeFor, renderMarkdown } from "@/lib/markdown";
 import type { LogEntry } from "@/lib/types";
 
 const LOG_DIR = path.join(process.cwd(), "content", "log");
-
-marked.setOptions({
-  gfm: true,
-  breaks: false,
-});
 
 type Frontmatter = {
   title?: string;
@@ -21,12 +16,6 @@ type Frontmatter = {
   prompt?: string;
   draft?: boolean;
 };
-
-function readingTimeFor(text: string): string {
-  const words = text.trim().split(/\s+/).filter(Boolean).length;
-  const minutes = Math.max(1, Math.round(words / 200));
-  return `${minutes} min read`;
-}
 
 function loadEntryFile(fileName: string): LogEntry | null {
   const fullPath = path.join(LOG_DIR, fileName);
@@ -49,7 +38,7 @@ function loadEntryFile(fileName: string): LogEntry | null {
     prompt: fm.prompt,
     draft: Boolean(fm.draft),
     readingTime: readingTimeFor(content),
-    body: marked.parse(content) as string,
+    body: renderMarkdown(content),
     content,
   };
 }
