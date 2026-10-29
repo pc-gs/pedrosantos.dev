@@ -77,6 +77,19 @@
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-bricolage), var(--font-geist-sans), sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+  --font-inter: var(--font-inter-face), var(--font-geist-sans), sans-serif;
+
+  /* The agent console (/) runs on its own fixed night palette. */
+  --color-con-bg: #060709;
+  --color-con-panel: #0c0e12;
+  --color-con-line: #1c2027;
+  --color-con-ink: #e8e6e1;
+  --color-con-dim: #8a8f98;
+  --color-con-amber: #ffb547;
+  --color-con-phosphor: #5cf29b;
+  --color-con-melro: #ff4d00;
+  /* same meaning as --ai: a model helped draft this, nothing else */
+  --color-con-ai: hsl(260 80% 74%);
 }
 
 @layer base {
